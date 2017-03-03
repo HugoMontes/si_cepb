@@ -1,21 +1,20 @@
-            </section>
-      </section>
-      <!--main content end-->
-  </section>
-  <!-- container section start -->
-
-  <!-- javascripts -->
-  <script src="<?php echo base_url(); ?>resources/js/jquery.js"></script>
-  <script src="<?php echo base_url(); ?>resources/js/jquery-ui-1.10.4.min.js"></script>
-  <script src="<?php echo base_url(); ?>resources/js/jquery-1.8.3.min.js"></script>
-  <script src="<?php echo base_url(); ?>resources/js/jquery-ui-1.9.2.custom.min.js" type="text/javascript"></script>
-  <!-- bootstrap -->
-  <script src="<?php echo base_url(); ?>resources/js/bootstrap.min.js"></script>
-  <!-- nice scroll -->
-  <script src="<?php echo base_url(); ?>resources/js/jquery.scrollTo.min.js"></script>
-  <script src="<?php echo base_url(); ?>resources/js/jquery.nicescroll.js" type="text/javascript"></script>
-  <!--custome script for all page-->
-  <script src="<?php echo base_url(); ?>resources/js/scripts.js"></script>
-
-  </body>
+        <!--
+        <footer><p>All right reserved. Template by: <a href="http://formaempresas.com">Formaempresas</a></p></footer>
+        -->
+            </div>
+            <!-- /. PAGE INNER  -->
+        </div>
+        <!-- /. PAGE WRAPPER  -->
+    </div>
+    <!-- /. WRAPPER  -->
+    <!-- JS Scripts-->
+    <!-- jQuery Js -->
+    <script src="<?php echo base_url();?>resources/assets/js/jquery-1.10.2.js"></script>
+    <!-- Bootstrap Js -->
+    <script src="<?php echo base_url();?>resources/assets/js/bootstrap.min.js"></script>
+    <!-- Metis Menu Js -->
+    <script src="<?php echo base_url();?>resources/assets/js/jquery.metisMenu.js"></script>
+    <!-- Custom Js -->
+    <script src="<?php echo base_url();?>resources/assets/js/custom-scripts.js"></script>
+</body>
 </html>

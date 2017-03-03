@@ -2,6 +2,7 @@
 
 <div class="row">
 	<div class="col-lg-12">
+		<form class="form-validate " enctype="multipart/form-data"  method="post" action="<?php echo base_url('index.php/backend/usuario/guardar');?>">
 		<section class="panel panel-default">
 			<div class="panel-body">
 				 <!-- inicio cuadro mensaje -->                
@@ -21,35 +22,29 @@
                 	$this->session->unset_userdata('error');
                 } ?>
                 <!-- fin cuadro mensaje  -->
+	
+					<div class="form-group col-sm-7">
+						<label>Nombre de usuario *</label>
+						<input type="text" class="form-control" name="usuario" value="<?php echo set_value('usuario', $usuario->usuario);?>" placeholder="Nombre de usuario">
+						<?php echo form_error('usuario', '<label class="error">', '</label>'); ?>
+					</div>
 
-				<form class="form-validate form-horizontal " enctype="multipart/form-data"  method="post" action="<?php echo base_url('index.php/backend/usuario/guardar');?>">
-					<div class="form-group">
-						<label class="col-sm-2 control-label">Nombre de usuario *</label>
-						<div class="col-sm-6">
-							<input type="text" class="form-control" name="usuario" value="<?php echo set_value('usuario', $usuario->usuario);?>" placeholder="Nombre de usuario">
-							<?php echo form_error('usuario', '<label class="error">', '</label>'); ?>
-						</div>
+					<div class="form-group col-sm-7">
+						<label>Correo electrónico *</label>						
+						<input type="text" class="form-control" name="email" value="<?php echo set_value('email', $usuario->email);?>" placeholder="Correo electrónico">
+						<?php echo form_error('email', '<label class="error">', '</label>'); ?>
 					</div>
-					<div class="form-group">
-						<label class="col-sm-2 control-label">Correo electrónico *</label>
-						<div class="col-sm-6">
-							<input type="text" class="form-control" name="email" value="<?php echo set_value('email', $usuario->email);?>" placeholder="Correo electrónico">
-							<?php echo form_error('email', '<label class="error">', '</label>'); ?>
-						</div>
-					</div>
-					<div class="form-group">
-						<label class="col-sm-2 control-label">Nombres *</label>
-						<div class="col-sm-6">
+
+					<div class="form-group col-sm-7">
+						<label>Nombres *</label>
 							<input type="text" class="form-control" name="nombres" value="<?php echo set_value('nombres',$usuario->nombres);?>" placeholder="Nombres">
                         	<?php echo form_error('nombres', '<label class="error">', '</label>'); ?>
-						</div>
 					</div>
-					<div class="form-group">
-						<label class="col-sm-2 control-label">Apellidos *</label>
-						<div class="col-sm-6">
+
+					<div class="form-group col-sm-7">
+						<label>Apellidos *</label>
 							<input type="text" class="form-control" name="apellidos" value="<?php echo set_value('apellidos', $usuario->apellidos);?>" placeholder="Apellidos">
                         	<?php echo form_error('apellidos', '<label class="error">', '</label>'); ?>
-						</div>
 					</div>
 
 
@@ -66,23 +61,21 @@
 					<?php }else{
 						$label_fotografia = 'Fotografía';
 					} ?>
-					<div class="form-group">
-						<label class="col-sm-2 control-label"><?php echo $label_fotografia; ?></label>
-						<div class="col-sm-6">
-							<input type="file" name="fotografia" />                
-                            <p class="help-block">Formatos aceptados: gif, jpg, png, jpeg  (Tamaño máximo 128 kb)</p>
-						</div>
+
+					<div class="form-group col-sm-7">
+						<label><?php echo $label_fotografia; ?></label>
+						<input type="file" name="fotografia" />                
+                        <p class="help-block" style="padding-top: 0px; font-size: 14px;">Formatos aceptados: gif, jpg, png, jpeg  (Tamaño máximo 128 kb)</p>
 					</div>
-					<div class="form-group">
-						<label class="col-sm-2 control-label">Nueva contraseña</label>
-						<div class="col-sm-6">
-							<input type="password" name="password" class="form-control">
-						</div>
+
+					<div class="form-group col-sm-7">
+						<label>Nueva contraseña</label>
+						<input type="password" name="password" class="form-control">
 					</div>
 					
-					<div class="form-group">
-						<label class="col-sm-2 control-label">Perfil</label>  
-						<div class="col-lg-3">
+					<div class="form-group col-sm-7">
+						<label>Perfil</label>  
+						<div>
 							<?php
 								$data = array(
 									'name'  => 'perfil',
@@ -97,9 +90,9 @@
 					</div> 
 
 
-					<div class="form-group">
-						<label class="col-sm-2 control-label">Estado</label>
-						<div class="col-lg-3">
+					<div class="form-group col-sm-7">
+						<label>Estado</label>
+						<div>
 							<?php
 								if(set_value('estado', $usuario->estado) == HABILITADO){
 									$class = 'btn-success';
@@ -125,15 +118,15 @@
                     <input type="hidden" name="fotografia_thumb" id="fotografia_thumb" value="<?php echo $usuario->thumb;?>"/>
                     <input type="hidden" name="usuario_id" id="usuario_id" value="<?php echo $usuario->id;?>" />
 					<input type="hidden" name="guardar" id="guardar" value="<?php echo EDICION; ?>" />
-					<div class="box-footer">
-						<div class="col-lg-offset-2"> 
-							<a href="<?php echo base_url('index.php/backend/escritorio'); ?>" class="btn btn-default">Cancelar</a>
-		              		<button type="submit" class="btn btn-primary">Guardar</button>
-	              		</div>
-	              	</div>
-				</form>
+					
+				
 			</div>
+			<div class="panel-footer">
+						<a href="<?php echo base_url('index.php/backend/escritorio'); ?>" class="btn btn-default">Cancelar</a>
+		              	<button type="submit" class="btn btn-primary">Guardar</button>
+	              	</div>
 		</section>
+		</form>
 	</div>
 </div>
 
