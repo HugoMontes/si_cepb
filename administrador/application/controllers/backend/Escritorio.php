@@ -24,7 +24,6 @@ class Escritorio extends CI_Controller{
       $data['paginas_recientes'] = $this->pagina_model->get_all('',array(),'','5','creado DESC','');
       */
       $data['titulo'] = 'Escritorio';
-      $data['breadcrumb'] = array('Escritorio');
       get_user_session();
       $this->load->view('backend/escritorio',$data);       
 	}

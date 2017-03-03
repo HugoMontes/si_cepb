@@ -63,7 +63,7 @@ class Usuario extends CI_Controller{
       $where = '';
     }
     $count = $this->usuario_model->get_count($where, $order);
-    /*
+/*
     ###################################################
     # Pagination
     ###################################################
@@ -76,7 +76,7 @@ class Usuario extends CI_Controller{
 
     $config['rows_per_page'] = FILAS;
     $config['page_limit'] = NUMERO_ITEMS_PAGINACION;
-    $config['base_url'] = base_url('index.php') . '/administrador/usuario/'; //always put trailing slash
+    $config['base_url'] = base_url('index.php') . '/backend/usuario/'; //always put trailing slash
     $config['total_rows'] = $count;
     $config['cur_page'] = $cur_page;
     $config['stats_title'] = 'usuarios';
@@ -86,17 +86,18 @@ class Usuario extends CI_Controller{
             
     $data['usuarios'] = $this->usuario_model->get_pagination($cur_page, $config['rows_per_page'], $where, $order);
     ########################################################################################  
+*/
 
+/*
     $perfiles = $this->perfil_model->get_all('id, nombre',array(),'','','id ASC','');
     $perfiles_ = array();
     $perfiles_[0] = '- Seleccionar perfil -';  
     foreach ($perfiles as $perfil){
-             $perfiles_[$perfil['id']] = $perfil['nombre'];      
+             $perfiles_[$perfil->id] = $perfil->nombre;      
     }
     $data['perfiles'] = $perfiles_;   
-    */
+*/  
     $data['titulo'] = 'Usuarios';
-    $data['breadcrumb'] = array('Usuarios');
     $this->load->view('backend/usuario/listar',$data);
     
   }
@@ -116,7 +117,6 @@ class Usuario extends CI_Controller{
   	}
   	$data['perfiles'] = $perfiles_array;
     $data['titulo'] = 'Editar Usuario';
-    $data['breadcrumb'] = array('Usuario','Editar');
     $data['usuario']=$this->usuario_model->get($id);
   	$this->load->view('backend/usuario/editar',$data);
   }
