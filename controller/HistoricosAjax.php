@@ -4,31 +4,56 @@ require_once("HistoricosController.php");
 $controller=new HistoricosController("../conexion/conexion.php");
 
 $proceso=$_REQUEST['proceso'];
-$indicador=$_REQUEST['indicador'];
 
-if($proceso==1){
-	$registros=$controller->getIndicadorByIdTabla($indicador);
+
+if($proceso=='buscaGrupo'){
+	$id=$_REQUEST['id'];
+	$registros=$controller->getAllGrupoByIdActividad($id);
+	$out='';
+	while ($reg=mysqli_fetch_array($registros)){
+		$out.="<option  value='".$reg['tabla']."'>".$reg['campos']."</option>";
+	}
+	echo $out;
+}elseif($proceso=='buscaDesagregacion'){
+	$tabla=$_REQUEST['tabla'];
+	$registros=$controller->getAllDesagregacionByNameTabla($tabla);
+	$out='';
+	while ($reg=mysqli_fetch_array($registros)){
+		$out.="<option  value='".$reg['desagregacion']."'>".$reg['desagregacion']."</option>";
+	}
+	echo $out;
+}elseif($proceso=='buscaMedicion'){
+	$tabla=$_REQUEST['tabla'];
+	$desagregacion=$_REQUEST['desagregacion'];
+	$registros=$controller->getAllMedicion($tabla,$desagregacion);
+	$out='';
+	while ($reg=mysqli_fetch_array($registros)){
+		$out.="<option  value='".$reg['medicion_indicador']."'>".$reg['medicion_indicador']."</option>";
+	}
+	echo $out;
+}elseif($proceso=='buscaCobertura'){
+	$tabla=$_REQUEST['tabla'];
+	$desagregacion=$_REQUEST['desagregacion'];
+	$medicion=$_REQUEST['medicion'];
+	$registros=$controller->getAllCobertura($tabla,$desagregacion,$medicion);
+	$out='';
+	while ($reg=mysqli_fetch_array($registros)){
+		$out.="<option  value='".$reg['C']."'>".$reg['C']."</option>";
+	}
+	echo $out;
+}elseif($proceso=='buscaIndicador'){
+	$tabla=$_REQUEST['tabla'];
+	$desagregacion=$_REQUEST['desagregacion'];
+	$medicion=$_REQUEST['medicion'];
+	$cobertura=$_REQUEST['cobertura'];
+	$registros=$controller->getAllIndicador($tabla,$desagregacion,$medicion,$cobertura);
 	$out='';
 	while ($reg=mysqli_fetch_array($registros)){
 		$out.="<option  value='".$reg['B']."'>".$reg['B']."</option>";
 	}
 	echo $out;
-}elseif($proceso==2){
-	$indicador2=$_REQUEST['indicador2'];
-	$registros=$controller->getCoberturasByIndicador($indicador,$indicador2);
-	$cobertura=array();
-	while ($reg=mysqli_fetch_array($registros)){
-		$cobertura[]=$reg['C'];
-	}
-	$ruta_xlsx=$controller->getRutaXlsx($indicador, $indicador2, $cobertura[0]);
-	$data=array(
-		'cobertura' => $cobertura,
-		'ruta_xlsx' => BASE_URL.$ruta_xlsx,
-	);
-	header('Content-type: application/json; charset=utf-8');
-    echo json_encode($data,JSON_NUMERIC_CHECK);
-    exit();	
 }elseif($proceso==3){
+	$indicador=$_REQUEST['indicador'];
 	$departamental=$_REQUEST['departamental'];
 	$indicador2=$_REQUEST['indicador2'];
 	$registros=$controller->getDescripcionByIndicador($indicador,$departamental,$indicador2);
@@ -38,6 +63,7 @@ if($proceso==1){
 	}
 	echo $out;
 }elseif($proceso==4){
+	$indicador=$_REQUEST['indicador'];
 	$descripcion=$_REQUEST['descripcion'];
 	$departamental=$_REQUEST['departamental'];
 	$indicador2=$_REQUEST['indicador2'];
@@ -49,6 +75,7 @@ if($proceso==1){
 	}
 	echo $out;
 }elseif($proceso==5){
+	$indicador=$_REQUEST['indicador'];
 	$ini=$_REQUEST['ini'];
 	$fin=$_REQUEST['fin'];
 	$descripcion=$_REQUEST['descripcion'];

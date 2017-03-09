@@ -11,29 +11,79 @@
         <div class="col-md-12">
           <!-- general form elements -->
           <div class="box box-primary">
+            
+            <!-- begin: titulo -->            
             <div class="box-header with-border">
               <h3 class="box-title">Indicadores Historicos</h3>
-            </div>          
+            </div>
+            <!-- end: titulo -->            
+
+            <!-- begin: actividad economica -->
             <div class="box-body">
-              <label for="inputEmail3" class="col-sm-2 control-label">Actividad Económica</label>          
+              <label for="actividad" class="col-sm-2 control-label">Actividad Económica</label>          
               <div class="col-sm-8">
-                <!--valor departamento segundo select-->
-                <select class="form-control select2 select2-hidden-accessible select-actividad" style="width: 100%;" tabindex="-1" aria-hidden="true" id="selectNacio1" name="selectNacio1">
+                <select id="actividad" name="actividad" class="form-control select2 select2-hidden-accessible" style="width: 100%;" tabindex="-1" aria-hidden="true">
                   <option value="0" selected="selected" style="display: none;">Seleccione una actividad...</option>
                   <?php 
-                    $registros=$controller->getAllActividadEconomica();
+                    $registros=$controller->getAllActividad();
                     while ($reg=mysqli_fetch_array($registros)){                  
-                      echo '<option  value="'.$reg['tabla'].'">'.$reg['campos'].'</option>';
+                      echo '<option  value="'.$reg['id'].'">'.ucfirst($reg['descripcion']).'</option>';
                     } 
                   ?>
                 </select>
               </div>
             </div>
+            <!-- end: actividad economica -->
 
+            <!-- begin: grupo -->
             <div class="box-body">
-              <label for="inputEmail3" class="col-sm-2 control-label">Indicador</label>
+              <label for="grupo" class="col-sm-2 control-label">Grupo</label>
+              <div class="col-sm-8">
+                <select id="grupo" name="grupo" class="form-control select2 select2-hidden-accessible" style="width: 100%;" tabindex="-1" aria-hidden="true" disabled="true">
+                  <option value="0" selected="selected" style="display: none;">Seleccione un grupo...</option>
+                </select>
+              </div>
+            </div>
+            <!-- end: grupo -->
+
+            <!-- begin: desagregacion -->
+            <div class="box-body">
+              <label for="desagregacion" class="col-sm-2 control-label">Desagregación</label>
+              <div class="col-sm-8">
+                <select id="desagregacion" name="desagregacion" class="form-control select2 select2-hidden-accessible" style="width: 100%;" tabindex="-1" aria-hidden="true" disabled="true">
+                  <option value="0" selected="selected" style="display: none;">Seleccione un desagregacion...</option>
+                </select>
+              </div>
+            </div>
+            <!-- end: desagregacion -->
+
+            <!-- begin: medicion -->
+            <div class="box-body">
+              <label for="medicion" class="col-sm-2 control-label">Medición</label>
+              <div class="col-sm-8">
+                <select id="medicion" name="medicion" class="form-control select2 select2-hidden-accessible" style="width: 100%;" tabindex="-1" aria-hidden="true" disabled="true">
+                  <option value="0" selected="selected" style="display: none;">Seleccione un medicion...</option>
+                </select>
+              </div>
+            </div>
+            <!-- end: medicion -->
+            
+            <!-- begin: Cobertura -->
+            <div class="box-body">
+              <label for="cobertura" class="col-sm-2 control-label">Cobertura</label>
+              <div class="col-sm-8">
+                <select id="cobertura" name="cobertura" class="form-control select2 select2-hidden-accessible" style="width: 100%;" tabindex="-1" aria-hidden="true" disabled="true">
+                  <option value="0" selected="selected" style="display: none;">Seleccione la cobertura...</option>
+                </select>
+              </div>
+            </div>
+            <!-- end: Cobertura -->
+
+            <!-- begin: Indicador -->            
+            <div class="box-body">
+              <label for="indicador" class="col-sm-2 control-label">Indicador</label>
               <div class="col-sm-6">
-                <select class="form-control select2 select2-hidden-accessible select-indicador" style="width: 100%;" tabindex="-1" aria-hidden="true" id="indicador1" name="indicador1" autofocus="true" disabled="true">
+                <select  id="indicador" name="indicador" class="form-control select2 select2-hidden-accessible" style="width: 100%;" tabindex="-1" aria-hidden="true" autofocus="true" disabled="true">
                   <option value="0" selected="selected" style="display: none;">Seleccione el indicador...</option>
                 </select>
               </div>
@@ -41,45 +91,41 @@
                 <a id="btn-excel" href="<?php echo BASE_URL; ?>" class="btn btn-success"><i class="fa fa-file-excel-o fa-lg"></i> Descargar excel</a>
               </div>
             </div>
+            <!-- end: Indicador -->
 
+            <!-- begin: Descripcion -->
             <div class="box-body">
-              <label for="inputEmail3" class="col-sm-2 control-label">Cobertura</label>
+              <label for="descripcion" class="col-sm-2 control-label">Descripcion</label>
               <div class="col-sm-8">
-                <select class="form-control select2 select2-hidden-accessible select-cobertura" style="width: 100%;" tabindex="-1" aria-hidden="true" id="selectDepart1" name="selectDepart1" disabled="true">
-                  <option value="0" selected="selected" style="display: none;">Seleccione la cobertura...</option>
-                </select>
-              </div>
-            </div>
-
-            <div class="box-body">
-              <label for="inputEmail3" class="col-sm-2 control-label">Descripcion</label>
-              <div class="col-sm-8">
-                <select class="form-control select2 select2-hidden-accessible select-descripcion" style="width: 100%;" tabindex="-1" aria-hidden="true" id="des1" name="des1" autofocus="true" disabled="true">
+                <select id="descripcion" name="descripcion" class="form-control select2 select2-hidden-accessible" style="width: 100%;" tabindex="-1" aria-hidden="true" autofocus="true" disabled="true">
                   <option value="0" selected="selected" style="display: none;">Seleccione una descripcion...</option>
                 </select>
               </div>
             </div>
-            
+            <!-- end: Descripcion -->
+
+            <!-- begin: Periodo -->            
             <div class="box-body">
               <div class="form-group">
-                <label for="inputEmail3" class="col-sm-2 control-label">Periodo Desde: </label>
+                <label for="inputEmail3" class="col-sm-2 control-label">Periodicidad: </label>
                 <div class="col-sm-3">
-                  <select class="form-control select2 select2-hidden-accessible select-ini" style="width: 100%;" tabindex="-1" aria-hidden="true" id="ini" name="ini" disabled="true">
+                  <select id="ini" name="ini" class="form-control select2 select2-hidden-accessible select-ini" style="width: 100%;" tabindex="-1" aria-hidden="true" disabled="true">
                     <option value="0" selected="selected" style="display: none;">Periodo inicial...</option> 
                   </select>
                 </div>
                 <label class="col-xs-2" style="text-align: center;">hasta:</label>
                   <div class="col-sm-3">
-                    <select class="form-control select2 select2-hidden-accessible select-fin" style="width: 100%;" tabindex="-1" aria-hidden="true" id="fin" name="fin" onchange="ShowSelected();" disabled="true">
+                    <select id="fin" name="fin" class="form-control select2 select2-hidden-accessible select-fin" style="width: 100%;" tabindex="-1" aria-hidden="true" onchange="ShowSelected();" disabled="true">
                       <option value="0" selected="selected" style="display: none;">Periodo final...</option> 
                     </select>
                   </div>
               </div>
             </div>
+            <!-- end: Periodo -->            
 
             <div class="box-body">
               <div class="form-group col-xs-12 col-md-5 col-md-offset-2">
-                    <button id="btn-enviar" type="submit" class="btn btn-primary col-xs-12 col-sm-6" disabled="true">Continuar</button> 
+                <button id="btn-enviar" type="submit" class="btn btn-primary col-xs-12 col-sm-6" disabled="true">Continuar</button> 
               </div>
             </div>
 

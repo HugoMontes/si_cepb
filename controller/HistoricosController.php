@@ -9,11 +9,57 @@ class HistoricosController{
 		$this->conexion=$con=$conexion;
 	}
 
-	function getAllActividadEconomica(){
-		$registros=mysqli_query($this->conexion,"select * from indicador_historico order by campos") or die("Problemas en el select:".mysqli_error($this->conexion));
+	function getAllActividad(){
+		$registros=mysqli_query($this->conexion,"select * from actividad_economica order by descripcion") or die("Problemas en el select:".mysqli_error($this->conexion));
 		return $registros;
 	}
 
+	/*
+	function getAllGrupo(){
+		$registros=mysqli_query($this->conexion,"select * from indicador_historico order by campos") or die("Problemas en el select:".mysqli_error($this->conexion));
+		return $registros;
+	}
+	*/
+	function getAllGrupoByIdActividad($id){
+		$registros=mysqli_query($this->conexion,"select * from indicador_historico where id_actividad_economica=$id and estado=1 order by campos") or die("Problemas en el select:".mysqli_error($this->conexion));
+		return $registros;
+	}
+
+	function getAllDesagregacionByNameTabla($tabla){
+		$registros=mysqli_query($this->conexion,"select DISTINCT desagregacion from $tabla order by desagregacion") or die("Problemas en el select:".mysqli_error($this->conexion));
+		return $registros;
+	}
+
+	function getAllMedicion($tabla,$desagregacion){
+		$registros=mysqli_query($this->conexion,"select DISTINCT medicion_indicador from $tabla where desagregacion='$desagregacion' order by medicion_indicador") or die("Problemas en el select:".mysqli_error($this->conexion));
+		return $registros;
+	}
+
+	function getAllCobertura($tabla,$desagregacion,$medicion){
+		$registros=mysqli_query($this->conexion,"select DISTINCT C from $tabla where desagregacion='$desagregacion' AND medicion_indicador='$medicion' order by C") or die("Problemas en el select:".mysqli_error($this->conexion));
+		return $registros;
+	}
+
+	function getAllIndicador($tabla,$desagregacion,$medicion,$cobertura){
+		$registros=mysqli_query($this->conexion,"select DISTINCT B from $tabla where desagregacion='$desagregacion' AND medicion_indicador='$medicion' AND C='$cobertura'") or die("Problemas en el select:".mysqli_error($this->conexion));
+		return $registros;
+	}
+
+	function getRutaXlsx($tabla, $indicador){
+		// Se obtiene el directorio donde se encuentra el excel
+		$result=mysqli_query($this->conexion,"SELECT ruta FROM indicador_historico WHERE tabla='$tabla' LIMIT 1");
+		$row=$result->fetch_assoc();
+		$nombre_ruta=$row['ruta'];
+		// Se obtiene el nombre del archivo
+		$result=mysqli_query($this->conexion,"SELECT A FROM $tabla WHERE B='$indicador' LIMIT 1");
+		$row=$result->fetch_assoc();
+		$nombre_archivo=$row['A'];
+		return $nombre_ruta.'/'.$nombre_archivo.'.xlsx';
+	}
+
+	// OK MODIFICADO HATA AQUI
+
+	/*
 	function getIndicadorByIdTabla($indicador){		
 		//consulta para hidrocarburos 1 y 2 
 		switch ($indicador) {
@@ -30,21 +76,9 @@ class HistoricosController{
         //fin consulta hidrocarvuros 1 y 2
         return $registros;
 	}
-	
-	function getCoberturasByIndicador($indicador, $indicador2){
-		$registros=mysqli_query($this->conexion,"select DISTINCT C from $indicador where B = '$indicador2'");
-		return $registros;
-	}
+	*/
 
-	function getRutaXlsx($indicador, $indicador2, $cobertura){
-		$result=mysqli_query($this->conexion,"SELECT ruta FROM indicador_historico WHERE tabla='$indicador' LIMIT 1");
-		$row=$result->fetch_assoc();
-		$nombre_ruta=$row['ruta'];
-		$result=mysqli_query($this->conexion,"SELECT A FROM $indicador WHERE B='$indicador2' AND C='$cobertura' LIMIT 1");
-		$row=$result->fetch_assoc();
-		$nombre_archivo=$row['A'];
-		return $nombre_ruta.'/'.$nombre_archivo.'.xlsx';
-	}
+
 
 	function getDescripcionByIndicador($indicador,$departamental,$indicador2){
 		$registros=mysqli_query($this->conexion,"select DISTINCT DESCRIPCION from ".$indicador." where C = '".$departamental."' and B = '".$indicador2."'") or die("Problemas en el select:".mysqli_error($this->conexion));
