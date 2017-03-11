@@ -45,6 +45,11 @@ class HistoricosController{
 		return $registros;
 	}
 
+	function getAllDescripcion($tabla,$desagregacion,$medicion,$cobertura,$indicador){
+		$registros=mysqli_query($this->conexion,"select DISTINCT descripcion, id from $tabla where desagregacion='$desagregacion' AND medicion_indicador='$medicion' AND C='$cobertura' AND B='$indicador'") or die("Problemas en el select:".mysqli_error($this->conexion));
+		return $registros;
+	}
+
 	function getRutaXlsx($tabla, $indicador){
 		// Se obtiene el directorio donde se encuentra el excel
 		$result=mysqli_query($this->conexion,"SELECT ruta FROM indicador_historico WHERE tabla='$tabla' LIMIT 1");
@@ -56,8 +61,6 @@ class HistoricosController{
 		$nombre_archivo=$row['A'];
 		return $nombre_ruta.'/'.$nombre_archivo.'.xlsx';
 	}
-
-	// OK MODIFICADO HATA AQUI
 
 	/*
 	function getIndicadorByIdTabla($indicador){		
@@ -76,7 +79,7 @@ class HistoricosController{
         //fin consulta hidrocarvuros 1 y 2
         return $registros;
 	}
-	*/
+	
 
 
 
@@ -84,7 +87,7 @@ class HistoricosController{
 		$registros=mysqli_query($this->conexion,"select DISTINCT DESCRIPCION from ".$indicador." where C = '".$departamental."' and B = '".$indicador2."'") or die("Problemas en el select:".mysqli_error($this->conexion));
 		return $registros;
 	}
-
+	
 	function getIdIndicador($tabla,$var1,$var2,$descripcion){
 		session_start();
 		$registros=mysqli_query($this->conexion,"select id from ".$tabla." where C = '".$var1."' and B = '".$var2."' and DESCRIPCION ='".$descripcion."' ") or die("Problemas en el select:".mysqli_error($this->conexion));
@@ -94,20 +97,38 @@ class HistoricosController{
 		$_SESSION['id']=$id;
 		return $id;		
 	}
+	*/
+	function getPeriodos($tabla, $id){
+		$sql="select * from $tabla where id=$id";
+		$query = mysqli_query($this->conexion, $sql);
+		$fila_data=$query->fetch_assoc();
+		$ini=$fila_data['ini'];
+		$fin=$fila_data['fin'];
+		$fila_head=$query->fetch_fields();
+		for($i=$ini;$i<=$fin;$i++){
+			$fechas[$i]=$fila_head[$i]->name;
+		}
+		return $fechas;
+	}
 
+
+	// OK MODIFICADO HATA AQUI
+
+/*
+	//var -> tabla
 	function getPeriodos($id, $var, $var1, $var2, $descripcion){
 		$_SESSION['descripcion'] =$descripcion;
 		$_SESSION['indicador']=$var;
 		$_SESSION['descripcion']=$var2;
 		$_SESSION['departamental']=$var1;
 		//echo 'xxxx:'.$_SESSION['descripcion'].'-'.$_SESSION['indicador'].'-'.$_SESSION['descripcion'].'-'.$_SESSION['departamental'];
-/*
-		$registros=mysqli_query($this->conexion,"select id from ".$var." where C = '".$var1."' and B = '".$var2."' and DESCRIPCION ='".$descripcion."' ") or die("Problemas en el select:".mysqli_error($this->conexion));
-		while($reg=mysqli_fetch_array($registros)){
-			$id=$reg["id"];
-		}
-		$_SESSION['id']=$id;
-*/
+
+		//$registros=mysqli_query($this->conexion,"select id from ".$var." where C = '".$var1."' and B = '".$var2."' and DESCRIPCION ='".$descripcion."' ") or die("Problemas en el select:".mysqli_error($this->conexion));
+		//while($reg=mysqli_fetch_array($registros)){
+		//	$id=$reg["id"];
+		//}
+		//$_SESSION['id']=$id;
+
 
 		// PARA SACAR LAS FECHAS
 		// $consulta2 = "select * from ".$_SESSION['indicador']." where id= '".$_SESSION['id']."'";//DESCRIPCION = "Papa" and C="ORURO"  and a="a013"      $consulta2 = "SELECT * FROM agricultura WHERE DESCRIPCION = '".$yy."' and C='".$zz."'  and B ='".$xx."'";
@@ -145,7 +166,7 @@ class HistoricosController{
 		return $re22;
 
 	}
-
+*/
 
 	// traedatosnomcol.php
 	/*
@@ -193,7 +214,7 @@ class HistoricosController{
 	function getSerie($id,$indicador,$ini=null,$fin=null){
 		//session_start();
 		//codigo para separar el val 
-		$query = "select * from ".$_SESSION['indicador']." where id = '".$_SESSION['id']."'";//$query = "SELECT * FROM agricultura WHERE DESCRIPCION = '".$yy."' and C='".$zz."'  and B ='".$xx."'";
+		$query = "select * from ".$indicador." where id = '".$id."'";//$query = "SELECT * FROM agricultura WHERE DESCRIPCION = '".$yy."' and C='".$zz."'  and B ='".$xx."'";
 		$result = mysqli_query($this->conexion, $query);
 		$fila=$result->fetch_row();
 		if($ini==null or $fin==null){
@@ -219,14 +240,14 @@ class HistoricosController{
 		*/
 		$conn = mysql_connect(cServidor,cUsuario,cPass);
     	$db = mysql_select_db(cBd,$conn);
-    	$sql = "SELECT * FROM ".$_SESSION['indicador']." WHERE id = '".$_SESSION['id']."'"; 
+    	$sql = "SELECT * FROM ".$indicador." WHERE id = '".$id."'"; 
     	//$sql = "SELECT * FROM indicador_historico";
     	$rec = mysql_query($sql) or die (mysql_error());
     	return $rec;
 	}	
 
 	function getIndicadorById($id,$indicador){
-		$query = "select * from $indicador where id = '$id'";
+		$query = "select * from $indicador where id = $id";
 		$result = mysqli_query($this->conexion, $query);
 		$row=$result->fetch_assoc();
 		return $row;

@@ -1,9 +1,9 @@
     </div>
     <footer class="main-footer">
       <div class="pull-right hidden-xs">
-        <b>Version</b> 1.1
+        <b>Version</b> 2.0
       </div>
-      <strong>Copyright &copy; 2016 <a href="http://www.cepb.org.bo/">CEPB</a>. </strong>| cepb@cepb.org.bo All rights reserved.
+      <strong>Copyright &copy; <?php echo date("Y"); ?> <a href="http://www.cepb.org.bo/">CEPB</a> </strong>| CEPB Todos los derechos reservados | Desarrollado por formaempresas
     </footer>
   </div>
 <!-- ./wrapper -->

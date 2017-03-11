@@ -145,17 +145,19 @@
           </div>
         </div>
         <div class="box-body">
-          <div class="grafic">
+          <div class="grafic col-md-6">
+            <h3 class="cuadro-title" style="text-align: center;"></h3>
             <table id="cuadro-1" class="table table-striped table-bordered">
               <thead>
                 <tr>
-                  <th>Gestion</th>
-                  <th>Serie</th>
+                  <th class="columna-1">Gestión</th>
+                  <th class="columna-2">Serie</th>
                 </tr>
               </thead>
               <tbody>
               </tbody>
             </table>
+
             <a href="<?php echo BASE_URL; ?>controller/DescargarDispatcher.php?action=pdf&controlador=historico" class="btn btn-danger btn-descargar" role="button"><i class="fa fa-file-pdf-o fa-lg"></i> Descargar PDF</a>
             <a href="<?php echo BASE_URL; ?>controller/DescargarDispatcher.php?action=excel&controlador=historico" class="btn btn-success btn-descargar" role="button"><i class="fa fa-file-excel-o fa-lg"></i> Descargar EXCEL</a>
           </div>

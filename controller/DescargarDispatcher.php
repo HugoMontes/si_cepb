@@ -2,10 +2,8 @@
 require_once( '../plugins/dompdf/autoload.inc.php');
 use Dompdf\Dompdf;
 
-$indicador=$_REQUEST['indicador'];
-$departamental=$_REQUEST['departamental'];
-$indicador2=$_REQUEST['indicador2'];
-$descripcion=$_REQUEST['descripcion'];
+$tabla=$_REQUEST['tabla'];
+$id=$_REQUEST['id'];
 $ini=$_REQUEST['ini'];
 $fin=$_REQUEST['fin'];
 $controlador=$_REQUEST['controlador'];
@@ -22,9 +20,9 @@ if($controlador=='historico'){
 }
 
 if($_GET['action']=='pdf'){
-	$id=$controller->getIdIndicador($indicador,$departamental,$indicador2,$descripcion);
-	$gestion=$controller->getNombreColumnas($id,$indicador,$ini,$fin);
-	$series=$controller->getSerie($id,$indicador,$ini,$fin);
+	//$id=$controller->getIdIndicador($indicador,$departamental,$indicador2,$descripcion);
+	$gestion=$controller->getNombreColumnas($id,$tabla,$ini,$fin);
+	$series=$controller->getSerie($id,$tabla,$ini,$fin);
 
 	$table='';
 	for($i=0;$i<count($gestion);$i++) {
@@ -33,23 +31,26 @@ if($_GET['action']=='pdf'){
 		$table.='<td>'.$series[$i].'</td>';
 		$table.='</tr>';
 	}
-	
+
+	$indicador=$controller->getIndicadorById($id,$tabla);
   	$dompdf= new DOMPDF();
   	$html='
 	<html>
 	<head>
 	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
-	<title>'.$indicador2.'</title>
+	<title>'.$indicador['B'].'</title>
 	<!-- Bootstrap core CSS -->
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/css/bootstrap.min.css">
 	</head>
 	<body>
-	<h2 style="text-align: center;">'.$indicador2.'</h2>
+	<h3 style="text-align: center;">'.$indicador['B'].'</h3>
+	<hr>
+	<h3 style="text-align: center;">'.$indicador['DESCRIPCION'].'</h3>
 	<table class="table table-striped">
 		<thead>
 			<tr>
 				<th>GESTIÓN</th>
-				<th>SERIE</th>
+				<th>'.$indicador['D'].'</th>
 			</tr>
 		</thead>
 		<tbody>'.$table.'</tbody>
@@ -59,19 +60,19 @@ if($_GET['action']=='pdf'){
   	$dompdf->load_html($html);
   	ini_set("memory_limit","128M");
   	$dompdf->render();
-  	$dompdf->stream("Reporte_tabla_pdf");
+  	$dompdf->stream("cepb_pdf");
 	echo 'PDF...';
 }elseif ($_GET['action']=='excel') {
-	$id=$controller->getIdIndicador($indicador,$departamental,$indicador2,$descripcion);
-	$gestion=$controller->getNombreColumnas($id,$indicador,$ini,$fin);
-	$series=$controller->getSerie($id,$indicador,$ini,$fin);
-
+	//$id=$controller->getIdIndicador($indicador,$departamental,$indicador2,$descripcion);
+	$gestion=$controller->getNombreColumnas($id,$tabla,$ini,$fin);
+	$series=$controller->getSerie($id,$tabla,$ini,$fin);
+	$indicador=$controller->getIndicadorById($id,$tabla);
     require_once("../lib/PHPExcel/PHPExcel.php");
     //require_once('../lib/PHPExcel/PHPExcel/IOFactory.php');
     $objPHPExcel = new PHPExcel();
 	$objPHPExcel->setActiveSheetIndex(0);
 	$objPHPExcel->getActiveSheet()->SetCellValue('A1', 'GESTION');
-	$objPHPExcel->getActiveSheet()->SetCellValue('B1', 'SERIE');
+	$objPHPExcel->getActiveSheet()->SetCellValue('B1', $indicador['D']);
 	$rowCount = 2;
 	for($i=0;$i<count($gestion);$i++) {
 	    $objPHPExcel->getActiveSheet()->SetCellValue('A'.$rowCount, $gestion[$i]);

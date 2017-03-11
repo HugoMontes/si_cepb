@@ -1,7 +1,8 @@
 // ARCHIVO JS ESTADISTICO
 
 var url_ajax;
-var tabla, desagregacion, medicion, cobertura, indicador, titulo, departamental, indicador2, descripcion, i, ini, fin;
+// var tabla, desagregacion, medicion, cobertura, indicador, descripcion, titulo, departamental, indicador2, descripcion, i, ini, fin;
+var tabla, desagregacion, medicion, cobertura, indicador, descripcion, id_indicador, titulo, i, ini, fin;
 
 $(document).ready(function(){
   $('.resultados').hide();
@@ -160,13 +161,53 @@ $('#cobertura').on('change',function(){
 
 $('#indicador').on('change',function(){
   indicador=$(this).val();
-  console.log('PROCESO 5');
+  console.log('PROCESO 6');
   console.log('Indicador: '+indicador);
   console.log("===========================");
-  $('#btn-excel').show();
+  $.ajax({
+    url: url_ajax,
+    data: { proceso : 'buscaDescripcion', tabla : tabla, desagregacion : desagregacion, medicion : medicion, cobertura : cobertura, indicador : indicador },
+    type : 'POST',
+    dataType : 'json',
+    success : function(data) {
+      $('#btn-excel').show();
+      $('#btn-excel').attr('href',data.ruta_xlsx);
+      var out='';
+      for(i=0;i<data.indicador.length;i++) {
+        out+='<option value="'+data.indicador[i].id+'">'+data.indicador[i].descripcion+'</option>';
+      }
+      $('#descripcion').html(out);
+      $('#descripcion').append('<option value="0" selected="selected" style="display: none;">Seleccione descripcion...</option>');
+      $('#descripcion').attr('disabled',false);      
+    },
+  });
+  desactivarComboBox(['ini','fin']);
+  $('#btn-enviar').attr('disabled',true);
 });
-// HASTA AQUI LOS METODOS FUERON MEJORADOS **********************************
 
+$('#descripcion').on('change',function(){
+  id_indicador=$(this).val();
+  console.log('PROCESO 6');
+  console.log('ID INDICADOR: '+id_indicador);
+  console.log("===========================");
+  $.ajax({
+    url: url_ajax,
+    data: { proceso : 'buscaPeriodicidad', tabla : tabla, id : id_indicador },
+    type : 'POST',
+    dataType : 'html',
+    success : function(data) {
+      $('.select-ini').html(data);
+      $('.select-fin').html(data);
+      $('.select-fin option:last').attr("selected", "selected");
+      // console.log(data);
+    },
+  });
+  $('.select-ini').attr('disabled',false);
+  $('.select-fin').attr('disabled',false);
+  $('#btn-enviar').attr('disabled',false);
+});
+
+/*
 $('.select-cobertura').on('change',function(){
   departamental=$(this).val();
   console.log('PROCESO 3');
@@ -178,10 +219,8 @@ $('.select-cobertura').on('change',function(){
     type : 'POST',
     dataType : 'html',
     success : function(data) {
-      /*
-      $('.select-indicador').html(data);
-      $('.select-indicador').append('<option value="0" selected="selected" style="display: none;">Seleccione el indicador...</option>');
-      */
+      //$('.select-indicador').html(data);
+      //$('.select-indicador').append('<option value="0" selected="selected" style="display: none;">Seleccione el indicador...</option>');
       $('.select-descripcion').html(data);
       $('.select-descripcion').append('<option value="0" selected="selected" style="display: none;">Seleccione una descripcion...</option>');
       $('.select-descripcion').attr('disabled',false);
@@ -196,6 +235,7 @@ $('.select-cobertura').on('change',function(){
   $('.select-fin').attr('disabled',true);
   $('#btn-enviar').attr('disabled',true);
 });
+
 
 $('.select-indicador').on('change',function(){
   indicador2=$(this).val();
@@ -217,9 +257,7 @@ $('.select-indicador').on('change',function(){
       $('.select-cobertura').attr('disabled',false); 
     },
   });
-  /*
-  $('.select-descripcion').attr('disabled',false);
-  */
+  //$('.select-descripcion').attr('disabled',false);
   $('#btn-excel').show();
   $('.select-descripcion').html('<option value="0" selected="selected" style="display: none;">Seleccione una descripcion...</option>');
   $('.select-descripcion').attr('disabled',true);
@@ -229,9 +267,6 @@ $('.select-indicador').on('change',function(){
   $('.select-fin').attr('disabled',true);
   $('#btn-enviar').attr('disabled',true);
 });
-
-
-
 
 
 $('.select-descripcion').on('change',function(){
@@ -257,28 +292,29 @@ $('.select-descripcion').on('change',function(){
   $('.select-fin').attr('disabled',false);
   $('#btn-enviar').attr('disabled',false);
 });
+*/
+
 
 $(document).on('click','#btn-enviar',function(event){
   event.preventDefault();
-  $('.resultados').show();
+
   ini=$('#ini').val();
   fin=$('#fin').val();
-  console.log('PROCESO 5');
+  console.log('PROCESO 7');
   console.log('inicio: '+ini);
   console.log('fin: '+fin);
   $.ajax({
     url: url_ajax,
-    data: { proceso:5, indicador:indicador, ini:ini, fin:fin, departamental:departamental, indicador2:indicador2, descripcion:descripcion },
+    data: { proceso:'imprimirResultados', tabla : tabla, id : id_indicador, ini:ini, fin:fin},
     type : 'POST',
-    // dataType : 'html',
     dataType : 'json',
     success : function(data) {
-      //console.log(data.serie[0].data.length);
-      //console.log(data.serie[0].data[20][1]);
+      $('.resultados').show();
+      $('.cuadro-title').text(data.titulo.text);
+      $('.columna-2').text(data.tituloy.text);
       var out='';
       for(i=0;i<data.serie[0].data.length;i++) {
         out+='<tr>';
-        //out+="<td>"+data.serie[0].data[i][0]+"</td>";
         out+="<td>"+data.categorias[0].categories[i]+"</td>";
         out+="<td>"+data.serie[0].data[i]+"</td>";
         out+='</tr>';
@@ -334,16 +370,16 @@ $(document).on('click','#btn-enviar',function(event){
           title: data.tituloy,
         },
       });
-
+    
     },
   });
 });
 
+// HASTA AQUI LOS METODOS FUERON MEJORADOS **********************************
 $(document).on('click','.btn-descargar',function(event){
   event.preventDefault();
   var url_pdf=$(this).attr('href');
-  url_pdf+='&indicador='+indicador+'&ini='+ini+'&fin='+fin+'&departamental='+departamental+'&indicador2='+indicador2+'&descripcion='+descripcion;
-  //alert(url_pdf);
+  url_pdf+='&tabla='+tabla+'&ini='+ini+'&fin='+fin+'&id='+id_indicador;
   $(location).attr('href', url_pdf);
 });
 
@@ -358,15 +394,14 @@ function ShowSelected(){
   }
 }
 
-// BEGIN: FUNCION DESACTIVAR CONTROLES
+// BEGIN: FUNCION DESACTIVAR COMBOBOX
 function desactivarComboBox(controles){
   for(i=0;i<controles.length;i++){
-    //console.log(controles[i]);
     $('#'+controles[i]).html('<option value="0" selected="selected" style="display: none;">Seleccione '+controles[i]+'...</option>');
     $('#'+controles[i]).attr('disabled',true);
   }
 }
-// END: FUNCION DESACTIVAR CONTROLES
+// END: FUNCION DESACTIVAR COMBOBOX
 
 // BEGIN:CONFIGURACION INICIAL GRAFICA
 var options_lineal;
