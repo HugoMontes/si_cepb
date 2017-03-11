@@ -7,9 +7,6 @@ var tabla, desagregacion, medicion, cobertura, indicador, descripcion, id_indica
 $(document).ready(function(){
   $('.resultados').hide();
   $('#btn-excel').hide();
-    //indicador=$('.select-grupo').val();
-    //departamental=$('.select-cobertura').val();
-    //indicador2=$('.select-indicador').val();
 });
 
 $(document).on({
@@ -40,38 +37,6 @@ $('#actividad').on('change',function(){
   desactivarComboBox(['desagregacion','medicion','cobertura','indicador','descripcion','ini','fin']);
   $('#btn-enviar').attr('disabled',true);
 });
-
-/*
-$('.select-grupo').on('change',function(){
-  //url_ajax=$('#form-estadistico').attr('action');
-  indicador=$(this).val();
-  titulo=$('.select-grupo option:selected').text();
-  console.log('PROCESO 2');
-  console.log('Grupo: '+titulo);
-  console.log('Tabla indicador: '+indicador);  
-  $.ajax({
-    url: url_ajax,
-    data: { proceso : 1, indicador : indicador },
-    type : 'POST',
-    dataType : 'html',
-    success : function(data) {
-      $('.select-indicador').html(data);
-      $('.select-indicador').append('<option value="0" selected="selected" style="display: none;">Seleccione el indicador...</option>');
-      $('.select-indicador').attr('disabled',false);
-    },
-  });
-  $('#btn-excel').hide();
-  $('.select-cobertura').html('<option value="0" selected="selected" style="display: none;">Seleccione la cobertura...</option>');
-  $('.select-cobertura').attr('disabled',true);
-  $('.select-descripcion').html('<option value="0" selected="selected" style="display: none;">Seleccione una descripcion...</option>');
-  $('.select-descripcion').attr('disabled',true);
-  $('.select-ini').html('<option value="0" selected="selected" style="display: none;">Periodo inicial...</option>');
-  $('.select-ini').attr('disabled',true);
-  $('.select-fin').html('<option value="0" selected="selected" style="display: none;">Periodo final...</option>');
-  $('.select-fin').attr('disabled',true);
-  $('#btn-enviar').attr('disabled',true);
-});
-*/
 
 $('#grupo').on('change',function(){
   tabla=$(this).val();
@@ -206,94 +171,6 @@ $('#descripcion').on('change',function(){
   $('.select-fin').attr('disabled',false);
   $('#btn-enviar').attr('disabled',false);
 });
-
-/*
-$('.select-cobertura').on('change',function(){
-  departamental=$(this).val();
-  console.log('PROCESO 3');
-  // console.log('Indicador: '+indicador);
-  console.log('Cobertura: '+departamental);
-  $.ajax({
-    url: url_ajax,
-    data: { proceso : 3, indicador : indicador, departamental: departamental, indicador2:indicador2},
-    type : 'POST',
-    dataType : 'html',
-    success : function(data) {
-      //$('.select-indicador').html(data);
-      //$('.select-indicador').append('<option value="0" selected="selected" style="display: none;">Seleccione el indicador...</option>');
-      $('.select-descripcion').html(data);
-      $('.select-descripcion').append('<option value="0" selected="selected" style="display: none;">Seleccione una descripcion...</option>');
-      $('.select-descripcion').attr('disabled',false);
-    },
-  });
-  // $('.select-indicador').attr('disabled',false);
-  $('.select-descripcion').html('<option value="0" selected="selected" style="display: none;">Seleccione una descripcion...</option>');
-  $('.select-descripcion').attr('disabled',true);
-  $('.select-ini').html('<option value="0" selected="selected" style="display: none;">Periodo inicial...</option>');
-  $('.select-ini').attr('disabled',true);
-  $('.select-fin').html('<option value="0" selected="selected" style="display: none;">Periodo final...</option>');
-  $('.select-fin').attr('disabled',true);
-  $('#btn-enviar').attr('disabled',true);
-});
-
-
-$('.select-indicador').on('change',function(){
-  indicador2=$(this).val();
-  console.log('PROCESO 2');
-  console.log('Titulo Indicador 2: '+indicador2); 
-  $.ajax({
-    url: url_ajax,
-    data: { proceso : 2, indicador:indicador, indicador2:indicador2 },
-    type : 'POST',
-    dataType : 'json',
-    success : function(data) {
-      $('#btn-excel').attr('href',data.ruta_xlsx);
-      var out='';
-      for(i=0;i<data.cobertura.length;i++) {
-        out+='<option value="'+data.cobertura[i]+'">'+data.cobertura[i]+'</option>';
-      }
-      $('.select-cobertura').html(out);
-      $('.select-cobertura').append('<option value="0" selected="selected" style="display: none;">Seleccione la cobertura...</option>');
-      $('.select-cobertura').attr('disabled',false); 
-    },
-  });
-  //$('.select-descripcion').attr('disabled',false);
-  $('#btn-excel').show();
-  $('.select-descripcion').html('<option value="0" selected="selected" style="display: none;">Seleccione una descripcion...</option>');
-  $('.select-descripcion').attr('disabled',true);
-  $('.select-ini').html('<option value="0" selected="selected" style="display: none;">Periodo inicial...</option>');
-  $('.select-ini').attr('disabled',true);
-  $('.select-fin').html('<option value="0" selected="selected" style="display: none;">Periodo final...</option>');
-  $('.select-fin').attr('disabled',true);
-  $('#btn-enviar').attr('disabled',true);
-});
-
-
-$('.select-descripcion').on('change',function(){
-  descripcion=$(this).val();
-  console.log('PROCESO 4');
-  console.log('Indicador: '+indicador);
-  console.log('Departamental: '+departamental);
-  console.log('Indicador2: '+indicador2);
-  console.log('Descripcion: '+descripcion); 
-  $.ajax({
-    url: url_ajax,
-    data: { proceso : 4, indicador:indicador, departamental:departamental, indicador2:indicador2, descripcion:descripcion },
-    type : 'POST',
-    dataType : 'html',
-    success : function(data) {
-      $('.select-ini').html(data);
-      $('.select-fin').html(data);
-      $('.select-fin option:last').attr("selected", "selected");
-      // console.log(data);
-    },
-  });
-  $('.select-ini').attr('disabled',false);
-  $('.select-fin').attr('disabled',false);
-  $('#btn-enviar').attr('disabled',false);
-});
-*/
-
 
 $(document).on('click','#btn-enviar',function(event){
   event.preventDefault();

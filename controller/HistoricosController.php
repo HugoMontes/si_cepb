@@ -26,27 +26,27 @@ class HistoricosController{
 	}
 
 	function getAllDesagregacionByNameTabla($tabla){
-		$registros=mysqli_query($this->conexion,"select DISTINCT desagregacion from $tabla order by desagregacion") or die("Problemas en el select:".mysqli_error($this->conexion));
+		$registros=mysqli_query($this->conexion,"select DISTINCT desagregacion from $tabla where grupo='Historico' order by desagregacion") or die("Problemas en el select:".mysqli_error($this->conexion));
 		return $registros;
 	}
 
 	function getAllMedicion($tabla,$desagregacion){
-		$registros=mysqli_query($this->conexion,"select DISTINCT medicion_indicador from $tabla where desagregacion='$desagregacion' order by medicion_indicador") or die("Problemas en el select:".mysqli_error($this->conexion));
+		$registros=mysqli_query($this->conexion,"select DISTINCT medicion_indicador from $tabla where grupo='Historico' AND desagregacion='$desagregacion' order by medicion_indicador") or die("Problemas en el select:".mysqli_error($this->conexion));
 		return $registros;
 	}
 
 	function getAllCobertura($tabla,$desagregacion,$medicion){
-		$registros=mysqli_query($this->conexion,"select DISTINCT C from $tabla where desagregacion='$desagregacion' AND medicion_indicador='$medicion' order by C") or die("Problemas en el select:".mysqli_error($this->conexion));
+		$registros=mysqli_query($this->conexion,"select DISTINCT C from $tabla where grupo='Historico' AND desagregacion='$desagregacion' AND medicion_indicador='$medicion' order by C") or die("Problemas en el select:".mysqli_error($this->conexion));
 		return $registros;
 	}
 
 	function getAllIndicador($tabla,$desagregacion,$medicion,$cobertura){
-		$registros=mysqli_query($this->conexion,"select DISTINCT B from $tabla where desagregacion='$desagregacion' AND medicion_indicador='$medicion' AND C='$cobertura'") or die("Problemas en el select:".mysqli_error($this->conexion));
+		$registros=mysqli_query($this->conexion,"select DISTINCT B from $tabla where grupo='Historico' AND desagregacion='$desagregacion' AND medicion_indicador='$medicion' AND C='$cobertura'") or die("Problemas en el select:".mysqli_error($this->conexion));
 		return $registros;
 	}
 
 	function getAllDescripcion($tabla,$desagregacion,$medicion,$cobertura,$indicador){
-		$registros=mysqli_query($this->conexion,"select DISTINCT descripcion, id from $tabla where desagregacion='$desagregacion' AND medicion_indicador='$medicion' AND C='$cobertura' AND B='$indicador'") or die("Problemas en el select:".mysqli_error($this->conexion));
+		$registros=mysqli_query($this->conexion,"select DISTINCT descripcion, id from $tabla where grupo='Historico' AND desagregacion='$desagregacion' AND medicion_indicador='$medicion' AND C='$cobertura' AND B='$indicador'") or die("Problemas en el select:".mysqli_error($this->conexion));
 		return $registros;
 	}
 
