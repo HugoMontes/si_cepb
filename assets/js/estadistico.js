@@ -188,6 +188,7 @@ $(document).on('click','#btn-enviar',function(event){
     success : function(data) {
       $('.resultados').show();
       $('.cuadro-title').text(data.titulo.text);
+      $('.cuadro-subtitle').text(data.subtitulo.text);
       $('.columna-2').text(data.tituloy.text);
       var out='';
       for(i=0;i<data.serie[0].data.length;i++) {

@@ -110,9 +110,10 @@ if($proceso=='buscaGrupo'){
 	
 	$reg_indicador=$controller->getIndicadorById($id,$tabla);
 	$descripcion=$reg_indicador['DESCRIPCION'];
-	$cobertura=$reg_indicador['C'];
+	// $cobertura=$reg_indicador['C'];
 	$titulo=array('text'=>$reg_indicador['B']);
-	$subtitulo=array('text'=>$cobertura);
+	// $subtitulo=array('text'=>$cobertura);
+	$subtitulo=array('text'=>$descripcion);
 	$tituloy=array('text'=>$reg_indicador['D']);
 
 	// GENERAR SERIE
@@ -133,6 +134,7 @@ if($proceso=='buscaGrupo'){
 	$char=array(
 		'titulo'=>$titulo,
 		'subtitulo'=>$subtitulo,
+		//'subtitulo'=>$descripcion,
 		'serie'=>$serie,
 		'categorias'=>$categorias,
 		'tituloy'=>$tituloy,

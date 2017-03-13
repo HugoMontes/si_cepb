@@ -147,6 +147,7 @@
         <div class="box-body">
           <div class="grafic col-md-6">
             <h3 class="cuadro-title" style="text-align: center;"></h3>
+            <h4 class="cuadro-subtitle" style="text-align: center;"></h4>
             <table id="cuadro-1" class="table table-striped table-bordered">
               <thead>
                 <tr>
