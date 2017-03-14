@@ -18,87 +18,56 @@
             </div>
             <!-- end: titulo -->            
 
-            <!-- begin: actividad economica -->
+            <!-- begin: fuente -->
             <div class="box-body">
-              <label for="actividad" class="col-sm-2 control-label">Actividad Económica</label>          
+              <label for="fuente" class="col-sm-2 control-label">Fuente</label>          
               <div class="col-sm-8">
-                <select id="actividad" name="actividad" class="form-control select2 select2-hidden-accessible" style="width: 100%;" tabindex="-1" aria-hidden="true">
-                  <option value="0" selected="selected" style="display: none;">Seleccione una actividad...</option>
+                <select id="fuente" name="fuente" class="form-control select2 select2-hidden-accessible" style="width: 100%;" tabindex="-1" aria-hidden="true">
+                  <option value="0" selected="selected" style="display: none;">Seleccione fuente...</option>
                   <?php 
-                    $registros=$controller->getAllActividad();
+                    $registros=$controller->getAllFuente();
                     while ($reg=mysqli_fetch_array($registros)){                  
-                      echo '<option  value="'.$reg['id'].'">'.ucfirst($reg['descripcion']).'</option>';
+                      echo '<option  value="'.$reg['id'].'">'.ucfirst($reg['campos']).'</option>';
                     } 
                   ?>
                 </select>
               </div>
             </div>
-            <!-- end: actividad economica -->
+            <!-- end: fuente -->
 
-            <!-- begin: grupo -->
+            <!-- begin: paises -->
             <div class="box-body">
-              <label for="grupo" class="col-sm-2 control-label">Grupo</label>
-              <div class="col-sm-8">
-                <select id="grupo" name="grupo" class="form-control select2 select2-hidden-accessible" style="width: 100%;" tabindex="-1" aria-hidden="true" disabled="true">
-                  <option value="0" selected="selected" style="display: none;">Seleccione un grupo...</option>
-                </select>
-              </div>
-            </div>
-            <!-- end: grupo -->
 
-            <!-- begin: desagregacion -->
-            <div class="box-body">
-              <label for="desagregacion" class="col-sm-2 control-label">Desagregación</label>
+              <div class="form-group">
+                <label for="paises" class="col-sm-2 control-label">Pais: </label>
+                <div class="col-sm-4">
+                  <select id="pais1" name="pais1" class="form-control select2 select2-hidden-accessible select-pais" style="width: 100%;" tabindex="-1" aria-hidden="true" disabled="true">
+                    <option value="0" selected="selected" style="display: none;">Seleccionar pais...</option> 
+                  </select>
+                </div>
+                <div class="col-sm-4">
+                  <select id="pais2" name="pais2" class="form-control select2 select2-hidden-accessible select-pais" style="width: 100%;" tabindex="-1" aria-hidden="true" onchange="ShowSelected();" disabled="true">
+                    <option value="0" selected="selected" style="display: none;">Seleccionar pais...</option> 
+                  </select>
+                </div>
+              </div>
+              <!--
+              <label for="paises" class="col-sm-2 control-label">Paises</label>
               <div class="col-sm-8">
-                <select id="desagregacion" name="desagregacion" class="form-control select2 select2-hidden-accessible" style="width: 100%;" tabindex="-1" aria-hidden="true" disabled="true">
-                  <option value="0" selected="selected" style="display: none;">Seleccione un desagregacion...</option>
+                <select id="paises" name="paises" class="form-control select2 select2-hidden-accessible" style="width: 100%;" tabindex="-1" aria-hidden="true" disabled="true">
+                  <option value="0" selected="selected" style="display: none;">Seleccione pais...</option>
                 </select>
               </div>
+              -->
             </div>
-            <!-- end: desagregacion -->
-
-            <!-- begin: medicion -->
-            <div class="box-body">
-              <label for="medicion" class="col-sm-2 control-label">Medición</label>
-              <div class="col-sm-8">
-                <select id="medicion" name="medicion" class="form-control select2 select2-hidden-accessible" style="width: 100%;" tabindex="-1" aria-hidden="true" disabled="true">
-                  <option value="0" selected="selected" style="display: none;">Seleccione un medicion...</option>
-                </select>
-              </div>
-            </div>
-            <!-- end: medicion -->
-            
-            <!-- begin: Cobertura -->
-            <div class="box-body">
-              <label for="cobertura" class="col-sm-2 control-label">Cobertura</label>
-              <div class="col-sm-8">
-                <select id="cobertura" name="cobertura" class="form-control select2 select2-hidden-accessible" style="width: 100%;" tabindex="-1" aria-hidden="true" disabled="true">
-                  <option value="0" selected="selected" style="display: none;">Seleccione la cobertura...</option>
-                </select>
-              </div>
-            </div>
-            <!-- end: Cobertura -->
-
-            <!-- begin: Indicador -->            
-            <div class="box-body">
-              <label for="indicador" class="col-sm-2 control-label">Indicador</label>
-              <div class="col-sm-6">
-                <select  id="indicador" name="indicador" class="form-control select2 select2-hidden-accessible" style="width: 100%;" tabindex="-1" aria-hidden="true" autofocus="true" disabled="true">
-                  <option value="0" selected="selected" style="display: none;">Seleccione el indicador...</option>
-                </select>
-              </div>
-              <div class="col-sm-2">
-                <a id="btn-excel" href="<?php echo BASE_URL; ?>" class="btn btn-success"><i class="fa fa-file-excel-o fa-lg"></i> Descargar excel</a>
-              </div>
-            </div>
-            <!-- end: Indicador -->
+            <!-- end: paises -->            
 
             <!-- begin: Descripcion -->
             <div class="box-body">
               <label for="descripcion" class="col-sm-2 control-label">Descripcion</label>
               <div class="col-sm-8">
                 <select id="descripcion" name="descripcion" class="form-control select2 select2-hidden-accessible" style="width: 100%;" tabindex="-1" aria-hidden="true" autofocus="true" disabled="true">
-                  <option value="0" selected="selected" style="display: none;">Seleccione una descripcion...</option>
+                  <option value="0" selected="selected" style="display: none;">Seleccione descripcion...</option>
                 </select>
               </div>
             </div>
@@ -107,18 +76,12 @@
             <!-- begin: Periodo -->            
             <div class="box-body">
               <div class="form-group">
-                <label for="inputEmail3" class="col-sm-2 control-label">Periodicidad: </label>
+                <label for="periodo" class="col-sm-2 control-label">Periodo: </label>
                 <div class="col-sm-3">
-                  <select id="ini" name="ini" class="form-control select2 select2-hidden-accessible select-ini" style="width: 100%;" tabindex="-1" aria-hidden="true" disabled="true">
-                    <option value="0" selected="selected" style="display: none;">Periodo inicial...</option> 
+                  <select id="periodo" name="periodo" class="form-control select2 select2-hidden-accessible select-periodo" style="width: 100%;" tabindex="-1" aria-hidden="true" disabled="true">
+                    <option value="0" selected="selected" style="display: none;">Seleccionar periodo...</option> 
                   </select>
                 </div>
-                <label class="col-xs-2" style="text-align: center;">hasta:</label>
-                  <div class="col-sm-3">
-                    <select id="fin" name="fin" class="form-control select2 select2-hidden-accessible select-fin" style="width: 100%;" tabindex="-1" aria-hidden="true" onchange="ShowSelected();" disabled="true">
-                      <option value="0" selected="selected" style="display: none;">Periodo final...</option> 
-                    </select>
-                  </div>
               </div>
             </div>
             <!-- end: Periodo -->            
@@ -169,105 +132,7 @@
         </div>
         <!-- /.box-footer-->
       </div>
-      <!-- BEGIN:GRAFICO_LINEAL -->
-      <div class="box">
-        <div class="box-header with-border">
-          <h3 class="box-title">Gráfica Lineal</h3>
-          <div class="box-tools pull-right">
-            <input class="btn btn-block btn-primary btn-xs" type="button" value="Abrir" data-widget="collapse" data-toggle="tooltip" id="botonmostrar" onclick="this.value='Cerrar'"">
-          </div>
-        </div>
-        <div class="box-body">
-          <div class="grafic">
-            <div id="container-grafico-lineal" style="min-width: 310px; height: 400px; margin: 0 auto"></div>
-          </div>
-        </div>
-      </div>
-      <!-- END:GRAFICO_LINEAL -->
-
-      <!-- BEGIN:GRAFICO_BARRAS -->
-      <div class="box">
-        <div class="box-header with-border">
-          <h3 class="box-title">Gráfica Barras</h3>
-          <div class="box-tools pull-right">
-            <input class="btn btn-block btn-primary btn-xs" type="button" value="Abrir" data-widget="collapse" data-toggle="tooltip" id="botonmostrar" onclick="this.value='Cerrar'"">
-          </div>
-        </div>
-        <div class="box-body">
-          <div class="grafic">
-            <div id="container-grafico-barras" style="min-width: 310px; height: 400px; margin: 0 auto"></div>
-          </div>
-        </div>
-      </div>
-      <!-- END:GRAFICO_BARRAS -->
-
-      <!-- BEGIN:GRAFICO_TORTA -->
-      <div class="box">
-        <div class="box-header with-border">
-          <h3 class="box-title">Gráfica Torta</h3>
-          <div class="box-tools pull-right">
-            <input class="btn btn-block btn-primary btn-xs" type="button" value="Abrir" data-widget="collapse" data-toggle="tooltip" id="botonmostrar" onclick="this.value='Cerrar'"">
-          </div>
-        </div>
-        <div class="box-body">
-          <div class="grafic">
-            <div id="container-grafico-torta" style="min-width: 310px; height: 400px; margin: 0 auto"></div>
-          </div>
-        </div>
-      </div>
-      <!-- END:GRAFICO_TORTA -->
-
-      <!-- BEGIN:GRAFICO_ROTATORIA -->
-      <div class="box">
-        <div class="box-header with-border">
-          <h3 class="box-title">Gráfica Rotatoria</h3>
-          <div class="box-tools pull-right">
-            <input class="btn btn-block btn-primary btn-xs" type="button" value="Abrir" data-widget="collapse" data-toggle="tooltip" id="botonmostrar" onclick="this.value='Cerrar'"">
-          </div>
-        </div>
-        <div class="box-body">
-          <div class="grafic">
-            <div id="container-grafico-rotatorio" style="min-width: 310px; height: 400px; margin: 0 auto"></div>
-            <div id="sliders" style="min-width: 310px; max-width: 800px; margin: 0 auto;">
-              <table>
-                  <tr>
-                    <td>Alpha Angle</td>
-                    <td>&nbsp;<input id="alpha" type="range" min="0" max="45" value="15"/></td>
-                    <td>&nbsp;<span id="alpha-value" class="value"></span></td>
-                  </tr>
-                  <tr>
-                    <td>Beta Angle</td>
-                    <td>&nbsp;<input id="beta" type="range" min="-45" max="45" value="15"/></td>
-                    <td>&nbsp;<span id="beta-value" class="value"></span></td>
-                  </tr>
-                  <tr>
-                    <td>Depth</td>
-                    <td>&nbsp;<input id="depth" type="range" min="20" max="100" value="50"/></td>
-                    <td>&nbsp;<span id="depth-value" class="value"></span></td>
-                  </tr>
-              </table>
-            </div>
-          </div>
-        </div>
-      </div>
-      <!-- END:GRAFICO_ROTATORIA -->
-
-      <!-- BEGIN:GRAFICO_AREAS -->
-      <div class="box">
-        <div class="box-header with-border">
-          <h3 class="box-title">Gráfica por Areas</h3>
-          <div class="box-tools pull-right">
-            <input class="btn btn-block btn-primary btn-xs" type="button" value="Abrir" data-widget="collapse" data-toggle="tooltip" id="botonmostrar" onclick="this.value='Cerrar'"">
-          </div>
-        </div>
-        <div class="box-body">
-          <div class="grafic">
-            <div id="container-grafico-area" style="min-width: 310px; height: 400px; margin: 0 auto"></div>
-          </div>
-        </div>
-      </div>
-      <!-- END:GRAFICO_AREAS -->
   </section>
   <!-- FIN:GRAFICOS -->
 <?php require_once("../template/footer.php"); ?>
-<script src="<?php echo BASE_URL; ?>assets/js/estadistico.js"></script>
+<script src="<?php echo BASE_URL; ?>assets/js/internacional.js"></script>
