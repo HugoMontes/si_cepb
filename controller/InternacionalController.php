@@ -10,12 +10,45 @@ class InternacionalController{
 		require_once($cad_conexion);
 		$this->conexion=$con=$conexion;
 		$this->indicador_general='indicador_internacional';
-		$this->grupo='Internacional';
+		// $this->grupo='Internacional';
 	}
 
 	function getAllFuente(){
 		$registros=mysqli_query($this->conexion,"select * from $this->indicador_general where estado=1 order by campos") or die("Problemas en el select:".mysqli_error($this->conexion));
 		return $registros;
+	}
+
+	function getByIdIndicador($id){
+		$result=mysqli_query($this->conexion,"select * from $this->indicador_general where id=$id") or die("Problemas en el select:".mysqli_error($this->conexion));
+		$row=$result->fetch_assoc();
+		return $row;	
+	}
+
+	function getByTableIndicador($tabla){
+		$result=mysqli_query($this->conexion,"select * from $this->indicador_general where tabla='$tabla'") or die("Problemas en el select:".mysqli_error($this->conexion));
+		$row=$result->fetch_assoc();
+		return $row;	
+	}
+
+	function getAllPaises($tabla){
+		$registros=mysqli_query($this->conexion,"select DISTINCT pais from $tabla order by pais") or die("Problemas en el select:".mysqli_error($this->conexion));
+		return $registros;	
+	}
+
+	function getAllClasificacionByNameTabla($tabla){
+		$registros=mysqli_query($this->conexion,"select DISTINCT clasificacion from $tabla order by nro") or die("Problemas en el select:".mysqli_error($this->conexion));
+		return $registros;	
+	}
+
+	function getPeriodos($tabla){
+		$registros=mysqli_query($this->conexion,"select DISTINCT anio from $tabla order by anio") or die("Problemas en el select:".mysqli_error($this->conexion));
+		return $registros;
+	}
+
+	function getIndicePais($tabla, $descripcion, $pais, $periodo){
+		$result=mysqli_query($this->conexion,"SELECT * FROM $tabla WHERE pais='$pais' AND clasificacion='$descripcion' AND anio='$periodo'") or die("Problemas en el select:".mysqli_error($this->conexion));
+		$row=$result->fetch_assoc();
+		return $row;
 	}
 
 /*

@@ -21,16 +21,19 @@
             <!-- begin: fuente -->
             <div class="box-body">
               <label for="fuente" class="col-sm-2 control-label">Fuente</label>          
-              <div class="col-sm-8">
+              <div class="col-sm-6">
                 <select id="fuente" name="fuente" class="form-control select2 select2-hidden-accessible" style="width: 100%;" tabindex="-1" aria-hidden="true">
                   <option value="0" selected="selected" style="display: none;">Seleccione fuente...</option>
                   <?php 
                     $registros=$controller->getAllFuente();
                     while ($reg=mysqli_fetch_array($registros)){                  
-                      echo '<option  value="'.$reg['id'].'">'.ucfirst($reg['campos']).'</option>';
+                      echo '<option  value="'.$reg['tabla'].'">'.ucfirst($reg['campos']).'</option>';
                     } 
                   ?>
                 </select>
+              </div>
+              <div class="col-sm-2">
+                <a id="btn-excel" href="<?php echo BASE_URL; ?>" class="btn btn-success"><i class="fa fa-file-excel-o fa-lg"></i> Descargar excel</a>
               </div>
             </div>
             <!-- end: fuente -->
@@ -46,19 +49,11 @@
                   </select>
                 </div>
                 <div class="col-sm-4">
-                  <select id="pais2" name="pais2" class="form-control select2 select2-hidden-accessible select-pais" style="width: 100%;" tabindex="-1" aria-hidden="true" onchange="ShowSelected();" disabled="true">
+                  <select id="pais2" name="pais2" class="form-control select2 select2-hidden-accessible select-pais" style="width: 100%;" tabindex="-1" aria-hidden="true" disabled="true">
                     <option value="0" selected="selected" style="display: none;">Seleccionar pais...</option> 
                   </select>
                 </div>
               </div>
-              <!--
-              <label for="paises" class="col-sm-2 control-label">Paises</label>
-              <div class="col-sm-8">
-                <select id="paises" name="paises" class="form-control select2 select2-hidden-accessible" style="width: 100%;" tabindex="-1" aria-hidden="true" disabled="true">
-                  <option value="0" selected="selected" style="display: none;">Seleccione pais...</option>
-                </select>
-              </div>
-              -->
             </div>
             <!-- end: paises -->            
 
@@ -67,7 +62,7 @@
               <label for="descripcion" class="col-sm-2 control-label">Descripcion</label>
               <div class="col-sm-8">
                 <select id="descripcion" name="descripcion" class="form-control select2 select2-hidden-accessible" style="width: 100%;" tabindex="-1" aria-hidden="true" autofocus="true" disabled="true">
-                  <option value="0" selected="selected" style="display: none;">Seleccione descripcion...</option>
+                  <option value="0" selected="selected" style="display: none;">Seleccionar descripcion...</option>
                 </select>
               </div>
             </div>
@@ -77,7 +72,7 @@
             <div class="box-body">
               <div class="form-group">
                 <label for="periodo" class="col-sm-2 control-label">Periodo: </label>
-                <div class="col-sm-3">
+                <div class="col-sm-4">
                   <select id="periodo" name="periodo" class="form-control select2 select2-hidden-accessible select-periodo" style="width: 100%;" tabindex="-1" aria-hidden="true" disabled="true">
                     <option value="0" selected="selected" style="display: none;">Seleccionar periodo...</option> 
                   </select>
@@ -111,19 +106,28 @@
           <div class="grafic col-md-6">
             <h3 class="cuadro-title" style="text-align: center;"></h3>
             <h4 class="cuadro-subtitle" style="text-align: center;"></h4>
-            <table id="cuadro-1" class="table table-striped table-bordered">
-              <thead>
-                <tr>
-                  <th class="columna-1">Gestión</th>
-                  <th class="columna-2">Serie</th>
-                </tr>
-              </thead>
-              <tbody>
-              </tbody>
-            </table>
-
+            <div id="cuadro-resultante">
+              <table class="table table-striped table-bordered">
+                <thead>
+                  <tr>
+                    <th></th>
+                    <th class="col-head-pais1"></th>
+                    <th class="col-head-pais2"></th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td class="col-nombre-descripcion">$descripcion</td>
+                    <td class="col-monto-pais1"></td>
+                    <td class="col-monto-pais2"></td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+            <!--
             <a href="<?php echo BASE_URL; ?>controller/DescargarDispatcher.php?action=pdf&controlador=historico" class="btn btn-danger btn-descargar" role="button"><i class="fa fa-file-pdf-o fa-lg"></i> Descargar PDF</a>
             <a href="<?php echo BASE_URL; ?>controller/DescargarDispatcher.php?action=excel&controlador=historico" class="btn btn-success btn-descargar" role="button"><i class="fa fa-file-excel-o fa-lg"></i> Descargar EXCEL</a>
+            -->
           </div>
         </div>
         <!-- /.box-body -->
