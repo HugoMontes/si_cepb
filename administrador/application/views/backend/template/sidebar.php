@@ -4,42 +4,22 @@
       <ul class="nav" id="main-menu">
 
         <li>
-          <a class="active-menu" href="<?php echo base_url('index.php/backend/escritorio'); ?>"><i class="fa fa-dashboard"></i> Escritorio</a>
-        </li>
-        <li>
-          <a href="ui-elements.html"><i class="fa fa-bar-chart-o"></i> Historicos<span class="fa arrow"></span></a>
-          <ul class="nav nav-second-level">
-            <li>
-              <a href="<?php echo base_url('index.php/backend/historico'); ?>">Indicadores</a>
-            </li>
-            <!--li>
-              <a href="#">Nuevo indicador</a>
-            </li-->
-          </ul>
-        </li>
-        <li>
-          <a href="chart.html"><i class="fa fa-bar-chart-o"></i> Coyuntura<span class="fa arrow"></span></a>
-          <ul class="nav nav-second-level">
-            <li>
-              <a href="<?php echo base_url('index.php/backend/coyuntura'); ?>">Indicadores</a>
-            </li>
-            <!--li>
-              <a href="#">Nuevo indicador</a>
-            </li-->
-          </ul>
-        </li>
-        <li>
-          <a href="tab-panel.html"><i class="fa fa-bar-chart-o"></i> Internacional<span class="fa arrow"></span></a>
-          <ul class="nav nav-second-level">
-            <li>
-              <a href="<?php echo base_url('index.php/backend/internacional'); ?>">Indicadores</a>
-            </li>
-            <!--li>
-              <a href="#">Nuevo indicador</a>
-            </li-->
-          </ul>
+          <a href="<?php echo base_url('index.php/backend/escritorio'); ?>" class="<?php echo isset($menu_escritorio)?'active-menu':''; ?>"><i class="fa fa-dashboard"></i> Escritorio</a>
         </li>
 
+        <li>
+          <a href="<?php echo base_url('index.php/backend/historico'); ?>" class="<?php echo isset($menu_historico)?'active-menu':''; ?>"><i class="fa fa-bar-chart-o"></i> Historicos</a>
+        </li>
+
+        <li>
+          <a href="<?php echo base_url('index.php/backend/coyuntura'); ?>" class="<?php echo isset($menu_coyuntura)?'active-menu':''; ?>"><i class="fa fa-bar-chart-o"></i> Coyuntura</a>
+        </li>
+
+        <li>
+          <a href="<?php echo base_url('index.php/backend/internacional'); ?>" class="<?php echo isset($menu_internacional)?'active-menu':''; ?>"><i class="fa fa-bar-chart-o"></i> Internacional</a>
+        </li>
+        
+        <!--
         <li>
           <a href="#"><i class="glyphicon glyphicon-download-alt"></i> Area de subida de información<span class="fa arrow"></span></a>
           <ul class="nav nav-second-level">
@@ -54,7 +34,8 @@
             </li>
           </ul>
         </li>
-        
+        -->
+
         <!--
         <li>
           <a href="#"><i class="fa fa-sitemap"></i> Multi-Level Dropdown<span class="fa arrow"></span></a>
@@ -86,7 +67,7 @@
         -->
 
         <li>
-          <a href="#"><i class="fa fa-user"></i> Usuarios<span class="fa arrow"></span></a>
+          <a href="#" class="<?php echo isset($menu_usuario)?'active-menu':'' ?>"><i class="fa fa-user"></i> Usuarios<span class="fa arrow"></span></a>
           <ul class="nav nav-second-level">
             <li>
               <a href="<?php echo base_url('index.php/backend/usuario'); ?>">Todos los usuarios</a>

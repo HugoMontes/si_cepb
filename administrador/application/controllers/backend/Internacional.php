@@ -12,6 +12,7 @@ class Internacional extends CI_Controller{
   }
 
   public function index(){
+    $data['menu_internacional'] = true;
   	$data['titulo'] = 'Internacional';
   	//$data['actividades'] = $this->actividad_economica_model->get_all('id, descripcion',array(),'','','descripcion','');
     $this->load->view('backend/internacional/internacional_list_view',$data);  

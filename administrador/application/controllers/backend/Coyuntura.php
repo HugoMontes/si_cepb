@@ -18,6 +18,7 @@ class Coyuntura extends CI_Controller{
     }elseif ($this->session->flashdata('error')){ 
       $data['error'] = $this->session->flashdata('error');
     }
+    $data['menu_coyuntura'] = true;
   	$data['titulo'] = 'Coyuntura';
     $data['actividades'] = $this->actividad_economica_model->get_all('id, descripcion','id BETWEEN 1 AND 5','','','descripcion','');
   	$this->load->view('backend/coyuntura/coyuntura_list_view',$data);

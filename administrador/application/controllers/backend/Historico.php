@@ -18,6 +18,7 @@ class Historico extends CI_Controller{
     }elseif ($this->session->flashdata('error')){ 
       $data['error'] = $this->session->flashdata('error');
     }
+    $data['menu_historico'] = true;
   	$data['titulo'] = 'Historicos';
   	$data['actividades'] = $this->actividad_economica_model->get_all('id, descripcion',array(),'','','descripcion','');
     $this->load->view('backend/historico/historico_list_view',$data);  

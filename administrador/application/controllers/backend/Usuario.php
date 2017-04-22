@@ -97,7 +97,7 @@ class Usuario extends CI_Controller{
     }
     $data['perfiles'] = $perfiles_;   
 
-
+    $data['menu_usuario'] = true;
     $data['usuarios'] = $this->usuario_model->get_all('', array(), '', '', '', '');
     // $data['perfiles'] = $this->perfil_model->get_all('id, nombre',array(),'','','id ASC','');
     $data['titulo'] = 'Usuarios';

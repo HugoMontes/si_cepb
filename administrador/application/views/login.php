@@ -9,7 +9,7 @@
 function hideURLbar(){ window.scrollTo(0,1); } </script>
 <!-- Meta tag Keywords -->
 <!-- css files -->
-<link href="<?php echo base_url(); ?>resources/css/style-login.css" rel="stylesheet" type="text/css" media="all">
+<link href="<?php echo base_url();?>resources/css/style-login.css" rel="stylesheet" type="text/css" media="all">
 <!-- FontAwesome Styles-->
 <link href="<?php echo base_url();?>resources/assets/css/font-awesome.css" rel="stylesheet" />
 <!-- Bootstrap Styles-->
@@ -24,7 +24,7 @@ function hideURLbar(){ window.scrollTo(0,1); } </script>
 
 <!--main-->
 <div class="main-w3l">
-<div class="w3layouts-main">
+<div class="w3layouts-main" style="background: rgba(0, 74, 132, 0.43);">
     <h2>Iniciar sesión</h2>
         <!-- inicio cuadro mensaje -->         
             <?php if (isset($error)) { ?>                
