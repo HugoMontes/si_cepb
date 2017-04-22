@@ -19,6 +19,8 @@
     <link href="<?php echo base_url();?>resources/assets/css/custom-styles.css" rel="stylesheet" />
     <!-- Google Fonts-->
     <link href='http://fonts.googleapis.com/css?family=Open+Sans' rel='stylesheet' type='text/css' />
+    <!-- Cepb Styles-->
+    <link href="<?php echo base_url();?>resources/css/cepb-styles.css" rel="stylesheet" />
 </head>
 
 <body>
@@ -31,7 +33,7 @@
                     <span class="icon-bar"></span>
                     <span class="icon-bar"></span>
                 </button>
-                <a class="navbar-brand" href="<?php echo base_url('index.php/backend/escritorio'); ?>">ESTADÍSTICAS</a>
+                <a class="navbar-brand" href="<?php echo base_url('index.php/backend/escritorio'); ?>">SIE CEPB</a>
             </div>
 
             <ul class="nav navbar-top-links navbar-right">

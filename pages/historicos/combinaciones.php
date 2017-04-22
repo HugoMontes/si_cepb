@@ -8,7 +8,7 @@
     <section class="content">
       <div class="row">
         <!-- left column -->
-        <div class="col-md-6 col-md-offset-3">
+        <div class="col-md-12">
           <!-- general form elements -->
           <div class="box box-primary">
             <div class="box-header with-border">
@@ -18,20 +18,92 @@
             <div class="box-body box-alert" style="display: none; margin: 0">
               <div class="callout callout-danger" role="alert" style="margin: 0"></div>
             </div>
-
-            <?php 
-              $indicadores=$controller->getAllCombinados();
-              while ($indicador=$indicadores->fetch_assoc()) { ?>
-              <div class="box-body">
-                <p class="col-sm-10"><?php echo $indicador['B']; ?></p>          
-                <div class="col-sm-2">
-                  <input type="checkbox" value="<?php echo $indicador['id']; ?>" name="cbxIndicador[]"/>
-                </div>
-              </div>              
-            <?php } ?>
-
+            
             <div class="box-body">
-                <button id="btn-comparar" type="submit" class="btn btn-primary col-xs-12">Realizar Comparación</button> 
+              <div class="col-md-8 col-md-offset-2">
+
+                <!-- begin: actividad economica 1 -->
+                <div class="box-body">
+                  <label for="actividad1" class="control-label">Actividad económica 1</label>          
+                  <select id="actividad1" name="actividad1" class="form-control select2 select2-hidden-accessible" style="width: 100%;" tabindex="-1" aria-hidden="true">
+                    <option value="0" selected="selected" style="display: none;">Seleccione actividad...</option>
+                    <?php 
+                      $registros=$controller->getAllActividadesEconomicas();
+                      while ($reg=mysqli_fetch_array($registros)){                  
+                        echo '<option  value="'.$reg['actividad'].'">'.$reg['actividad'].'</option>';
+                      } 
+                    ?>
+                  </select>
+                </div>
+                <!-- end: actividad economica 1 -->
+
+                <!-- begin: indicador 1 -->
+                <div class="box-body">
+                  <label for="indicador1" class="control-label">Nombre del indicador 1</label>          
+                  <select id="indicador1" name="indicador1" class="form-control select2 select2-hidden-accessible" style="width: 100%;" tabindex="-1" aria-hidden="true" disabled="true">
+                    <option value="0" selected="selected" style="display: none;">Seleccione indicador...</option>
+                  </select>
+                </div>
+                <!-- end: indicador 1 -->
+                
+                <div class="bg-info">
+                  <!-- begin: medicion -->
+                  <div class="box-body">
+                    <label for="medicion" class="control-label">Medici&oacute;n del indicador</label>          
+                    <select id="medicion" name="medicion" class="form-control select2 select2-hidden-accessible" style="width: 100%;" tabindex="-1" aria-hidden="true" disabled="true">
+                      <option value="0" selected="selected" style="display: none;">Seleccione medicion...</option>
+                    </select>
+                  </div>
+                  <!-- end: medicion -->
+
+                  <!-- begin: periodo -->            
+                  <div class="box-body">
+                    <label for="periodo" class="control-label">Periodicidad: </label>
+                    <div class="row">
+                      <div class="col-md-6">
+                        <select id="ini" name="ini" class="form-control select2 select2-hidden-accessible select-ini" tabindex="-1" aria-hidden="true" disabled="true">
+                          <option value="0" selected="selected" style="display: none;">Periodo inicial...</option> 
+                        </select>
+                      </div>
+                      <div class="col-md-6">
+                        <select id="fin" name="fin" class="form-control select2 select2-hidden-accessible select-fin" tabindex="-1" aria-hidden="true" onchange="ShowSelected();" disabled="true">
+                          <option value="0" selected="selected" style="display: none;">Periodo final...</option> 
+                        </select>
+                      </div>
+                    </div>
+                  </div>
+                  <!-- end: periodo -->
+                </div>
+
+                <!-- begin: actividad economica 2 -->
+                <div class="box-body">
+                  <label for="actividad2" class="control-label">Actividad económica 2</label>          
+                  <select id="actividad2" name="actividad2" class="form-control select2 select2-hidden-accessible" style="width: 100%;" tabindex="-1" aria-hidden="true" disabled="true">
+                    <option value="0" selected="selected" style="display: none;">Seleccione actividad...</option>
+                  </select>
+                </div>
+                <!-- end: actividad economica 2 -->
+
+                <!-- begin: indicador 2 -->
+                <div class="box-body">
+                  <label for="indicador2" class="control-label">Nombre del indicador 2</label>          
+                  <select id="indicador2" name="indicador2" class="form-control select2 select2-hidden-accessible" style="width: 100%;" tabindex="-1" aria-hidden="true" disabled="true">
+                    <option value="0" selected="selected" style="display: none;">Seleccione indicador...</option>
+                  </select>
+                </div>
+                <!-- end: indicador 2 -->
+
+                <!-- begin: boton comparar -->
+                <div class="box-body">
+                    <button id="btn-comparar" type="submit" class="btn btn-primary col-md-12" disabled="true">Realizar comparación</button>
+                </div>
+                <!-- end: boton comparar -->           
+              </div>
+
+              <!--
+              <div class="col-md-6">
+              </div>            
+              -->
             </div>
 
           </div>

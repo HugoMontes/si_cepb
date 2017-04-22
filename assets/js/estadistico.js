@@ -1,7 +1,6 @@
 // ARCHIVO JS ESTADISTICO
 
 var url_ajax;
-// var tabla, desagregacion, medicion, cobertura, indicador, descripcion, titulo, departamental, indicador2, descripcion, i, ini, fin;
 var tabla, desagregacion, medicion, cobertura, indicador, descripcion, id_indicador, titulo, i, ini, fin;
 
 $(document).ready(function(){

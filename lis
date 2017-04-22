@@ -1,0 +1,89 @@
+commit a020cf17688cb5fbf8f50efaddd32bbc7e582817
+Author: Hugo Montes <hugomontes927@gmail.com>
+Date:   Wed Mar 22 15:53:54 2017 -0400
+
+    Se ha modificado el archivo de conexion para glosario
+
+commit ef8f794833052a6f79ae69ed99abdd1c880fe1cc
+Author: Hugo Montes <hugomontes927@gmail.com>
+Date:   Thu Mar 16 17:26:20 2017 -0400
+
+    Sergio modifico el esquema de la base de datos
+
+commit 32bfbe73cda94ce40c2ba667891ea7047f58783c
+Author: Hugo Montes <hugomontes927@gmail.com>
+Date:   Wed Mar 15 17:44:05 2017 -0400
+
+    Se ha finalizado el modulo internacionales
+
+commit 8929de9b8d50aabc5a7f276ac6f641773a16317d
+Author: Hugo Montes <hugomontes927@gmail.com>
+Date:   Tue Mar 14 17:12:38 2017 -0400
+
+    Se ha mejorado la estructura del esquema de la base de datos para internacional
+
+commit 5899780514496b749e38e2fb2255734d70c28875
+Author: Hugo Montes <hugomontes927@gmail.com>
+Date:   Mon Mar 13 17:51:47 2017 -0400
+
+    Se ha iniciado la refactorizacion del modulo internacionales
+
+commit 15e602d510eee4841fac2307a16ee248c6a47958
+Author: Hugo Montes <hugomontes927@gmail.com>
+Date:   Mon Mar 13 17:36:33 2017 -0400
+
+    Se ha finalizado con el modulo de Coyuntura y se ha mejorado el modulo de Historicos
+
+commit 4090ecc98d5a28a670628ec24c4eb22c4de82b3e
+Author: Hugo Montes <hugomontes927@gmail.com>
+Date:   Sat Mar 11 13:38:36 2017 -0400
+
+    Se han mejorado las consultas para Historicos y se ha iniciado con le modulo de coyuntura
+
+commit 6af18098cef8271b676307dbe0daf1904b39fc10
+Author: Hugo Montes <hugomontes927@gmail.com>
+Date:   Sat Mar 11 12:31:49 2017 -0400
+
+    Se ha finalizado con el modulo de historicos
+
+commit f152d2321143060741f77a6990da8dda73c1044b
+Author: Hugo Montes <hugomontes927@gmail.com>
+Date:   Thu Mar 9 17:46:38 2017 -0400
+
+    Se ha modificado el modulo de historicos
+
+commit aa1be9741ee43c3a587b3d3babbee21480d5099d
+Author: Hugo Montes <hugomontes927@gmail.com>
+Date:   Wed Mar 8 17:30:19 2017 -0400
+
+    Se ha arreglado la base de datos
+
+commit ee8a221a27bb8c2057c0a594032056dc8ac4f0d0
+Author: Hugo Montes <hugomontes927@gmail.com>
+Date:   Wed Mar 8 15:27:04 2017 -0400
+
+    Se ha cambiado los nombres de los archivos excel de TC a TR
+
+commit 94ab37cbfa979c27f3cb9695a1f67e753d4bd3ab
+Author: Hugo Montes <hugomontes927@gmail.com>
+Date:   Fri Mar 3 15:04:50 2017 -0400
+
+    Iniciando mejora del listado de usuarios
+
+commit 39eaece05764b0eef2af8937adeb86a679b0d407
+Author: Hugo Montes <hugomontes927@gmail.com>
+Date:   Fri Mar 3 12:12:36 2017 -0400
+
+    Nueva plantilla para el backend
+
+commit 9a3e515bc3d6ca962022cd8d5cc82d0e7d927d43
+Author: Hugo Montes <hugomontes927@gmail.com>
+Date:   Thu Mar 2 18:03:56 2017 -0400
+
+    Se ha agregado el backend del sistema
+
+commit 4fab5b22582828c82ecc213e7c01109dc310a0e7
+Author: Hugo Montes <hugomontes927@gmail.com>
+Date:   Tue Feb 7 15:41:03 2017 -0400
+
+    Inicio del proyecto

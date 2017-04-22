@@ -1,5 +1,5 @@
 <?php $this->load->view('backend/template/header'); ?>
-
+<br>
 <div class="row">
   <div class="col-md-3 col-sm-12 col-xs-12">
     <div class="panel panel-primary text-center no-boder bg-color-green">
@@ -9,7 +9,6 @@
       </div>
       <div class="panel-footer back-footer-green">
         Daily Visits
-
       </div>
     </div>
   </div>

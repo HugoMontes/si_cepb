@@ -6,6 +6,11 @@
         </div>
         <!-- /. PAGE WRAPPER  -->
     </div>
+
+    <!-- START: MODAL LOADING -->
+    <div class="modal-loading"><!-- Place at bottom of page --></div>
+    <!-- START: MODAL LOADING-->
+    
     <!-- /. WRAPPER  -->
     <!-- JS Scripts-->
     <!-- jQuery Js -->
@@ -16,5 +21,7 @@
     <script src="<?php echo base_url();?>resources/assets/js/jquery.metisMenu.js"></script>
     <!-- Custom Js -->
     <script src="<?php echo base_url();?>resources/assets/js/custom-scripts.js"></script>
+    <!-- General Cepb Js -->
+    <script src="<?php echo base_url();?>resources/js/cepb-scripts.js"></script>
 </body>
 </html>

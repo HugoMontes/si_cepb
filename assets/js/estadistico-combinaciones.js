@@ -46,6 +46,109 @@ $(function () {
 });
 
 // BEGIN:VISTA_CONBINACIONES
+
+var actividad1, indicador1, medicion;
+
+$('#actividad1').on('change',function(){
+  url_ajax=$('#form-combinaciones').attr('action');
+  actividad1=$(this).val();
+  console.log("ACTIVIDAD ECONOMICA 1");
+  console.log("ACTIVIDAD:"+actividad1);
+  console.log("===========================");
+  $.ajax({
+    url: url_ajax,
+    data: { proceso : 'buscaIndicador', actividad : actividad1 },
+    type : 'POST',
+    dataType : 'html',
+    success : function(data) {
+      console.log(data);
+      $('#indicador1').html(data);
+      $('#indicador1').append('<option value="0" selected="selected" style="display: none;">Seleccione indicador...</option>');
+      $('#indicador1').attr('disabled',false);
+    },
+  });
+  desactivarComboBox(['medicion','ini','fin','actividad2','indicador2']);
+  $('#btn-comparar').attr('disabled',true);
+});
+
+$('#indicador1').on('change',function(){
+  indicador1=$(this).val();
+  console.log("INDICADOR");
+  console.log("indicador1:"+indicador1);
+  console.log("===========================");
+  $.ajax({
+    url: url_ajax,
+    data: { proceso : 'buscaMedicionIndicador', actividad : actividad1, indicador:indicador1 },
+    type : 'POST',
+    dataType : 'html',
+    success : function(data) {
+      $('#medicion').html(data);
+      $('#medicion').append('<option value="0" selected="selected" style="display: none;">Seleccione indicador...</option>');
+      $('#medicion').attr('disabled',false);  
+    },
+  });
+  desactivarComboBox(['ini','fin','actividad2','indicador2']);
+  $('#btn-comparar').attr('disabled',true);
+});
+
+$('#medicion').on('change',function(){
+  medicion=$(this).val();
+  $.ajax({
+    url: url_ajax,
+    data: { proceso : 'buscaPeriodicidadGeneral', medicion : medicion },
+    type : 'POST',
+    dataType : 'json',
+    success : function(data) {
+      console.log(data);
+      var out='';
+      for(i=0;i<data.periodos.length;i++){
+        out+='<option  value="'+data.periodos[i].key+'">'+data.periodos[i].value+'</option>';
+      }      
+      $('#ini').html(out);
+      $('#fin').html(out);
+      $('#fin option:last').attr("selected", "selected");
+      $('#ini').attr('disabled',false);
+      $('#fin').attr('disabled',false);
+      out='';
+      for(i=0;i<data.actividades.length;i++){
+        out+='<option  value="'+data.actividades[i].actividad+'">'+data.actividades[i].actividad+'</option>';
+      }
+      $('#actividad2').html(out);
+      $('#actividad2').append('<option value="0" selected="selected" style="display: none;">Seleccione actividad...</option>');
+      $('#actividad2').attr('disabled',false);
+    },
+  });
+  desactivarComboBox(['indicador2']);
+  $('#btn-comparar').attr('disabled',true);
+});
+
+$('#actividad2').on('change',function(){
+  var actividad2=$(this).val();
+  console.log("ACTIVIDAD ECONOMICA 2");
+  console.log("ACTIVIDAD:"+actividad2);
+  console.log("===========================");
+  /*
+  $.ajax({
+    url: url_ajax,
+    data: { proceso : 'buscaIndicador', actividad : actividad2 },
+    type : 'POST',
+    dataType : 'html',
+    success : function(data) {
+      console.log(data);
+      $('#indicador2').html(data);
+      $('#indicador2').append('<option value="0" selected="selected" style="display: none;">Seleccione indicador...</option>');
+      $('#indicador2').attr('disabled',false);
+    },
+  });
+  */
+});
+
+
+
+$('#indicador2').on('change',function(){
+
+});
+
 $('#btn-comparar').on('click',function(event){
   event.preventDefault();
   if($('input:checkbox:checked').length>=2){
@@ -113,3 +216,17 @@ $('#btn-comparar').on('click',function(event){
   return false;
 });
 // END:VISTA_CONBINACIONES
+
+
+/************************************************
+* BEGIN : FUNCIONES
+*************************************************/
+function desactivarComboBox(controles){
+  for(i=0;i<controles.length;i++){
+    $('#'+controles[i]).html('<option value="0" selected="selected" style="display: none;">Seleccione '+controles[i]+'...</option>');
+    $('#'+controles[i]).attr('disabled',true);
+  }
+}
+/************************************************
+* END   : FUNCIONES
+*************************************************/

@@ -66,3 +66,25 @@ $route['backend/usuario'] = 'backend/usuario';
 $route['backend/usuario/editar/(:num)'] = 'backend/usuario/editar/$1';
 $route['backend/usuario/nuevo'] = 'backend/usuario/nuevo';
 $route['backend/usuario/guardar'] = 'backend/usuario/guardar';
+// historico
+$route['backend/historico'] = 'backend/historico';
+$route['backend/historico/all/grupos'] = 'backend/historico/grupos_json';
+$route['backend/historico/all/mediciones'] = 'backend/historico/mediciones_json';
+$route['backend/historico/all/indicadores'] = 'backend/historico/indicadores_json';
+$route['backend/historico/all/data/table'] = 'backend/historico/table_json';
+$route['backend/historico/download/excel'] = 'backend/historico/download_excel';
+$route['backend/historico/upload/excel'] = 'backend/historico/upload_excel';
+//$route['backend/historico/nuevo'] = 'backend/historico/nuevo';
+//$route['backend/historico/guardar'] = 'backend/historico/guardar';
+
+// coyuntura
+$route['backend/coyuntura'] = 'backend/coyuntura';
+$route['backend/coyuntura/all/grupos'] = 'backend/coyuntura/grupos_json';
+$route['backend/coyuntura/all/mediciones'] = 'backend/coyuntura/mediciones_json';
+$route['backend/coyuntura/all/indicadores'] = 'backend/coyuntura/indicadores_json';
+$route['backend/coyuntura/all/data/table'] = 'backend/coyuntura/table_json';
+$route['backend/coyuntura/download/excel'] = 'backend/coyuntura/download_excel';
+$route['backend/coyuntura/upload/excel'] = 'backend/coyuntura/upload_excel';
+
+// internacional
+$route['backend/internacional'] = 'backend/internacional';

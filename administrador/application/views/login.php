@@ -10,11 +10,15 @@ function hideURLbar(){ window.scrollTo(0,1); } </script>
 <!-- Meta tag Keywords -->
 <!-- css files -->
 <link href="<?php echo base_url(); ?>resources/css/style-login.css" rel="stylesheet" type="text/css" media="all">
+<!-- FontAwesome Styles-->
+<link href="<?php echo base_url();?>resources/assets/css/font-awesome.css" rel="stylesheet" />
+<!-- Bootstrap Styles-->
+<link href="<?php echo base_url();?>resources/assets/css/bootstrap.css" rel="stylesheet" />
 <!--//online-fonts -->
 <body>
 <!--header-->
 <div class="agileheader">
-    <h1>Sistema Estadistico</h1>
+    <h1>SIE CEPB</h1>
 </div>
 <!--//header-->
 

@@ -1,3 +1,0 @@
-<?php $this->load->view('backend/template/header'); ?>
-Listando....
-<?php $this->load->view('backend/template/footer'); ?>

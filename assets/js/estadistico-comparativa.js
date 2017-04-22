@@ -7,8 +7,8 @@ $(document).on({
 
 $(document).ready(function(){
   $('.resultados').hide();
-  $('.col-izq #btn-excel').hide();
-  $('.col-der #btn-excel').hide();
+  $('.col-izq .btn-excel').hide();
+  $('.col-der .btn-excel').hide();
 });
 
 
@@ -236,180 +236,201 @@ $('.col-der #sliders input').on('input change', function() {
 // END:CONFIGURACION INICIAL GRAFICA
 
 
+// BEGIN: FUNCION DESACTIVAR COMBOBOX
+function desactivarComboBox(columna,controles){
+  for(i=0;i<controles.length;i++){
+    $('.'+columna+' .'+controles[i]).html('<option value="0" selected="selected" style="display: none;">Seleccione '+controles[i]+'...</option>');
+    $('.'+columna+' .'+controles[i]).attr('disabled',true);
+  }
+}
+// END: FUNCION DESACTIVAR COMBOBOX
+
+
 // BEGIN:COLUMNA_IZQUIERDA
+/*
 var izq_url_ajax;
-var izq_indicador, izq_titulo, izq_departamental, izq_indicador2, izq_descripcion, i, izq_ini, izq_fin;
 var izq_tabla;
+var izq_indicador, izq_titulo, izq_departamental, izq_indicador2, izq_descripcion, i, izq_ini, izq_fin;
+*/
+var izq_url_ajax;
+var izq_tabla, izq_tabla_indicador, izq_desagregacion, izq_medicion, izq_cobertura, izq_indicador, izq_descripcion, izq_id_indicador, izq_titulo, i, izq_ini, izq_fin;
 
-$('.col-izq .select-principal').on('change',function(){
+$('.col-izq .indicador-inicial').on('change',function(){
   izq_url_ajax=$('.col-izq #form-estadistico').attr('action');
+  izq_tabla_indicador=$(this).val();
+  $.ajax({
+    url: izq_url_ajax,
+    data: { proceso : 'buscaActividadEconomica', tabla_indicador : izq_tabla_indicador },
+    type : 'POST',
+    dataType : 'html',
+    success : function(data) {
+      $('.col-izq .actividad').html(data);
+      $('.col-izq .actividad').append('<option value="0" selected="selected" style="display: none;">Seleccione actividad...</option>');
+      $('.col-izq .actividad').attr('disabled',false);
+    },
+  });
+  $('.col-izq .btn-excel').hide();
+  $('.col-izq .btn-enviar').attr('disabled',true);
+  desactivarComboBox('col-izq', ['grupo','desagregacion','medicion','cobertura','indicador','descripcion','ini','fin']); 
+});
+
+$('.col-izq .actividad').on('change',function(){
+  izq_url_ajax=$('#form-estadistico').attr('action');
+  var id=$(this).val();
+  $.ajax({
+    url: izq_url_ajax,
+    data: { proceso : 'buscaGrupo', id : id, tabla_indicador : izq_tabla_indicador },
+    type : 'POST',
+    dataType : 'html',
+    success : function(data) {
+      $('.col-izq .grupo').html(data);
+      $('.col-izq .grupo').append('<option value="0" selected="selected" style="display: none;">Seleccione un grupo...</option>');
+      $('.col-izq .grupo').attr('disabled',false);
+    },
+  });
+  $('.col-izq .btn-excel').hide();
+  $('.col-izq .btn-enviar').attr('disabled',true);
+  desactivarComboBox('col-izq', ['desagregacion','medicion','cobertura','indicador','descripcion','ini','fin']);  
+});
+
+$('.col-izq .grupo').on('change',function(){
   izq_tabla=$(this).val();
+  izq_titulo=$('.col-izq .select-grupo option:selected').text();
   $.ajax({
     url: izq_url_ajax,
-    data: { proceso : 0, tabla : izq_tabla },
+    data: { proceso : 'buscaDesagregacion', tabla : izq_tabla, tabla_indicador : izq_tabla_indicador },
     type : 'POST',
     dataType : 'html',
     success : function(data) {
-      $('.col-izq .select-actividad').html(data);
-      $('.col-izq .select-actividad').append('<option value="0" selected="selected" style="display: none;">Seleccione una actividad...</option>');
-      $('.col-izq .select-actividad').attr('disabled',false);
+      $('.col-izq .desagregacion').html(data);
+      $('.col-izq .desagregacion').append('<option value="0" selected="selected" style="display: none;">Seleccione desagregacion...</option>');
+      $('.col-izq .desagregacion').attr('disabled',false);      
     },
   });
-  $('.col-izq .select-indicador').html('<option value="0" selected="selected" style="display: none;">Seleccione el indicador...</option>');
-  $('.col-izq .select-indicador').attr('disabled',true);
-  $('.col-izq #btn-excel').hide();
-  $('.col-izq .select-cobertura').html('<option value="0" selected="selected" style="display: none;">Seleccione la cobertura...</option>');
-  $('.col-izq .select-cobertura').attr('disabled',true);
-  $('.col-izq .select-descripcion').html('<option value="0" selected="selected" style="display: none;">Seleccione una descripcion...</option>');
-  $('.col-izq .select-descripcion').attr('disabled',true);
-  $('.col-izq .select-ini').html('<option value="0" selected="selected" style="display: none;">Periodo inicial...</option>');
-  $('.col-izq .select-ini').attr('disabled',true);
-  $('.col-izq .select-fin').html('<option value="0" selected="selected" style="display: none;">Periodo final...</option>');
-  $('.col-izq .select-fin').attr('disabled',true);
+  $('.col-izq .btn-excel').hide();
   $('.col-izq .btn-enviar').attr('disabled',true);
+  desactivarComboBox('col-izq', ['medicion','cobertura','indicador','descripcion','ini','fin']);
 });
 
-$('.col-izq .select-actividad').on('change',function(){
-  izq_url_ajax=$('.col-izq #form-estadistico').attr('action');
+$('.col-izq .desagregacion').on('change',function(){
+  izq_desagregacion=$(this).val();
+  $.ajax({
+    url: izq_url_ajax,
+    data: { proceso : 'buscaMedicion', tabla : izq_tabla, desagregacion : izq_desagregacion, tabla_indicador : izq_tabla_indicador },
+    type : 'POST',
+    dataType : 'html',
+    success : function(data) {
+      $('.col-izq .medicion').html(data);
+      $('.col-izq .medicion').append('<option value="0" selected="selected" style="display: none;">Seleccione medicion...</option>');
+      $('.col-izq .medicion').attr('disabled',false);
+    },
+  });
+  $('.col-izq .btn-excel').hide();
+  $('.col-izq .btn-enviar').attr('disabled',true);
+  desactivarComboBox('col-izq', ['cobertura','indicador','descripcion','ini','fin']);
+});
+
+$('.col-izq .medicion').on('change',function(){
+  izq_medicion=$(this).val();
+  $.ajax({
+    url: izq_url_ajax,
+    data: { proceso : 'buscaCobertura', tabla : izq_tabla, desagregacion : izq_desagregacion, medicion : izq_medicion, tabla_indicador : izq_tabla_indicador },
+    type : 'POST',
+    dataType : 'html',
+    success : function(data) {
+      $('.col-izq .cobertura').html(data);
+      $('.col-izq .cobertura').append('<option value="0" selected="selected" style="display: none;">Seleccione cobertura...</option>');
+      $('.col-izq .cobertura').attr('disabled',false);
+    },
+  });
+  $('.col-izq .btn-excel').hide();
+  $('.col-izq .btn-enviar').attr('disabled',true);
+  desactivarComboBox('col-izq', ['indicador','descripcion','ini','fin']);
+});
+
+$('.col-izq .cobertura').on('change',function(){
+  izq_cobertura=$(this).val();
+  $.ajax({
+    url: izq_url_ajax,
+    data: { proceso : 'buscaIndicador', tabla : izq_tabla, desagregacion : izq_desagregacion, medicion : izq_medicion, cobertura : izq_cobertura, tabla_indicador : izq_tabla_indicador },
+    type : 'POST',
+    dataType : 'html',
+    success : function(data) {
+      $('.col-izq .indicador').html(data);
+      $('.col-izq .indicador').append('<option value="0" selected="selected" style="display: none;">Seleccione indicador...</option>');
+      $('.col-izq .indicador').attr('disabled',false);
+    },
+  });
+  $('.col-izq .btn-excel').hide();
+  $('.col-izq .btn-enviar').attr('disabled',true);
+  desactivarComboBox('col-izq', ['descripcion','ini','fin']);
+});
+
+$('.col-izq .indicador').on('change',function(){
   izq_indicador=$(this).val();
-  izq_titulo=$('.col-izq .select-actividad option:selected').text();
-  console.log('PROCESO 1');
-  console.log('Actividad Economica: '+izq_titulo);
-  console.log('Tabla indicador: '+izq_indicador);  
   $.ajax({
     url: izq_url_ajax,
-    data: { proceso : 1, tabla : izq_tabla, indicador : izq_indicador },
-    type : 'POST',
-    dataType : 'html',
-    success : function(data) {
-      $('.col-izq .select-indicador').html(data);
-      $('.col-izq .select-indicador').append('<option value="0" selected="selected" style="display: none;">Seleccione el indicador...</option>');
-      $('.col-izq .select-indicador').attr('disabled',false);
-    },
-  });
-  $('.col-izq #btn-excel').hide();
-  $('.col-izq .select-cobertura').html('<option value="0" selected="selected" style="display: none;">Seleccione la cobertura...</option>');
-  $('.col-izq .select-cobertura').attr('disabled',true);
-  $('.col-izq .select-descripcion').html('<option value="0" selected="selected" style="display: none;">Seleccione una descripcion...</option>');
-  $('.col-izq .select-descripcion').attr('disabled',true);
-  $('.col-izq .select-ini').html('<option value="0" selected="selected" style="display: none;">Periodo inicial...</option>');
-  $('.col-izq .select-ini').attr('disabled',true);
-  $('.col-izq .select-fin').html('<option value="0" selected="selected" style="display: none;">Periodo final...</option>');
-  $('.col-izq .select-fin').attr('disabled',true);
-  $('.col-izq .btn-enviar').attr('disabled',true);
-});
-
-$('.col-izq .select-indicador').on('change',function(){
-  izq_indicador2=$(this).val();
-  console.log('PROCESO 2');
-  console.log('Titulo Indicador 2: '+izq_indicador2); 
-  $.ajax({
-    url: izq_url_ajax,
-    data: { proceso : 2, tabla : izq_tabla, indicador:izq_indicador, indicador2:izq_indicador2 },
+    data: { proceso : 'buscaDescripcion', tabla : izq_tabla, desagregacion : izq_desagregacion, medicion : izq_medicion, cobertura : izq_cobertura, indicador : izq_indicador, tabla_indicador : izq_tabla_indicador },
     type : 'POST',
     dataType : 'json',
     success : function(data) {
-      $('.col-izq #btn-excel').attr('href',data.ruta_xlsx);
+      $('.col-izq .btn-excel').show();
+      $('.col-izq .btn-excel').attr('href',data.ruta_xlsx);
       var out='';
-      for(i=0;i<data.cobertura.length;i++) {
-        out+='<option value="'+data.cobertura[i]+'">'+data.cobertura[i]+'</option>';
+      for(i=0;i<data.indicador.length;i++) {
+        out+='<option value="'+data.indicador[i].id+'">'+data.indicador[i].descripcion+'</option>';
       }
-      $('.col-izq .select-cobertura').html(out);
-      $('.col-izq .select-cobertura').append('<option value="0" selected="selected" style="display: none;">Seleccione la cobertura...</option>');
-      $('.col-izq .select-cobertura').attr('disabled',false); 
+      $('.col-izq .descripcion').html(out);
+      $('.col-izq .descripcion').append('<option value="0" selected="selected" style="display: none;">Seleccione descripcion...</option>');
+      $('.col-izq .descripcion').attr('disabled',false);      
     },
   });
-  $('.col-izq #btn-excel').show();
-  $('.col-izq .select-descripcion').html('<option value="0" selected="selected" style="display: none;">Seleccione una descripcion...</option>');
-  $('.col-izq .select-descripcion').attr('disabled',true);
-  $('.col-izq .select-ini').html('<option value="0" selected="selected" style="display: none;">Periodo inicial...</option>');
-  $('.col-izq .select-ini').attr('disabled',true);
-  $('.col-izq .select-fin').html('<option value="0" selected="selected" style="display: none;">Periodo final...</option>');
-  $('.col-izq .select-fin').attr('disabled',true);
   $('.col-izq .btn-enviar').attr('disabled',true);
+  desactivarComboBox('col-izq', ['ini','fin']);  
 });
 
-
-$('.col-izq .select-cobertura').on('change',function(){
-  izq_departamental=$(this).val();
-  console.log('PROCESO 3');
-  console.log('Cobertura: '+izq_departamental);
+$('.col-izq .descripcion').on('change',function(){
+  izq_id_indicador=$(this).val();
   $.ajax({
     url: izq_url_ajax,
-    data: { proceso : 3, tabla : izq_tabla, indicador : izq_indicador, departamental : izq_departamental, indicador2 : izq_indicador2},
+    data: { proceso : 'buscaPeriodicidad', tabla : izq_tabla, id : izq_id_indicador, tabla_indicador : izq_tabla_indicador },
     type : 'POST',
     dataType : 'html',
     success : function(data) {
-      /*
-      $('.select-indicador').html(data);
-      $('.select-indicador').append('<option value="0" selected="selected" style="display: none;">Seleccione el indicador...</option>');
-      */
-      $('.col-izq .select-descripcion').html(data);
-      $('.col-izq .select-descripcion').append('<option value="0" selected="selected" style="display: none;">Seleccione una descripcion...</option>');
-      $('.col-izq .select-descripcion').attr('disabled',false);
-    },
-  });
-  // $('.select-indicador').attr('disabled',false);
-  $('.col-izq .select-descripcion').html('<option value="0" selected="selected" style="display: none;">Seleccione una descripcion...</option>');
-  $('.col-izq .select-descripcion').attr('disabled',true);
-  $('.col-izq .select-ini').html('<option value="0" selected="selected" style="display: none;">Periodo inicial...</option>');
-  $('.col-izq .select-ini').attr('disabled',true);
-  $('.col-izq .select-fin').html('<option value="0" selected="selected" style="display: none;">Periodo final...</option>');
-  $('.col-izq .select-fin').attr('disabled',true);
-  $('.col-izq .btn-enviar').attr('disabled',true);
-});
-
-
-$('.col-izq .select-descripcion').on('change',function(){
-  izq_descripcion=$(this).val();
-  console.log('PROCESO 4');
-  console.log('Indicador: '+izq_indicador);
-  console.log('Departamental: '+izq_departamental);
-  console.log('Indicador2: '+izq_indicador2);
-  console.log('Descripcion: '+izq_descripcion); 
-  $.ajax({
-    url: izq_url_ajax,
-    data: { proceso : 4, tabla : izq_tabla, indicador:izq_indicador, departamental:izq_departamental, indicador2:izq_indicador2, descripcion:izq_descripcion },
-    type : 'POST',
-    dataType : 'html',
-    success : function(data) {
-      $('.col-izq .select-ini').html(data);
-      $('.col-izq .select-fin').html(data);
-      $('.col-izq .select-fin option:last').attr("selected", "selected");
+      $('.col-izq .ini').html(data);
+      $('.col-izq .fin').html(data);
+      $('.col-izq .fin option:last').attr("selected", "selected");
       // console.log(data);
     },
   });
-  $('.col-izq .select-ini').attr('disabled',false);
-  $('.col-izq .select-fin').attr('disabled',false);
+  $('.col-izq .ini').attr('disabled',false);
+  $('.col-izq .fin').attr('disabled',false);
   $('.col-izq .btn-enviar').attr('disabled',false);
 });
-
+//*****************************************************************************
 $(document).on('click','.col-izq .btn-enviar',function(event){
   event.preventDefault();
-  $('.col-izq .resultados').show();
-  izq_ini=$('.col-izq #ini').val();
-  izq_fin=$('.col-izq #fin').val();
-  console.log('PROCESO 5');
-  console.log('inicio: '+izq_ini);
-  console.log('fin: '+izq_fin);
+  izq_ini=$('.col-izq .ini').val();
+  izq_fin=$('.col-izq .fin').val();
   $.ajax({
     url: izq_url_ajax,
-    data: { proceso:5, tabla : izq_tabla, indicador:izq_indicador, ini:izq_ini, fin:izq_fin, departamental:izq_departamental, indicador2:izq_indicador2, descripcion:izq_descripcion },
+    data: { proceso:'imprimirResultados', tabla : izq_tabla, id : izq_id_indicador, ini:izq_ini, fin:izq_fin, tabla_indicador : izq_tabla_indicador },
     type : 'POST',
-    // dataType : 'html',
     dataType : 'json',
     success : function(data) {
-      //console.log(data.serie[0].data.length);
-      //console.log(data.serie[0].data[20][1]);
+      $('.col-izq .resultados').show();
+      $('.col-izq .cuadro-title').text(data.titulo.text);
+      $('.col-izq .cuadro-subtitle').text(data.subtitulo.text);
+      $('.col-izq .columna-2').text(data.tituloy.text);
       var out='';
       for(i=0;i<data.serie[0].data.length;i++) {
         out+='<tr>';
-        //out+="<td>"+data.serie[0].data[i][0]+"</td>";
         out+="<td>"+data.categorias[0].categories[i]+"</td>";
         out+="<td>"+data.serie[0].data[i]+"</td>";
         out+='</tr>';
       }
       $('.col-izq #cuadro-1').find('tbody').html(out);
+
 
       options_lineal.series=data.serie;
       char_lineal=Highcharts.chart('izq-container-grafico-lineal',options_lineal);
@@ -426,6 +447,7 @@ $(document).on('click','.col-izq .btn-enviar',function(event){
           }]
         },
       });
+
       options_barras.series=data.serie;
       char_barras=Highcharts.chart('izq-container-grafico-barras',options_barras);
       char_barras.update({
@@ -436,11 +458,13 @@ $(document).on('click','.col-izq .btn-enviar',function(event){
           title: data.tituloy,
         },
       });
+
       options_torta.series=data.serie_torta;
       char_torta=Highcharts.chart('izq-container-grafico-torta',options_torta);
       char_torta.update({
         title: data.titulo,
       });
+
       options_rotatorio.series=data.serie;
       char_rotatorio=Highcharts.chart('izq-container-grafico-rotatorio',options_rotatorio);
       char_rotatorio.update({
@@ -451,6 +475,7 @@ $(document).on('click','.col-izq .btn-enviar',function(event){
           title: data.tituloy,
         },
       });
+
       options_area.series=data.serie;
       char_area=Highcharts.chart('izq-container-grafico-area',options_area);
       char_area.update({
@@ -460,7 +485,7 @@ $(document).on('click','.col-izq .btn-enviar',function(event){
           title: data.tituloy,
         },
       });
-
+   
     },
   });
 });
@@ -468,8 +493,7 @@ $(document).on('click','.col-izq .btn-enviar',function(event){
 $(document).on('click','.col-izq .btn-descargar',function(event){
   event.preventDefault();
   var url_pdf=$(this).attr('href');
-  url_pdf+='&indicador='+izq_indicador+'&ini='+izq_ini+'&fin='+izq_fin+'&departamental='+izq_departamental+'&indicador2='+izq_indicador2+'&descripcion='+izq_descripcion;
-  //alert(url_pdf);
+  url_pdf+='&tabla='+izq_tabla+'&ini='+izq_ini+'&fin='+izq_fin+'&id='+izq_id_indicador;
   $(location).attr('href', url_pdf);
 });
 
@@ -489,178 +513,184 @@ function ShowSelected(){
 
 // BEGIN:COLUMNA_DERECHA
 var der_url_ajax;
-var der_indicador, der_titulo, der_departamental, der_indicador2, der_descripcion, i, der_ini, der_fin;
-var der_tabla;
+var der_tabla, der_tabla_indicador, der_desagregacion, der_medicion, der_cobertura, der_indicador, der_descripcion, der_id_indicador, der_titulo, i, der_ini, der_fin;
 
-$('.col-der .select-principal').on('change',function(){
+$('.col-der .indicador-inicial').on('change',function(){
   der_url_ajax=$('.col-der #form-estadistico').attr('action');
+  der_tabla_indicador=$(this).val();
+  $.ajax({
+    url: der_url_ajax,
+    data: { proceso : 'buscaActividadEconomica', tabla_indicador : der_tabla_indicador },
+    type : 'POST',
+    dataType : 'html',
+    success : function(data) {
+      $('.col-der .actividad').html(data);
+      $('.col-der .actividad').append('<option value="0" selected="selected" style="display: none;">Seleccione actividad...</option>');
+      $('.col-der .actividad').attr('disabled',false);
+    },
+  });
+  $('.col-der .btn-excel').hide();
+  $('.col-der .btn-enviar').attr('disabled',true);
+  desactivarComboBox('col-der', ['grupo','desagregacion','medicion','cobertura','indicador','descripcion','ini','fin']); 
+});
+
+$('.col-der .actividad').on('change',function(){
+  der_url_ajax=$('#form-estadistico').attr('action');
+  var id=$(this).val();
+  $.ajax({
+    url: der_url_ajax,
+    data: { proceso : 'buscaGrupo', id : id, tabla_indicador : der_tabla_indicador },
+    type : 'POST',
+    dataType : 'html',
+    success : function(data) {
+      $('.col-der .grupo').html(data);
+      $('.col-der .grupo').append('<option value="0" selected="selected" style="display: none;">Seleccione un grupo...</option>');
+      $('.col-der .grupo').attr('disabled',false);
+    },
+  });
+  $('.col-der .btn-excel').hide();
+  $('.col-der .btn-enviar').attr('disabled',true);
+  desactivarComboBox('col-der', ['desagregacion','medicion','cobertura','indicador','descripcion','ini','fin']);  
+});
+
+$('.col-der .grupo').on('change',function(){
   der_tabla=$(this).val();
+  der_titulo=$('.col-der .select-grupo option:selected').text();
   $.ajax({
     url: der_url_ajax,
-    data: { proceso : 0, tabla : der_tabla },
+    data: { proceso : 'buscaDesagregacion', tabla : der_tabla, tabla_indicador : der_tabla_indicador },
     type : 'POST',
     dataType : 'html',
     success : function(data) {
-      $('.col-der .select-actividad').html(data);
-      $('.col-der .select-actividad').append('<option value="0" selected="selected" style="display: none;">Seleccione una actividad...</option>');
-      $('.col-der .select-actividad').attr('disabled',false);
+      $('.col-der .desagregacion').html(data);
+      $('.col-der .desagregacion').append('<option value="0" selected="selected" style="display: none;">Seleccione desagregacion...</option>');
+      $('.col-der .desagregacion').attr('disabled',false);      
     },
   });
-  $('.col-der .select-indicador').html('<option value="0" selected="selected" style="display: none;">Seleccione el indicador...</option>');
-  $('.col-der .select-indicador').attr('disabled',true);
-  $('.col-der #btn-excel').hide();
-  $('.col-der .select-cobertura').html('<option value="0" selected="selected" style="display: none;">Seleccione la cobertura...</option>');
-  $('.col-der .select-cobertura').attr('disabled',true);
-  $('.col-der .select-descripcion').html('<option value="0" selected="selected" style="display: none;">Seleccione una descripcion...</option>');
-  $('.col-der .select-descripcion').attr('disabled',true);
-  $('.col-der .select-ini').html('<option value="0" selected="selected" style="display: none;">Periodo inicial...</option>');
-  $('.col-der .select-ini').attr('disabled',true);
-  $('.col-der .select-fin').html('<option value="0" selected="selected" style="display: none;">Periodo final...</option>');
-  $('.col-der .select-fin').attr('disabled',true);
+  $('.col-der .btn-excel').hide();
   $('.col-der .btn-enviar').attr('disabled',true);
+  desactivarComboBox('col-der', ['medicion','cobertura','indicador','descripcion','ini','fin']);
 });
 
-$('.col-der .select-actividad').on('change',function(){
-  der_url_ajax=$('.col-der #form-estadistico').attr('action');
+$('.col-der .desagregacion').on('change',function(){
+  der_desagregacion=$(this).val();
+  $.ajax({
+    url: der_url_ajax,
+    data: { proceso : 'buscaMedicion', tabla : der_tabla, desagregacion : der_desagregacion, tabla_indicador : der_tabla_indicador },
+    type : 'POST',
+    dataType : 'html',
+    success : function(data) {
+      $('.col-der .medicion').html(data);
+      $('.col-der .medicion').append('<option value="0" selected="selected" style="display: none;">Seleccione medicion...</option>');
+      $('.col-der .medicion').attr('disabled',false);
+    },
+  });
+  $('.col-der .btn-excel').hide();
+  $('.col-der .btn-enviar').attr('disabled',true);
+  desactivarComboBox('col-der', ['cobertura','indicador','descripcion','ini','fin']);
+});
+
+$('.col-der .medicion').on('change',function(){
+  der_medicion=$(this).val();
+  $.ajax({
+    url: der_url_ajax,
+    data: { proceso : 'buscaCobertura', tabla : der_tabla, desagregacion : der_desagregacion, medicion : der_medicion, tabla_indicador : der_tabla_indicador },
+    type : 'POST',
+    dataType : 'html',
+    success : function(data) {
+      $('.col-der .cobertura').html(data);
+      $('.col-der .cobertura').append('<option value="0" selected="selected" style="display: none;">Seleccione cobertura...</option>');
+      $('.col-der .cobertura').attr('disabled',false);
+    },
+  });
+  $('.col-der .btn-excel').hide();
+  $('.col-der .btn-enviar').attr('disabled',true);
+  desactivarComboBox('col-der', ['indicador','descripcion','ini','fin']);
+});
+
+$('.col-der .cobertura').on('change',function(){
+  der_cobertura=$(this).val();
+  $.ajax({
+    url: der_url_ajax,
+    data: { proceso : 'buscaIndicador', tabla : der_tabla, desagregacion : der_desagregacion, medicion : der_medicion, cobertura : der_cobertura, tabla_indicador : der_tabla_indicador },
+    type : 'POST',
+    dataType : 'html',
+    success : function(data) {
+      $('.col-der .indicador').html(data);
+      $('.col-der .indicador').append('<option value="0" selected="selected" style="display: none;">Seleccione indicador...</option>');
+      $('.col-der .indicador').attr('disabled',false);
+    },
+  });
+  $('.col-der .btn-excel').hide();
+  $('.col-der .btn-enviar').attr('disabled',true);
+  desactivarComboBox('col-der', ['descripcion','ini','fin']);
+});
+
+$('.col-der .indicador').on('change',function(){
   der_indicador=$(this).val();
-  der_titulo=$('.col-der .select-actividad option:selected').text();
-  console.log('PROCESO 1');
-  console.log('Actividad Economica: '+der_titulo);
-  console.log('Tabla indicador: '+der_indicador);  
   $.ajax({
     url: der_url_ajax,
-    data: { proceso : 1, tabla : der_tabla, indicador : der_indicador },
-    type : 'POST',
-    dataType : 'html',
-    success : function(data) {
-      $('.col-der .select-indicador').html(data);
-      $('.col-der .select-indicador').append('<option value="0" selected="selected" style="display: none;">Seleccione el indicador...</option>');
-      $('.col-der .select-indicador').attr('disabled',false);
-    },
-  });
-  $('.col-der #btn-excel').hide();
-  $('.col-der .select-cobertura').html('<option value="0" selected="selected" style="display: none;">Seleccione la cobertura...</option>');
-  $('.col-der .select-cobertura').attr('disabled',true);
-  $('.col-der .select-descripcion').html('<option value="0" selected="selected" style="display: none;">Seleccione una descripcion...</option>');
-  $('.col-der .select-descripcion').attr('disabled',true);
-  $('.col-der .select-ini').html('<option value="0" selected="selected" style="display: none;">Periodo inicial...</option>');
-  $('.col-der .select-ini').attr('disabled',true);
-  $('.col-der .select-fin').html('<option value="0" selected="selected" style="display: none;">Periodo final...</option>');
-  $('.col-der .select-fin').attr('disabled',true);
-  $('.col-der .btn-enviar').attr('disabled',true);
-});
-
-$('.col-der .select-indicador').on('change',function(){
-  der_indicador2=$(this).val();
-  console.log('PROCESO 2');
-  console.log('Titulo Indicador 2: '+der_indicador2); 
-  $.ajax({
-    url: der_url_ajax,
-    data: { proceso : 2, tabla : der_tabla, indicador:der_indicador, indicador2:der_indicador2 },
+    data: { proceso : 'buscaDescripcion', tabla : der_tabla, desagregacion : der_desagregacion, medicion : der_medicion, cobertura : der_cobertura, indicador : der_indicador, tabla_indicador : der_tabla_indicador },
     type : 'POST',
     dataType : 'json',
     success : function(data) {
-      $('.col-der #btn-excel').attr('href',data.ruta_xlsx);
+      $('.col-der .btn-excel').show();
+      $('.col-der .btn-excel').attr('href',data.ruta_xlsx);
       var out='';
-      for(i=0;i<data.cobertura.length;i++) {
-        out+='<option value="'+data.cobertura[i]+'">'+data.cobertura[i]+'</option>';
+      for(i=0;i<data.indicador.length;i++) {
+        out+='<option value="'+data.indicador[i].id+'">'+data.indicador[i].descripcion+'</option>';
       }
-      $('.col-der .select-cobertura').html(out);
-      $('.col-der .select-cobertura').append('<option value="0" selected="selected" style="display: none;">Seleccione la cobertura...</option>');
-      $('.col-der .select-cobertura').attr('disabled',false); 
+      $('.col-der .descripcion').html(out);
+      $('.col-der .descripcion').append('<option value="0" selected="selected" style="display: none;">Seleccione descripcion...</option>');
+      $('.col-der .descripcion').attr('disabled',false);      
     },
   });
-  $('.col-der #btn-excel').show();
-  $('.col-der .select-descripcion').html('<option value="0" selected="selected" style="display: none;">Seleccione una descripcion...</option>');
-  $('.col-der .select-descripcion').attr('disabled',true);
-  $('.col-der .select-ini').html('<option value="0" selected="selected" style="display: none;">Periodo inicial...</option>');
-  $('.col-der .select-ini').attr('disabled',true);
-  $('.col-der .select-fin').html('<option value="0" selected="selected" style="display: none;">Periodo final...</option>');
-  $('.col-der .select-fin').attr('disabled',true);
   $('.col-der .btn-enviar').attr('disabled',true);
+  desactivarComboBox('col-der', ['ini','fin']);  
 });
 
-
-$('.col-der .select-cobertura').on('change',function(){
-  der_departamental=$(this).val();
-  console.log('PROCESO 3');
-  console.log('Cobertura: '+der_departamental);
+$('.col-der .descripcion').on('change',function(){
+  der_id_indicador=$(this).val();
   $.ajax({
     url: der_url_ajax,
-    data: { proceso : 3, tabla : der_tabla, indicador : der_indicador, departamental: der_departamental, indicador2:der_indicador2},
+    data: { proceso : 'buscaPeriodicidad', tabla : der_tabla, id : der_id_indicador, tabla_indicador : der_tabla_indicador },
     type : 'POST',
     dataType : 'html',
     success : function(data) {
-      /*
-      $('.select-indicador').html(data);
-      $('.select-indicador').append('<option value="0" selected="selected" style="display: none;">Seleccione el indicador...</option>');
-      */
-      $('.col-der .select-descripcion').html(data);
-      $('.col-der .select-descripcion').append('<option value="0" selected="selected" style="display: none;">Seleccione una descripcion...</option>');
-      $('.col-der .select-descripcion').attr('disabled',false);
-    },
-  });
-  // $('.select-indicador').attr('disabled',false);
-  $('.col-der .select-descripcion').html('<option value="0" selected="selected" style="display: none;">Seleccione una descripcion...</option>');
-  $('.col-der .select-descripcion').attr('disabled',true);
-  $('.col-der .select-ini').html('<option value="0" selected="selected" style="display: none;">Periodo inicial...</option>');
-  $('.col-der .select-ini').attr('disabled',true);
-  $('.col-der .select-fin').html('<option value="0" selected="selected" style="display: none;">Periodo final...</option>');
-  $('.col-der .select-fin').attr('disabled',true);
-  $('.col-der .btn-enviar').attr('disabled',true);
-});
-
-
-$('.col-der .select-descripcion').on('change',function(){
-  der_descripcion=$(this).val();
-  console.log('PROCESO 4');
-  console.log('Indicador: '+der_indicador);
-  console.log('Departamental: '+der_departamental);
-  console.log('Indicador2: '+der_indicador2);
-  console.log('Descripcion: '+der_descripcion); 
-  $.ajax({
-    url: der_url_ajax,
-    data: { proceso : 4, tabla : der_tabla, indicador:der_indicador, departamental:der_departamental, indicador2:der_indicador2, descripcion:der_descripcion },
-    type : 'POST',
-    dataType : 'html',
-    success : function(data) {
-      $('.col-der .select-ini').html(data);
-      $('.col-der .select-fin').html(data);
-      $('.col-der .select-fin option:last').attr("selected", "selected");
+      $('.col-der .ini').html(data);
+      $('.col-der .fin').html(data);
+      $('.col-der .fin option:last').attr("selected", "selected");
       // console.log(data);
     },
   });
-  $('.col-der .select-ini').attr('disabled',false);
-  $('.col-der .select-fin').attr('disabled',false);
+  $('.col-der .ini').attr('disabled',false);
+  $('.col-der .fin').attr('disabled',false);
   $('.col-der .btn-enviar').attr('disabled',false);
 });
-
+//*****************************************************************************
 $(document).on('click','.col-der .btn-enviar',function(event){
   event.preventDefault();
-  $('.col-der .resultados').show();
-  der_ini=$('.col-der #ini').val();
-  der_fin=$('.col-der #fin').val();
-  console.log('PROCESO 5');
-  console.log('inicio: '+der_ini);
-  console.log('fin: '+der_fin);
+  der_ini=$('.col-der .ini').val();
+  der_fin=$('.col-der .fin').val();
   $.ajax({
     url: der_url_ajax,
-    data: { proceso:5, tabla : der_tabla, indicador:der_indicador, ini:der_ini, fin:der_fin, departamental:der_departamental, indicador2:der_indicador2, descripcion:der_descripcion },
+    data: { proceso:'imprimirResultados', tabla : der_tabla, id : der_id_indicador, ini:der_ini, fin:der_fin, tabla_indicador : der_tabla_indicador },
     type : 'POST',
-    // dataType : 'html',
     dataType : 'json',
     success : function(data) {
-      //console.log(data.serie[0].data.length);
-      //console.log(data.serie[0].data[20][1]);
+      $('.col-der .resultados').show();
+      $('.col-der .cuadro-title').text(data.titulo.text);
+      $('.col-der .cuadro-subtitle').text(data.subtitulo.text);
+      $('.col-der .columna-2').text(data.tituloy.text);
       var out='';
       for(i=0;i<data.serie[0].data.length;i++) {
         out+='<tr>';
-        //out+="<td>"+data.serie[0].data[i][0]+"</td>";
         out+="<td>"+data.categorias[0].categories[i]+"</td>";
         out+="<td>"+data.serie[0].data[i]+"</td>";
         out+='</tr>';
       }
       $('.col-der #cuadro-1').find('tbody').html(out);
+
 
       options_lineal.series=data.serie;
       char_lineal=Highcharts.chart('der-container-grafico-lineal',options_lineal);
@@ -677,6 +707,7 @@ $(document).on('click','.col-der .btn-enviar',function(event){
           }]
         },
       });
+
       options_barras.series=data.serie;
       char_barras=Highcharts.chart('der-container-grafico-barras',options_barras);
       char_barras.update({
@@ -687,11 +718,13 @@ $(document).on('click','.col-der .btn-enviar',function(event){
           title: data.tituloy,
         },
       });
+
       options_torta.series=data.serie_torta;
       char_torta=Highcharts.chart('der-container-grafico-torta',options_torta);
       char_torta.update({
         title: data.titulo,
       });
+
       options_rotatorio.series=data.serie;
       char_rotatorio=Highcharts.chart('der-container-grafico-rotatorio',options_rotatorio);
       char_rotatorio.update({
@@ -702,6 +735,7 @@ $(document).on('click','.col-der .btn-enviar',function(event){
           title: data.tituloy,
         },
       });
+
       options_area.series=data.serie;
       char_area=Highcharts.chart('der-container-grafico-area',options_area);
       char_area.update({
@@ -711,7 +745,7 @@ $(document).on('click','.col-der .btn-enviar',function(event){
           title: data.tituloy,
         },
       });
-
+   
     },
   });
 });
@@ -719,8 +753,7 @@ $(document).on('click','.col-der .btn-enviar',function(event){
 $(document).on('click','.col-der .btn-descargar',function(event){
   event.preventDefault();
   var url_pdf=$(this).attr('href');
-  url_pdf+='&indicador='+der_indicador+'&ini='+der_ini+'&fin='+der_fin+'&departamental='+der_departamental+'&indicador2='+der_indicador2+'&descripcion='+der_descripcion;
-  //alert(url_pdf);
+  url_pdf+='&tabla='+der_tabla+'&ini='+der_ini+'&fin='+der_fin+'&id='+der_id_indicador;
   $(location).attr('href', url_pdf);
 });
 

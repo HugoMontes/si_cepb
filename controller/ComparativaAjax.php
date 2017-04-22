@@ -1,12 +1,12 @@
 <?php
-function getControllerByTabla($tabla){
-	if($tabla=='indicador_historico'){
+function getControllerByTabla($tabla_indicador){
+	if($tabla_indicador=='indicador_historico'){
 		require_once("HistoricosController.php");
 		$controller=new HistoricosController("../conexion/conexion.php");
-	}elseif($tabla=='indicador_coyuntura'){
+	}elseif($tabla_indicador=='indicador_coyuntura'){
 		require_once("CoyunturaController.php");
 		$controller=new CoyunturaController("../conexion/conexion.php");		
-	}elseif($tabla=='indicador_internacional'){
+	}elseif($tabla_indicador=='indicador_internacional'){
 		require_once("InternacionalController.php");
 		$controller=new InternacionalController("../conexion/conexion.php");
 	}
@@ -15,80 +15,114 @@ function getControllerByTabla($tabla){
 
 require_once("../config/config.php");
 $proceso=$_REQUEST['proceso'];
-$indicador=$_REQUEST['indicador'];
+//$indicador=$_REQUEST['indicador'];
 
-if($proceso==0){
-	$controller=getControllerByTabla($_REQUEST['tabla']);
-	$registros=$controller->getAllActividadEconomica();
+if($proceso=='buscaActividadEconomica'){
+	$controller=getControllerByTabla($_REQUEST['tabla_indicador']);
+	$registros=$controller->getAllActividad();
 	$out='';
 	while ($reg=mysqli_fetch_array($registros)){
-		$out.='<option  value="'.$reg['tabla'].'">'.$reg['campos'].'</option>';
+		$out.="<option  value='".$reg['id']."'>".$reg['descripcion']."</option>";
 	}
 	echo $out;
-}elseif($proceso==1){
-	$controller=getControllerByTabla($_REQUEST['tabla']);
-	$registros=$controller->getIndicadorByIdTabla($indicador);
+}else if($proceso=='buscaGrupo'){
+	$controller=getControllerByTabla($_REQUEST['tabla_indicador']);
+	$id=$_REQUEST['id'];
+	$registros=$controller->getAllGrupoByIdActividad($id);
+	$out='';
+	while ($reg=mysqli_fetch_array($registros)){
+		$out.="<option  value='".$reg['tabla']."'>".$reg['campos']."</option>";
+	}
+	echo $out;
+}elseif($proceso=='buscaDesagregacion'){
+	$controller=getControllerByTabla($_REQUEST['tabla_indicador']);
+	$tabla=$_REQUEST['tabla'];
+	$registros=$controller->getAllDesagregacionByNameTabla($tabla);
+	$out='';
+	while ($reg=mysqli_fetch_array($registros)){
+		$out.="<option  value='".$reg['desagregacion']."'>".$reg['desagregacion']."</option>";
+	}
+	echo $out;
+}elseif($proceso=='buscaMedicion'){
+	$controller=getControllerByTabla($_REQUEST['tabla_indicador']);
+	$tabla=$_REQUEST['tabla'];
+	$desagregacion=$_REQUEST['desagregacion'];
+	$registros=$controller->getAllMedicion($tabla,$desagregacion);
+	$out='';
+	while ($reg=mysqli_fetch_array($registros)){
+		$out.="<option  value='".$reg['medicion_indicador']."'>".$reg['medicion_indicador']."</option>";
+	}
+	echo $out;
+}elseif($proceso=='buscaCobertura'){
+	$controller=getControllerByTabla($_REQUEST['tabla_indicador']);
+	$tabla=$_REQUEST['tabla'];
+	$desagregacion=$_REQUEST['desagregacion'];
+	$medicion=$_REQUEST['medicion'];
+	$registros=$controller->getAllCobertura($tabla,$desagregacion,$medicion);
+	$out='';
+	while ($reg=mysqli_fetch_array($registros)){
+		$out.="<option  value='".$reg['C']."'>".$reg['C']."</option>";
+	}
+	echo $out;
+}elseif($proceso=='buscaIndicador'){
+	$controller=getControllerByTabla($_REQUEST['tabla_indicador']);
+	$tabla=$_REQUEST['tabla'];
+	$desagregacion=$_REQUEST['desagregacion'];
+	$medicion=$_REQUEST['medicion'];
+	$cobertura=$_REQUEST['cobertura'];
+	$registros=$controller->getAllIndicador($tabla,$desagregacion,$medicion,$cobertura);
 	$out='';
 	while ($reg=mysqli_fetch_array($registros)){
 		$out.="<option  value='".$reg['B']."'>".$reg['B']."</option>";
 	}
 	echo $out;
-}elseif($proceso==2){
-	$controller=getControllerByTabla($_REQUEST['tabla']);
-	$indicador2=$_REQUEST['indicador2'];
-	$registros=$controller->getCoberturasByIndicador($indicador,$indicador2);
-	$cobertura=array();
+}elseif($proceso=='buscaDescripcion'){
+	$controller=getControllerByTabla($_REQUEST['tabla_indicador']);
+	$tabla=$_REQUEST['tabla'];
+	$desagregacion=$_REQUEST['desagregacion'];
+	$medicion=$_REQUEST['medicion'];
+	$cobertura=$_REQUEST['cobertura'];
+	$indicador=$_REQUEST['indicador'];
+	$registros=$controller->getAllDescripcion($tabla,$desagregacion,$medicion,$cobertura,$indicador);
+	
+	$fila_indicador=array();
 	while ($reg=mysqli_fetch_array($registros)){
-		$cobertura[]=$reg['C'];
+		$fila_indicador[]=array('id'=>$reg['id'],'descripcion'=>$reg['descripcion']);
 	}
-	$ruta_xlsx=$controller->getRutaXlsx($indicador, $indicador2, $cobertura[0]);
+	$ruta_xlsx=$controller->getRutaXlsx($tabla,$indicador);
 	$data=array(
-		'cobertura' => $cobertura,
+		'indicador' => $fila_indicador,
 		'ruta_xlsx' => BASE_URL.$ruta_xlsx,
 	);
 	header('Content-type: application/json; charset=utf-8');
     echo json_encode($data,JSON_NUMERIC_CHECK);
     exit();	
-}elseif($proceso==3){
-	$controller=getControllerByTabla($_REQUEST['tabla']);
-	$departamental=$_REQUEST['departamental'];
-	$indicador2=$_REQUEST['indicador2'];
-	$registros=$controller->getDescripcionByIndicador($indicador,$departamental,$indicador2);
-	$out='';
-	while ($reg=mysqli_fetch_array($registros)){
-		$out.="<option  value='".$reg['DESCRIPCION']."'>".$reg['DESCRIPCION']."</option>";
-	}
-	echo $out;
-}elseif($proceso==4){
-	$controller=getControllerByTabla($_REQUEST['tabla']);
-	$descripcion=$_REQUEST['descripcion'];
-	$departamental=$_REQUEST['departamental'];
-	$indicador2=$_REQUEST['indicador2'];
-	$id=$controller->getIdIndicador($indicador,$departamental,$indicador2,$descripcion);
-	$registros=$controller->getPeriodos($id,$indicador,$departamental,$indicador2,$descripcion);
+}elseif($proceso=='buscaPeriodicidad'){
+	$controller=getControllerByTabla($_REQUEST['tabla_indicador']);
+	$tabla=$_REQUEST['tabla'];
+	$id=$_REQUEST['id'];
+	$registros=$controller->getPeriodos($tabla, $id);
 	$out='';
 	foreach ($registros as $key => $value) {
 		$out.="<option  value='".$key."'>".$value."</option>";
 	}
 	echo $out;
-}elseif($proceso==5){
-	$controller=getControllerByTabla($_REQUEST['tabla']);
+}elseif($proceso=='imprimirResultados'){
+	$controller=getControllerByTabla($_REQUEST['tabla_indicador']);
+	$tabla=$_REQUEST['tabla'];
+	$id=$_REQUEST['id'];
 	$ini=$_REQUEST['ini'];
 	$fin=$_REQUEST['fin'];
-	$descripcion=$_REQUEST['descripcion'];
-	$departamental=$_REQUEST['departamental'];
-	$indicador2=$_REQUEST['indicador2'];
-
-	$id=$controller->getIdIndicador($indicador,$departamental,$indicador2,$descripcion);
 	
-	$gestion=$controller->getNombreColumnas($id,$indicador,$ini,$fin);
-	$series=$controller->getSerie($id,$indicador,$ini,$fin);
+	$gestion=$controller->getNombreColumnas($id,$tabla,$ini,$fin);
+	$series=$controller->getSerie($id,$tabla,$ini,$fin);
 	
-	$reg_indicador=$controller->getIndicadorById($id,$indicador);
+	$reg_indicador=$controller->getIndicadorById($id,$tabla);
 	$descripcion=$reg_indicador['DESCRIPCION'];
-	$cobertura=$reg_indicador['C'];
+
 	$titulo=array('text'=>$reg_indicador['B']);
-	$subtitulo=array('text'=>$cobertura);
+
+	$subtitulo=array('text'=>$descripcion);
 	$tituloy=array('text'=>$reg_indicador['D']);
 
 	// GENERAR SERIE
@@ -109,6 +143,7 @@ if($proceso==0){
 	$char=array(
 		'titulo'=>$titulo,
 		'subtitulo'=>$subtitulo,
+		//'subtitulo'=>$descripcion,
 		'serie'=>$serie,
 		'categorias'=>$categorias,
 		'tituloy'=>$tituloy,
@@ -118,4 +153,3 @@ if($proceso==0){
     echo json_encode($char,JSON_NUMERIC_CHECK);
     exit();	
 }
-

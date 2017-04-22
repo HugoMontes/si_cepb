@@ -1,0 +1,1 @@
+[19-Apr-2017 17:21:34 America/Denver] PHP Fatal error:  Call to a member function num_rows() on a non-object in /home7/formaem4/public_html/estadistico/administrador/application/models/Historico_model.php on line 65

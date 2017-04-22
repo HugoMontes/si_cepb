@@ -88,7 +88,7 @@ class Usuario extends CI_Controller{
     ########################################################################################  
 */
 
-/*
+
     $perfiles = $this->perfil_model->get_all('id, nombre',array(),'','','id ASC','');
     $perfiles_ = array();
     $perfiles_[0] = '- Seleccionar perfil -';  
@@ -96,9 +96,12 @@ class Usuario extends CI_Controller{
              $perfiles_[$perfil->id] = $perfil->nombre;      
     }
     $data['perfiles'] = $perfiles_;   
-*/  
+
+
+    $data['usuarios'] = $this->usuario_model->get_all('', array(), '', '', '', '');
+    // $data['perfiles'] = $this->perfil_model->get_all('id, nombre',array(),'','','id ASC','');
     $data['titulo'] = 'Usuarios';
-    $this->load->view('backend/usuario/listar',$data);
+    $this->load->view('backend/usuario/list_view',$data);
     
   }
 
