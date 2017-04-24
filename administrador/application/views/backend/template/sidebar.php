@@ -8,15 +8,15 @@
         </li>
 
         <li>
-          <a href="<?php echo base_url('index.php/backend/historico'); ?>" class="<?php echo isset($menu_historico)?'active-menu':''; ?>"><i class="fa fa-bar-chart-o"></i> Historicos</a>
+          <a href="<?php echo base_url('index.php/backend/historico'); ?>" class="<?php echo isset($menu_historico)?'active-menu':''; ?>"><i class="fa fa-line-chart"></i> Historicos</a>
         </li>
 
         <li>
-          <a href="<?php echo base_url('index.php/backend/coyuntura'); ?>" class="<?php echo isset($menu_coyuntura)?'active-menu':''; ?>"><i class="fa fa-bar-chart-o"></i> Coyuntura</a>
+          <a href="<?php echo base_url('index.php/backend/coyuntura'); ?>" class="<?php echo isset($menu_coyuntura)?'active-menu':''; ?>"><i class="fa fa-area-chart"></i> Coyuntura</a>
         </li>
 
         <li>
-          <a href="<?php echo base_url('index.php/backend/internacional'); ?>" class="<?php echo isset($menu_internacional)?'active-menu':''; ?>"><i class="fa fa-bar-chart-o"></i> Internacional</a>
+          <a href="<?php echo base_url('index.php/backend/internacional'); ?>" class="<?php echo isset($menu_internacional)?'active-menu':''; ?>"><i class="fa fa-globe"></i> Internacional</a>
         </li>
         
         <!--

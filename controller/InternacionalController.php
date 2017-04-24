@@ -1,5 +1,4 @@
 <?php 
-
 class InternacionalController{
 	
 	private $conexion;

@@ -27,16 +27,22 @@ nav.vertical ul li{	display:block;}/* vertical menu */
 nav.horizontal ul li{	display: inline-block;}/* horizontal menu */
 img{max-width:100%;}
 /*end reset*/
-
+html, body{
+	margin: 0px;
+	padding: 0px;
+	height: 100%;
+	background: black;
+}
 body p,h1,h2,h3,h4,h5,h6,a{
 	font-family: 'Roboto', sans-serif;
 }
-body {
+.container-form{
 	/*background:#004A84 !important;*/
     /* background: url('../images/bg2.jpg') no-repeat 62% 34%;*/
     background: url('../images/bg2.jpg') no-repeat;
     background-size: cover;
 	text-align:center;
+	margin: 0px;
 }
 /*--header--*/
 .agileheader h1 {
@@ -45,7 +51,8 @@ body {
     letter-spacing: 10px;
     color: #fff;
     font-weight: 600;
-    margin: 40px 0px;
+    padding: 40px 0px;
+    margin-top: 0px !important; 
 }
 .w3layouts-main h2 {
 	color: #fff;
@@ -246,7 +253,7 @@ input[type="submit"]:hover {
 		width: 56%;
 	}
 	.agileheader h1 {
-		margin: 60px 0px;
+		/* margin: 60px 0px; */
 	}
 	.footer-w3l {
 		padding: 0em;
@@ -263,7 +270,7 @@ input[type="submit"]:hover {
 		font-size: 21px;
 	}
 	.agileheader h1 {
-		margin: 52px 0px;
+		/* margin: 52px 0px; */
 	}
 }
 @media (max-width: 640px){
@@ -336,7 +343,7 @@ input[type="submit"]:hover {
 	.agileheader h1 {
 		font-size: 25px;
 		letter-spacing:4px;
-		margin: 34px 0px;
+		/* margin: 34px 0px;*/
 	}
 	.w3layouts-main h2 {
 		font-size: 18px;
@@ -386,7 +393,7 @@ input[type="submit"]:hover {
 @media (max-width: 384px){
 	.agileheader h1 {
 		font-size: 23px;
-		margin: 31px 0px;
+		/*margin: 31px 0px;
 	}
 	.w3layouts-main {
 		padding: 30px 26px;
@@ -428,7 +435,7 @@ input[type="submit"]:hover {
 }
 @media (max-width: 375px){
 	.agileheader h1 {
-		margin: 32px 0px;
+		/*margin: 32px 0px;*/
 	}
 	.w3layouts-main span {
 		width: 45%;
@@ -475,7 +482,7 @@ input[type="submit"]:hover {
 @media (max-width: 320px){
 	.agileheader h1 {
 		font-size: 20px;
-		margin: 20px 0px;
+		/*margin: 20px 0px;*/
 		letter-spacing:3px;
 	}
 	.w3layouts-main h2 {
@@ -491,7 +498,7 @@ input[type="submit"]:hover {
 		padding: 12px 0px 12px 38px;
 	}
 	input[type="text"] {
-		background: url("../images/mail.png") no-repeat 8px 9px;
+		background: url("../images/user.png") no-repeat 8px 9px;
 		background-size: 23px;
 	}
 	input[type="password"] {

@@ -127,7 +127,6 @@ $('#actividad2').on('change',function(){
   console.log("ACTIVIDAD ECONOMICA 2");
   console.log("ACTIVIDAD:"+actividad2);
   console.log("===========================");
-  /*
   $.ajax({
     url: url_ajax,
     data: { proceso : 'buscaIndicador', actividad : actividad2 },
@@ -139,19 +138,16 @@ $('#actividad2').on('change',function(){
       $('#indicador2').append('<option value="0" selected="selected" style="display: none;">Seleccione indicador...</option>');
       $('#indicador2').attr('disabled',false);
     },
-  });
-  */
+  });  
 });
 
-
-
 $('#indicador2').on('change',function(){
-
+  $('#btn-comparar').attr('disabled',false);
 });
 
 $('#btn-comparar').on('click',function(event){
   event.preventDefault();
-  if($('input:checkbox:checked').length>=2){
+  // if($('input:checkbox:checked').length>=2){
     $('.box-alert').hide();
     url_ajax=$('#form-combinaciones').attr('action');
     var frm=$('#form-combinaciones').serialize();
@@ -208,11 +204,13 @@ $('#btn-comparar').on('click',function(event){
         
       },
     });
+  /*
   }else{
     $('.box-alert .callout').text('Seleccione mas de un indicador para realizar la comparación.');
     $('.box-alert').show();
     $('.resultados-combinacion').hide();
   }
+  */
   return false;
 });
 // END:VISTA_CONBINACIONES

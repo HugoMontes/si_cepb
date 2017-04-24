@@ -1,39 +1,46 @@
 <?php $this->load->view('backend/template/header'); ?>
 <br>
 <div class="row">
-  <div class="col-md-3 col-sm-12 col-xs-12">
-    <div class="panel panel-primary text-center no-boder bg-color-green">
-      <div class="panel-body">
-        <i class="fa fa-line-chart fa-5x"></i>
-        <h3>8,457</h3>
-      </div>
-      <div class="panel-footer back-footer-green">
-        Historicos
-      </div>
-    </div>
-  </div>
-  <div class="col-md-3 col-sm-12 col-xs-12">
-    <div class="panel panel-primary text-center no-boder bg-color-brown">
-      <div class="panel-body">
-        <i class="fa fa-area-chart fa-5x"></i>
-        <h3>52,160 </h3>
-      </div>
-      <div class="panel-footer back-footer-brown">
-        Coyuntura
+
+  <a href="<?php echo base_url('index.php/backend/historico'); ?>">
+    <div class="col-md-3 col-sm-12 col-xs-12">
+      <div class="panel panel-primary text-center no-boder bg-color-green">
+        <div class="panel-body">
+          <i class="fa fa-line-chart fa-5x"></i>
+          <!--h3>8,457</h3-->
+        </div>
+        <div class="panel-footer back-footer-green">
+          Historicos
+        </div>
       </div>
     </div>
-  </div>
-  <div class="col-md-3 col-sm-12 col-xs-12">
-    <div class="panel panel-primary text-center no-boder bg-color-blue">
-      <div class="panel-body">
-        <i class="fa fa-globe fa-5x"></i>
-        <h3>36,752 </h3>
-      </div>
-      <div class="panel-footer back-footer-blue">
-        Internacional
+  </a>
+  <a href="<?php echo base_url('index.php/backend/coyuntura'); ?>">
+    <div class="col-md-3 col-sm-12 col-xs-12">
+      <div class="panel panel-primary text-center no-boder bg-color-brown">
+        <div class="panel-body">
+          <i class="fa fa-area-chart fa-5x"></i>
+          <!--h3>52,160 </h3-->
+        </div>
+        <div class="panel-footer back-footer-brown">
+          Coyuntura
+        </div>
       </div>
     </div>
-  </div>
+  </a>
+  <a href="<?php echo base_url('index.php/backend/internacional'); ?>">
+    <div class="col-md-3 col-sm-12 col-xs-12">
+      <div class="panel panel-primary text-center no-boder bg-color-blue">
+        <div class="panel-body">
+          <i class="fa fa-globe fa-5x"></i>
+          <!--h3>36,752 </h3-->
+        </div>
+        <div class="panel-footer back-footer-blue">
+          Internacional
+        </div>
+      </div>
+    </div>
+  </a>
   <!--
   <div class="col-md-3 col-sm-12 col-xs-12">
     <div class="panel panel-primary text-center no-boder bg-color-red">

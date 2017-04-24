@@ -88,3 +88,7 @@ $route['backend/coyuntura/upload/excel'] = 'backend/coyuntura/upload_excel';
 
 // internacional
 $route['backend/internacional'] = 'backend/internacional';
+$route['backend/internacional/all/gestiones'] = 'backend/internacional/gestiones_json';
+$route['backend/internacional/all/data/table'] = 'backend/internacional/table_json';
+$route['backend/internacional/download/excel'] = 'backend/internacional/download_excel';
+$route['backend/internacional/upload/excel'] = 'backend/internacional/upload_excel';
