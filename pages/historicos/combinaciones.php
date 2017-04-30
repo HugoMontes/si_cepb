@@ -66,7 +66,7 @@
                         </select>
                       </div>
                       <div class="col-md-6">
-                        <select id="fin" name="fin" class="form-control select2 select2-hidden-accessible select-fin" tabindex="-1" aria-hidden="true" onchange="ShowSelected();" disabled="true">
+                        <select id="fin" name="fin" class="form-control select2 select2-hidden-accessible select-fin" tabindex="-1" aria-hidden="true" disabled="true">
                           <option value="0" selected="selected" style="display: none;">Periodo final...</option> 
                         </select>
                       </div>
@@ -95,6 +95,7 @@
 
                 <!-- begin: boton comparar -->
                 <div class="box-body">
+                    <input type="hidden" name="proceso" value="generarTabla">
                     <button id="btn-comparar" type="submit" class="btn btn-primary col-md-12" disabled="true">Realizar comparación</button>
                 </div>
                 <!-- end: boton comparar -->           

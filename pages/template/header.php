@@ -86,6 +86,11 @@
     .btn-sq-lg{
       width: 150px;
     }
+
+    /* TITULO */
+    a.title:link,a.title:hover{ 
+      color: white;
+    }
   </style>
 </head>
 
@@ -100,7 +105,9 @@
           <div class="row text-center">
             <!-- inicio botones navegacion -->
             <div class="row">
-              <h2>SISTEMA DE INFORMACIÓN ECONÓMICA</h2>
+              <a href="<?php echo BASE_URL; ?>" class="title">
+                <h2>SISTEMA DE INFORMACIÓN ECONÓMICA</h2>
+              </a>
               <hr class="small"/>
               
               <div>

@@ -23,6 +23,12 @@ class CombinacionController{
 		return $result;
 	}
 
+	function getAllNombresIndicadoresByNameActividadAndMedicion($actividad,$medicion){
+		$query = "select DISTINCT B from $this->tabla where actividad='$actividad' and D='$medicion'";
+		$result = mysqli_query($this->conexion, $query) or die("Problemas en el select:".mysqli_error($this->conexion));
+		return $result;
+	}
+
 	function getAllMedicionesIndicador($actividad,$indicador){
 		$query = "select DISTINCT D from $this->tabla where actividad='$actividad' and B='$indicador'";
 		$result = mysqli_query($this->conexion, $query) or die("Problemas en el select:".mysqli_error($this->conexion));
@@ -60,9 +66,15 @@ class CombinacionController{
 		return $row;
 	}
 
+	function getIndicadorByActividadBMedicion($actividad,$indicador,$medicion){
+		$result=mysqli_query($this->conexion,"SELECT * FROM combinacion WHERE actividad='$actividad' AND B='$indicador' AND D='$medicion'  LIMIT 1") or die("Problemas en el select:".mysqli_error($this->conexion));
+		$row=$result->fetch_row();
+		return $row;
+	}
+
 	function getSerieByIndicador($row){
 		$serie=array();
-		for($i=$row[2];$i<=$row[3];$i++){
+		for($i=$row[3];$i<=$row[4];$i++){
 			$serie[]=$row[$i]==''?0:$row[$i];
 		}
 		return $serie;
@@ -72,8 +84,8 @@ class CombinacionController{
 		$result=mysqli_query($this->conexion,"SELECT * FROM combinacion") or die("Problemas en el select:".mysqli_error($this->conexion));
 		$row=$result->fetch_row();
 		$field=$result->fetch_fields();
-		$ini=$row[2];
-		$fin=$row[3];
+		$ini=$row[3];
+		$fin=$row[4];
 		$columnas=array();
 		for($i=$ini;$i<=$fin;$i++) {
 			$columnas[]=$field[$i]->name;

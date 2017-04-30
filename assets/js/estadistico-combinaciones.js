@@ -47,13 +47,13 @@ $(function () {
 
 // BEGIN:VISTA_CONBINACIONES
 
-var actividad1, indicador1, medicion;
+var actividad1, indicador1, actividad2, indicador2, medicion;
 
 $('#actividad1').on('change',function(){
   url_ajax=$('#form-combinaciones').attr('action');
   actividad1=$(this).val();
   console.log("ACTIVIDAD ECONOMICA 1");
-  console.log("ACTIVIDAD:"+actividad1);
+  console.log("ACTIVIDAD: "+actividad1);
   console.log("===========================");
   $.ajax({
     url: url_ajax,
@@ -61,7 +61,7 @@ $('#actividad1').on('change',function(){
     type : 'POST',
     dataType : 'html',
     success : function(data) {
-      console.log(data);
+      // console.log(data);
       $('#indicador1').html(data);
       $('#indicador1').append('<option value="0" selected="selected" style="display: none;">Seleccione indicador...</option>');
       $('#indicador1').attr('disabled',false);
@@ -73,8 +73,8 @@ $('#actividad1').on('change',function(){
 
 $('#indicador1').on('change',function(){
   indicador1=$(this).val();
-  console.log("INDICADOR");
-  console.log("indicador1:"+indicador1);
+  console.log("INDICADOR 1");
+  console.log("INDICADOR: "+indicador1);
   console.log("===========================");
   $.ajax({
     url: url_ajax,
@@ -93,13 +93,16 @@ $('#indicador1').on('change',function(){
 
 $('#medicion').on('change',function(){
   medicion=$(this).val();
+  console.log("MEDICION");
+  console.log("Medicion: "+medicion);
+  console.log("===========================");
   $.ajax({
     url: url_ajax,
     data: { proceso : 'buscaPeriodicidadGeneral', medicion : medicion },
     type : 'POST',
     dataType : 'json',
     success : function(data) {
-      console.log(data);
+      // console.log(data);
       var out='';
       for(i=0;i<data.periodos.length;i++){
         out+='<option  value="'+data.periodos[i].key+'">'+data.periodos[i].value+'</option>';
@@ -123,17 +126,17 @@ $('#medicion').on('change',function(){
 });
 
 $('#actividad2').on('change',function(){
-  var actividad2=$(this).val();
+  actividad2=$(this).val();
   console.log("ACTIVIDAD ECONOMICA 2");
   console.log("ACTIVIDAD:"+actividad2);
   console.log("===========================");
   $.ajax({
     url: url_ajax,
-    data: { proceso : 'buscaIndicador', actividad : actividad2 },
+    data: { proceso : 'buscaIndicadorByMedicion', actividad : actividad2, medicion : medicion },
     type : 'POST',
     dataType : 'html',
     success : function(data) {
-      console.log(data);
+      // console.log(data);
       $('#indicador2').html(data);
       $('#indicador2').append('<option value="0" selected="selected" style="display: none;">Seleccione indicador...</option>');
       $('#indicador2').attr('disabled',false);
@@ -142,14 +145,16 @@ $('#actividad2').on('change',function(){
 });
 
 $('#indicador2').on('change',function(){
+  indicador2=$(this).val();
+  console.log("INDICADOR 2");
+  console.log("INDICADOR: "+indicador2);
+  console.log("===========================");
   $('#btn-comparar').attr('disabled',false);
 });
 
 $('#btn-comparar').on('click',function(event){
   event.preventDefault();
-  // if($('input:checkbox:checked').length>=2){
     $('.box-alert').hide();
-    url_ajax=$('#form-combinaciones').attr('action');
     var frm=$('#form-combinaciones').serialize();
     $.ajax({
       url: url_ajax,
@@ -157,6 +162,8 @@ $('#btn-comparar').on('click',function(event){
       type : 'POST',
       dataType : 'json',
       success : function(data) {
+        console.log(data);
+        
         $('.resultados-combinacion').show();
         // AGREGANDO NOMBRES DE COLUMNAS
         var out='<th>Gestión</th>';
@@ -175,17 +182,17 @@ $('#btn-comparar').on('click',function(event){
           out+='</tr>';
         }
         $('#cuadro-1 tbody').html(out);
-        /*
+        
         //================================================
-        for(i=0;i<data.serie.length;i++) {
-          // console.log(data.serie[i].data.length);
-          console.log(data.serie[i].name);
-          for(j=0;j<data.serie[i].data.length;j++){
-            console.log(data.serie[i].data[j]);
-          }
-        }
+        // for(i=0;i<data.serie.length;i++) {
+        //   // console.log(data.serie[i].data.length);
+        //   console.log(data.serie[i].name);
+        //   for(j=0;j<data.serie[i].data.length;j++){
+        //     console.log(data.serie[i].data[j]);
+        //   }
+        // }
         //================================================
-        */
+        
         options_lineal.series=data.serie;
         char_lineal=Highcharts.chart('container-grafico-lineal',options_lineal);
         char_lineal.update({
@@ -204,13 +211,7 @@ $('#btn-comparar').on('click',function(event){
         
       },
     });
-  /*
-  }else{
-    $('.box-alert .callout').text('Seleccione mas de un indicador para realizar la comparación.');
-    $('.box-alert').show();
-    $('.resultados-combinacion').hide();
-  }
-  */
+    
   return false;
 });
 // END:VISTA_CONBINACIONES
