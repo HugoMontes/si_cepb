@@ -11,8 +11,6 @@ $(document).ready(function(){
   $('.col-der .btn-excel').hide();
 });
 
-
-
 // BEGIN:CONFIGURACION INICIAL GRAFICA
 var options_lineal;
 var char_rotatorio;

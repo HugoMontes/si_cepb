@@ -4,14 +4,23 @@ class CombinacionController{
 	
 	private $conexion;
 	private $tabla;
+	private $grupo;
 
 	function __construct($cad_conexion){
 		require_once($cad_conexion);
 		$this->conexion=$con=$conexion;
 		$this->tabla='combinacion';
+		$this->grupo='Combinaciones';
+	}
+
+	function cuenta_visitas(){
+		require_once("VisitasController.php");
+		$visitas_controller=new VisitasController($this->conexion);
+		$visitas_controller->save_visita($this->grupo);
 	}
 
 	function getAllActividadesEconomicas(){
+		$this->cuenta_visitas();
 		$query = "select DISTINCT actividad from $this->tabla";
 		$result = mysqli_query($this->conexion, $query) or die("Problemas en el select:".mysqli_error($this->conexion));
 		return $result;
@@ -80,12 +89,31 @@ class CombinacionController{
 		return $serie;
 	}
 
+	function getSerieByIndicadorIniFin($row,$ini,$fin){
+		$serie=array();
+		for($i=$ini;$i<=$fin;$i++){
+			$serie[]=$row[$i]==''?0:$row[$i];
+		}
+		return $serie;
+	}
+
 	function getNombreColumnas(){
 		$result=mysqli_query($this->conexion,"SELECT * FROM combinacion") or die("Problemas en el select:".mysqli_error($this->conexion));
 		$row=$result->fetch_row();
 		$field=$result->fetch_fields();
 		$ini=$row[3];
 		$fin=$row[4];
+		$columnas=array();
+		for($i=$ini;$i<=$fin;$i++) {
+			$columnas[]=$field[$i]->name;
+		}
+		return $columnas;
+	}
+
+	function getNombreColumnasIniFin($ini,$fin){
+		$result=mysqli_query($this->conexion,"SELECT * FROM combinacion") or die("Problemas en el select:".mysqli_error($this->conexion));
+		$row=$result->fetch_row();
+		$field=$result->fetch_fields();
 		$columnas=array();
 		for($i=$ini;$i<=$fin;$i++) {
 			$columnas[]=$field[$i]->name;

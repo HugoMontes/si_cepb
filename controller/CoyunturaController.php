@@ -13,7 +13,14 @@ class CoyunturaController{
 		$this->grupo='Coyuntura';
 	}
 
+	function cuenta_visitas(){
+		require_once("VisitasController.php");
+		$visitas_controller=new VisitasController($this->conexion);
+		$visitas_controller->save_visita($this->grupo);
+	}
+
 	function getAllActividad(){
+		$this->cuenta_visitas();
 		$registros=mysqli_query($this->conexion,"select * from actividad_economica where id BETWEEN 1 AND 5 order by descripcion") or die("Problemas en el select:".mysqli_error($this->conexion));
 		return $registros;
 	}

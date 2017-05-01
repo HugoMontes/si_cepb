@@ -1,4 +1,5 @@
 <?php
+
 function getControllerByTabla($tabla_indicador){
 	if($tabla_indicador=='indicador_historico'){
 		require_once("HistoricosController.php");
@@ -16,7 +17,6 @@ function getControllerByTabla($tabla_indicador){
 require_once("../config/config.php");
 $proceso=$_REQUEST['proceso'];
 //$indicador=$_REQUEST['indicador'];
-
 if($proceso=='buscaActividadEconomica'){
 	$controller=getControllerByTabla($_REQUEST['tabla_indicador']);
 	$registros=$controller->getAllActividad();
@@ -25,7 +25,7 @@ if($proceso=='buscaActividadEconomica'){
 		$out.="<option  value='".$reg['id']."'>".$reg['descripcion']."</option>";
 	}
 	echo $out;
-}else if($proceso=='buscaGrupo'){
+}elseif($proceso=='buscaGrupo'){
 	$controller=getControllerByTabla($_REQUEST['tabla_indicador']);
 	$id=$_REQUEST['id'];
 	$registros=$controller->getAllGrupoByIdActividad($id);

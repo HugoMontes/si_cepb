@@ -9,10 +9,17 @@ class InternacionalController{
 		require_once($cad_conexion);
 		$this->conexion=$con=$conexion;
 		$this->indicador_general='indicador_internacional';
-		// $this->grupo='Internacional';
+		$this->grupo='Internacional';
+	}
+
+	function cuenta_visitas(){
+		require_once("VisitasController.php");
+		$visitas_controller=new VisitasController($this->conexion);
+		$visitas_controller->save_visita($this->grupo);
 	}
 
 	function getAllFuente(){
+		$this->cuenta_visitas();
 		$registros=mysqli_query($this->conexion,"select * from $this->indicador_general where estado=1 order by campos") or die("Problemas en el select:".mysqli_error($this->conexion));
 		return $registros;
 	}

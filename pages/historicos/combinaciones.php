@@ -100,13 +100,7 @@
                 </div>
                 <!-- end: boton comparar -->           
               </div>
-
-              <!--
-              <div class="col-md-6">
-              </div>            
-              -->
             </div>
-
           </div>
         </div>
       </div>
@@ -120,7 +114,7 @@
         <div class="box-header with-border">
           <h3 class="box-title">Tabla de Datos </h3>
           <div class="box-tools pull-right">
-            <input class="btn btn-block btn-primary btn-xs" type="button" value="Abrir" data-widget="collapse" data-toggle="tooltip" id="botonmostrar" onclick="this.value='Cerrar'"">
+            <input class="btn btn-block btn-primary btn-xs" type="button" value="Abrir" data-widget="collapse" data-toggle="tooltip" id="botonmostrar" onclick="this.value='Cerrar'">
           </div>
         </div>
         <div class="box-body">
@@ -146,7 +140,7 @@
         <div class="box-header with-border">
           <h3 class="box-title">Gráfica Lineal</h3>
           <div class="box-tools pull-right">
-            <input class="btn btn-block btn-primary btn-xs" type="button" value="Abrir" data-widget="collapse" data-toggle="tooltip" id="botonmostrar" onclick="this.value='Cerrar'"">
+            <input class="btn btn-block btn-primary btn-xs" type="button" value="Abrir" data-widget="collapse" data-toggle="tooltip" id="botonmostrar" onclick="this.value='Cerrar'">
           </div>
         </div>
         <div class="box-body">

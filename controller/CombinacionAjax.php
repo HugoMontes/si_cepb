@@ -67,12 +67,12 @@ if($proceso=='buscaIndicador'){
 	$indicadores=array();
 	//$row=$controller->getIndicadorById($indicador1);
 	$row1=$controller->getIndicadorByActividadBMedicion($actividad1,$indicador1,$medicion);
-	$serie1=$controller->getSerieByIndicador($row1);
+	$serie1=$controller->getSerieByIndicadorIniFin($row1,$ini,$fin);
 	$indicadores[0]=array('name'=>$row1[6],'data'=>$serie1);
 
 	//$row=$controller->getIndicadorById($indicador2);
 	$row2=$controller->getIndicadorByActividadBMedicion($actividad2,$indicador2,$medicion);
-	$serie2=$controller->getSerieByIndicador($row2);
+	$serie2=$controller->getSerieByIndicadorIniFin($row2,$ini,$fin);
 	$indicadores[1]=array('name'=>$row2[6],'data'=>$serie2);
 	
 	/*
@@ -85,8 +85,7 @@ if($proceso=='buscaIndicador'){
 	}
 	*/
 
-	
-	$gestiones=array('categories' => $controller->getNombreColumnas());
+	$gestiones=array('categories' => $controller->getNombreColumnasIniFin($ini,$fin));
 	$titulo=array('text'=>'Grafica Lineal Combinada');
 	$char=array(
 		'titulo'=>$titulo,
@@ -94,7 +93,6 @@ if($proceso=='buscaIndicador'){
 		'categorias'=>$gestiones,
 	);
 	
-
 	/*
 	$char=array(
 		'medicion'=>$medicion,

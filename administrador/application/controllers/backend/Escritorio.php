@@ -4,6 +4,7 @@ class Escritorio extends CI_Controller{
     public function __construct(){
         parent::__construct();
         // modelos
+        $this->load->model('visitas_model');
         /*
         $this->load->model('pagina_model');
         $this->load->model('pagina_predisenada_model');        
@@ -25,6 +26,8 @@ class Escritorio extends CI_Controller{
       $data['paginas_recientes'] = $this->pagina_model->get_all('',array(),'','5','creado DESC','');
       */
       $data['menu_escritorio'] = true;
+      $data['ultimas_visitas'] = $this->visitas_model->get_all('',array(),'','5','fecha_visita DESC','');
+      $data['visitas_seccion'] = $this->visitas_model->get_all('seccion, COUNT(seccion) as total',array(),'','','total DESC','seccion');
       $data['titulo'] = 'Escritorio';
       get_user_session();
       $this->load->view('backend/escritorio',$data);       
