@@ -193,7 +193,7 @@ $(document).on('click','#btn-enviar',function(event){
       for(i=0;i<data.serie[0].data.length;i++) {
         out+='<tr>';
         out+="<td>"+data.categorias[0].categories[i]+"</td>";
-        out+="<td>"+data.serie[0].data[i]+"</td>";
+        out+="<td style='text-align: right;'>"+numeral(data.serie[0].data[i]).format('0,0.00')+"</td>";
         out+='</tr>';
       }
       $('#cuadro-1').find('tbody').html(out);

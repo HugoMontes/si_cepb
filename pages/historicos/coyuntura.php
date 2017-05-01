@@ -152,7 +152,7 @@
               <thead>
                 <tr>
                   <th class="columna-1">Gestión</th>
-                  <th class="columna-2">Serie</th>
+                  <th class="columna-2" style="text-align: center;">Serie</th>
                 </tr>
               </thead>
               <tbody>
@@ -270,4 +270,6 @@
   </section>
   <!-- FIN:GRAFICOS -->
 <?php require_once("../template/footer.php"); ?>
+<script src="<?php echo BASE_URL; ?>assets/assets/numeraljs/numeral.min.js"></script>
+<script src="<?php echo BASE_URL; ?>assets/js/numeral-es.js"></script>
 <script src="<?php echo BASE_URL; ?>assets/js/estadistico.js"></script>
