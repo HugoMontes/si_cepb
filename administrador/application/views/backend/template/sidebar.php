@@ -85,10 +85,10 @@
           <a href="#" class="<?php echo isset($menu_respaldo)?'active-menu':'' ?>"><i class="fa fa-database"></i> Respaldo de seguridad<span class="fa arrow"></span></a>
           <ul class="nav nav-second-level">
             <li>
-              <a href="<?php echo base_url('index.php/backend/escritorio'); ?>">Generar respaldo</a>
+              <a href="<?php echo base_url('index.php/backend/backup/export'); ?>">Generar respaldo</a>
             </li>
             <li>
-              <a href="<?php echo base_url('index.php/backend/escritorio'); ?>">Restaurar respaldo</a>
+              <a href="<?php echo base_url('index.php/backend/backup/import'); ?>">Restaurar respaldo</a>
             </li>
           </ul>
         </li>

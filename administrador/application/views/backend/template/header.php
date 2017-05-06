@@ -21,8 +21,6 @@
     <link href='http://fonts.googleapis.com/css?family=Open+Sans' rel='stylesheet' type='text/css' />
     <!-- Font Awesome -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.5.0/css/font-awesome.min.css">
-    <!-- Morris Chart Styles-->
-    <link href="<?php echo base_url();?>resources/assets/js/morris/morris-0.4.3.min.css" rel="stylesheet" />
     <!-- Cepb Styles-->
     <link href="<?php echo base_url();?>resources/css/cepb-styles.css" rel="stylesheet" />
 </head>
