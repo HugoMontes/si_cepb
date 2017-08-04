@@ -120,7 +120,7 @@
 		  	<button type="button" class="btn btn-success" data-toggle="modal" data-target="#mdl-upload-excel"><span class="glyphicon glyphicon-upload"></span> Subir archivo excel</button>
 		  </div>	  
 	  </div>
-   	  <small class="form-text text-muted" style="margin-left: 2px;">La siguiente tabla es editable.</small>
+   	  <!--small class="form-text text-muted" style="margin-left: 2px;">La siguiente tabla es editable.</small-->
 	  <div class="table-responsive">
 		  <table id="tbl-indicadores" class="table table-bordered">
 		  	<thead>

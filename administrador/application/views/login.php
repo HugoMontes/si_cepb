@@ -15,7 +15,7 @@ function hideURLbar(){ window.scrollTo(0,1); } </script>
 <!-- Bootstrap Styles-->
 <link href="<?php echo base_url();?>resources/assets/css/bootstrap.css" rel="stylesheet" />
 <!--//online-fonts -->
-<body style="background-color: black !important;">
+<body style="background-color: #191717 !important;">
     <div class="container-form">
         <!--header-->
         <div class="agileheader">
@@ -41,7 +41,7 @@ function hideURLbar(){ window.scrollTo(0,1); } </script>
                     <?php echo form_error('usuario', '<span class="error-form">', '</span>'); ?>
                     <input value="" name="password" type="password" required="" placeholder="Contraseña" />
                     <?php echo form_error('password', '<span class="error-form">', '</span>'); ?>
-                    <span><input type="checkbox" name="remember" value="1"/>Recuérdame</span>
+                    <span style="width: 100%; text-align: left;"><input type="checkbox" name="remember" value="1" style="margin-right: 5px;" />Recuérdame</span>
                     <div class="clear"></div>
                     <input type="submit" value="INICIAR SESIÓN" name="login">
                 </form>

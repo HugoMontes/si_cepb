@@ -3,6 +3,7 @@
 <head>
   <meta charset="utf-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <link rel="shortcut icon" href="<?php echo BASE_URL; ?>img/favicon.png">
   <title>CEPB</title>
   <!-- Tell the browser to be responsive to screen width -->
   <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
@@ -17,81 +18,12 @@
   <!-- AdminLTE Skins. Choose a skin from the css/skins
   folder instead of downloading all of them to reduce the load. -->
   <link rel="stylesheet" href="<?php echo BASE_URL; ?>dist/css/skins/_all-skins.min.css">
-  <!-- iCheck -->
-  <link rel="stylesheet" href="<?php echo BASE_URL; ?>plugins/iCheck/flat/blue.css">
   <!-- Morris chart -->
   <link rel="stylesheet" href="<?php echo BASE_URL; ?>plugins/morris/morris.css">
-  <!-- jvectormap -->
-  <link rel="stylesheet" href="<?php echo BASE_URL; ?>plugins/jvectormap/jquery-jvectormap-1.2.2.css">
-  <!-- Date Picker -->
-  <link rel="stylesheet" href="<?php echo BASE_URL; ?>plugins/datepicker/datepicker3.css">
-  <!-- Daterange picker -->
-  <link rel="stylesheet" href="<?php echo BASE_URL; ?>plugins/daterangepicker/daterangepicker.css">
   <!-- bootstrap wysihtml5 - text editor -->
   <link rel="stylesheet" href="<?php echo BASE_URL; ?>plugins/bootstrap-wysihtml5/bootstrap3-wysihtml5.min.css">
-  <style>
-    body {
-      font-family:Arial;
-    }
-    .eldiv { 
-      width: 483px; 
-      height: 168px; 
-      background: #ffffff; 
-      transition: all 0.3s ease; 
-      color: #ffffff; 
-      text-align: center;
-      padding-top: 130px; 
-      font-size: 2em; 
-      font-weight: bold; 
-      font-family: Arial
-    }
-
-    .fade { opacity:1; } 
-    .fade:hover { opacity:0.5; }
-
-    .btn-sq-lg {
-      margin-right: 10px;margin-left: 10px;
-    }
-
-    .modal {
-      display:    none;
-      position:   fixed;
-      z-index:    1000;
-      top:        0;
-      left:       0;
-      height:     100%;
-      width:      100%;
-      background: rgba( 255, 255, 255, .8 ) 
-      url('http://i.stack.imgur.com/FhHRx.gif') 
-      50% 50% 
-      no-repeat;
-    }
-
-    /* When the body has the loading class, we turn
-       the scrollbar off with overflow:hidden */
-    body.loading {
-      overflow: hidden;   
-    }
-
-    /* Anytime the body has the loading class, our
-       modal element will be visible */
-    body.loading .modal {
-      display: block;
-    }
-
-    .col-centered{
-      float: none;
-      margin: 0 auto;
-    }
-    .btn-sq-lg{
-      width: 150px;
-    }
-
-    /* TITULO */
-    a.title:link,a.title:hover{ 
-      color: white;
-    }
-  </style>
+  <!-- Styles CEPB -->
+  <link rel="stylesheet" href="<?php echo BASE_URL; ?>assets/css/style-cepb-backend.css">
 </head>
 
 <body class="hold-transition skin-blue layout-top-nav">
