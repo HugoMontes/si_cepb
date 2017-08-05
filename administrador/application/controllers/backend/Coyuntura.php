@@ -60,16 +60,6 @@ class Coyuntura extends CI_Controller{
     $indicador = $this->input->post('indicador');
     $this->indicador_model->set_table_name($tabla);
     $tabla = $this->indicador_model->execute_sql("SELECT * FROM $tabla WHERE medicion_indicador='$medicion' AND B='$indicador'");
-
-/*
-    $tabla = 'cnacionales';
-    $medicion = 'Constantes';
-    $indicador = 'BENI: PRODUCTO INTERNO BRUTO, SEGÚN ACTIVIDAD ECONÓMICA';
-
-    $this->indicador_model->set_table_name($tabla);
-    $tabla = $this->indicador_model->execute_sql("SELECT * FROM $tabla WHERE medicion_indicador='$medicion' AND B='$indicador'");
-*/
-
     $tabla_final=array();
     foreach ($tabla as $t) {
       $tabla_final[]=array(
@@ -82,10 +72,7 @@ class Coyuntura extends CI_Controller{
         // 'archivo' => $t['A'],
         'valores' => $this->cargar_datos($t),
       );
-    }
-
-//    print_r($tabla_final);
-    
+    }    
     $data['gestiones']=$this->get_head_table($tabla);
     $data['tabla'] = $tabla_final;
     header('Content-type: application/json; charset=utf-8');
@@ -93,6 +80,10 @@ class Coyuntura extends CI_Controller{
     exit();
   }
 
+  /**
+   * Autor: Hugo Montes
+   * Descripcion: Descarga del documento excel para edicion
+   */
   public function download_excel(){
     $tabla = $this->input->get('tabla');
     $medicion = $this->input->get('medicion');
@@ -218,8 +209,7 @@ class Coyuntura extends CI_Controller{
       // Identificando el tipo de archivo
       $inputFileType = PHPExcel_IOFactory::identify($filepath);
       $objReader = PHPExcel_IOFactory::createReader($inputFileType);
-      $objPHPExcel  = $objReader->load($filepath);
-      
+      $objPHPExcel  = $objReader->load($filepath);      
       // Obteniendo datos del archivo
       $objPHPExcel->setActiveSheetIndex(0);
       $xls_indicador=$objPHPExcel->getActiveSheet()->getCell('B1')->getValue();

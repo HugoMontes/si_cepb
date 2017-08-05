@@ -56,9 +56,7 @@ $('#periodo').on('change',function(){
 
 $('#btn-download-excel').click(function(event){
   event.preventDefault();
-  /*
   url=$(this).attr('href');
-  url+='?tabla='+tabla+'&medicion='+medicion+'&indicador='+indicador;
-  window.location.href=url;
-  */
+  url+='?id='+id+'&gestion='+gestion;
+  window.location.href=url;  
 });

@@ -28,7 +28,6 @@ class Internacional extends CI_Controller{
     $indicador = $this->internacional_model->get($id);
     $this->indicador_model->set_table_name($indicador->tabla);
     $data['gestiones'] = $this->indicador_model->get_all('anio', array(), '', '', 'anio ASC', '', 'anio');
-    // $data['grupos'] = $this->historico_model->get_all('id_InHist, campos, tabla, ruta',array('id_actividad_economica'=>$id),'','','campos','');
     header('Content-type: application/json; charset=utf-8');
     echo json_encode($data,JSON_NUMERIC_CHECK);
     exit(); 
@@ -38,60 +37,119 @@ class Internacional extends CI_Controller{
     $id = $this->input->post('id');
     $gestion = $this->input->post('gestion');
     $tabla=array();
-
     $indicador = $this->internacional_model->get($id);
     $this->indicador_model->set_table_name($indicador->tabla);
-//    $tabla = $this->indicador_model->execute_sql("SELECT * FROM $indicador->tabla WHERE anio='$gestion'");
-
     $array_clasificacion = $this->indicador_model->get_all('clasificacion', array('anio'=>$gestion), '', '', 'nro ASC', '', 'clasificacion');
-    //$array_paises = $this->indicador_model->get_all('pais', array(), '', '', '', '', 'pais');
     foreach ($array_clasificacion as $val_clasificacion) {
-      // $valores=$this->indicador_model->execute_sql("SELECT * FROM $indicador->tabla WHERE anio='$gestion' AND clasificacion='$clasificacion'");
-      /*
-      $registro=array();
-      foreach ($array_paises as $pais) {
-        $registro[$pais]=$this->indicador_model->get_all('',array('anio'=>$gestion,'clasificacion'=>$clasificacion), '', '', '', '', 'pais');
-      }
-      */
       $tabla[]=array(
         'nombre_fila'=>$val_clasificacion->clasificacion,
         'paises'=> $this->indicador_model->get_all('id, pais, monto',array('anio'=>$gestion,'clasificacion'=>$val_clasificacion->clasificacion), '', '', 'pais ASC', '', 'pais'),
       );
-      //$tabla['paises']=$this->indicador_model->get_all('pais, monto',array('anio'=>$gestion,'clasificacion'=>$val_clasificacion->clasificacion), '', '', '', '', 'pais');
-      // $tabla['clasificacion']
-    }
-
-    /*
-      $id = 1;
-      $gestion = 2016;
-
-      $this->indicador_model->set_table_name($tabla);
-      $tabla = $this->indicador_model->execute_sql("SELECT * FROM $tabla WHERE medicion_indicador='$medicion' AND B='$indicador'");
-    */
-
-/*
-    $tabla_final=array();
-    foreach ($tabla as $t) {
-      $tabla_final[]=array(
-        'id' => $t['id'],
-        'desagregacion' => $t['desagregacion'],
-        'medicion' => $t['medicion_indicador'],
-        'unidad_medida' => $t['D'],
-        'cobertura' => $t['C'],
-        'descripcion' => $t['DESCRIPCION'],
-        // 'archivo' => $t['A'],
-        'valores' => $this->cargar_datos($t),
-      );
-    }
-*/
-    //    print_r($tabla_final);
-    
-//    $data['gestiones']=$this->get_head_table($tabla);
+    };
     $data['tabla'] = $tabla;
     header('Content-type: application/json; charset=utf-8');
     // echo json_encode($data,JSON_NUMERIC_CHECK);
     echo json_encode($data);
     exit();
+  }
+
+
+  /**
+   * Autor: Hugo Montes
+   * Descripcion: Descarga del documento excel para edicion
+   */
+  public function download_excel(){
+    $id = $this->input->get('id');
+    $gestion = $this->input->get('gestion');
+    // Recuperando datos de la BD
+    $indicador = $this->internacional_model->get($id);
+    $this->indicador_model->set_table_name($indicador->tabla);
+    $array_clasificacion = $this->indicador_model->get_all('clasificacion', array('anio'=>$gestion), '', '', 'nro ASC', '', 'clasificacion');
+    $tabla_datos=array();
+    foreach ($array_clasificacion as $val_clasificacion) {
+      $tabla_datos[]=array(
+        'nombre_fila'=>$val_clasificacion->clasificacion,
+        'paises'=> $this->indicador_model->get_all('id, pais, monto',array('anio'=>$gestion,'clasificacion'=>$val_clasificacion->clasificacion), '', '', 'pais ASC', '', 'pais'),
+      );
+    };
+    
+    // Preparando datos
+    //$nombre_archivo='internacional';
+
+    // Generando documento excel
+    $this->load->library('excel');
+    $objPHPExcel = new PHPExcel();
+    $objPHPExcel->setActiveSheetIndex(0);
+    $objPHPExcel->getActiveSheet()->SetCellValue('A1', $indicador->campos);
+
+    // Ajuntando ancho de la columna A y B
+    $objPHPExcel->getActiveSheet()->getColumnDimension('A')->setAutoSize(true);
+    //$objPHPExcel->getActiveSheet()->getColumnDimension('B')->setAutoSize(true);
+    
+    // Formato para el titulo en A1 y B1
+    $objPHPExcel->getActiveSheet()->getStyle('A1')->applyFromArray(array(
+      'font'  => array(
+        'bold'  => true,
+        'size'  => 14,
+      ),
+    ));
+    
+    // encabezado de tabla
+    $ini_fil=2;
+    $count_fil=$ini_fil;
+    $objPHPExcel->getActiveSheet()->setCellValueByColumnAndRow(0, $count_fil, 'Clasificacion');
+    $objPHPExcel->getActiveSheet()->setCellValueByColumnAndRow(1, $count_fil, 'Descripcion');
+    $count_col=1;
+    for($i=0;$i<=count($tabla_datos[0]['paises']);$i++) {
+      $objPHPExcel->getActiveSheet()->setCellValueByColumnAndRow($count_col, $count_fil, $tabla_datos[0]['paises'][$i]->pais);
+      $count_col++;
+    }
+    $objPHPExcel->getActiveSheet()->getStyle('A'.$count_fil.':'.PHPExcel_Cell::stringFromColumnIndex($count_col-2).$count_fil)->applyFromArray(array(
+      'font'  => array(
+        'color' => array('rgb' => 'ffffff'),
+      ),
+      'fill' => array(
+        'type' => PHPExcel_Style_Fill::FILL_SOLID,
+        'color' => array('rgb' => '366092')
+      ),
+    ));
+    
+    // Valores de la tabla
+    $count_fil++;
+    foreach ($tabla_datos as $t) {
+      $count_col=0;
+      $objPHPExcel->getActiveSheet()->setCellValueByColumnAndRow($count_col, $count_fil, $t['nombre_fila']);
+      $count_col++;
+      foreach($t['paises'] as $pais) {
+        if(isset($pais->monto)){
+          $objPHPExcel->getActiveSheet()->setCellValueByColumnAndRow($count_col, $count_fil, $pais->monto);
+        }else{
+          $objPHPExcel->getActiveSheet()->setCellValueByColumnAndRow($count_col, $count_fil, '');
+        }
+        $count_col++;      
+      }
+      $count_fil++;
+    }
+
+    // Pintando columna de codigos
+    /*
+    $objPHPExcel->getActiveSheet()->getStyle('A'.$ini_fil.':A'.($count_fil-1))->applyFromArray(array(
+      'font'  => array(
+        'color' => array('rgb' => 'ffffff'),
+      ),
+      'fill' => array(
+        'type' => PHPExcel_Style_Fill::FILL_SOLID,
+        'color' => array('rgb' => '366092')
+      ),
+    ));
+    */
+
+    // Retornando documento excel
+    $objWriter = new PHPExcel_Writer_Excel2007($objPHPExcel);
+    header("Content-Type: application/vnd.openxmlformats-officedocument.spreadsheetml.sheet");
+    header("Content-Disposition: attachment; filename=$indicador->archivo");
+    ob_clean();
+    $objWriter->save('php://output');    
   }
 
     public function upload_excel(){
