@@ -101,11 +101,11 @@
 		  </div>
 		  <div class="form-group">
 		    <label for="txt_desagregacion">Desagregación:</label>
-		    <input type="text" id="txt_desagregacion" name="txt_desagregacion" class="form-control" placeholder="Ingresar desagregación">
+		    <input type="text" id="txt_desagregacion" name="txt_desagregacion" class="form-control" placeholder="Ingresar desagregación" disabled="disabled">
 		  </div>
 		  <div class="form-group">
 		    <label for="txt_medicion">Medición:</label>
-		    <input type="text"  id="txt_medicion" name="txt_medicion" class="form-control" placeholder="Ingresar medición">
+		    <input type="text"  id="txt_medicion" name="txt_medicion" class="form-control" placeholder="Ingresar medición" disabled="disabled">
 		  </div>
 		  <div class="form-group">
 		    <label for="txt_unidad_medida">Unidad de medida:</label>
@@ -113,7 +113,7 @@
 		  </div>
 		  <div class="form-group">
 		    <label for="txt_cobertura">Cobertura:</label>
-		    <input type="text"  id="txt_cobertura" name="txt_cobertura" class="form-control" placeholder="Ingresar medición">
+		    <input type="text"  id="txt_cobertura" name="txt_cobertura" class="form-control" placeholder="Ingresar medición" disabled="disabled">
 		  </div>
 		  <div style="text-align: right;">
 		  	<a id="btn-download-excel" href="<?php echo base_url('index.php/backend/historico/download/excel'); ?>" class="btn btn btn-info"><span class="glyphicon glyphicon-download-alt"></span> Descargar archivo excel</a>

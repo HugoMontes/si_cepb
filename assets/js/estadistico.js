@@ -1,16 +1,15 @@
-// ARCHIVO JS ESTADISTICO
-var url_ajax;
-var tabla, desagregacion, medicion, cobertura, indicador, descripcion, id_indicador, titulo, i, ini, fin;
+$(document).on({
+  ajaxStart: function() {  $("body").addClass("loading");    },
+  ajaxStop: function() {  $("body").removeClass("loading"); }    
+});
 
 $(document).ready(function(){
   $('.resultados').hide();
   $('#btn-excel').hide();
 });
 
-$(document).on({
-  ajaxStart: function() {  $("body").addClass("loading");    },
-  ajaxStop: function() {  $("body").removeClass("loading"); }    
-});
+var url_ajax;
+var tabla, desagregacion, medicion, cobertura, indicador, descripcion, id_indicador, titulo, i, ini, fin;
 
 $('#actividad').on('change',function(){
   url_ajax=$('#form-estadistico').attr('action');
@@ -150,7 +149,7 @@ $('#indicador').on('change',function(){
 
 $('#descripcion').on('change',function(){
   id_indicador=$(this).val();
-  console.log('PROCESO 6');
+  console.log('PROCESO 7');
   console.log('ID INDICADOR: '+id_indicador);
   console.log("===========================");
   $.ajax({
