@@ -1,5 +1,4 @@
 // ARCHIVO JS ESTADISTICO
-
 var url_ajax;
 var tabla, desagregacion, medicion, cobertura, indicador, descripcion, id_indicador, titulo, i, ini, fin;
 

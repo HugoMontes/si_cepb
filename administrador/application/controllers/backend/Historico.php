@@ -133,7 +133,8 @@ class Historico extends CI_Controller{
       ),
     ));
     // formato de bloqueo celdas
-    $this->bloquear_celdas($objPHPExcel,array('A2','A3','A4','A5'));
+    $this->bloquear_celdas($objPHPExcel, array('A2','A3','A4','A5'), 'ffffff', '366092');
+    $this->bloquear_celdas($objPHPExcel, array('B2','B3','B5'), '000000', 'b8cce4');
     // encabezado de tabla para los indicadores
     $ini_fil=7;
     $count_fil=$ini_fil;
@@ -195,20 +196,16 @@ class Historico extends CI_Controller{
 
   public function upload_excel(){
     $config['upload_path'] = './resources/uploads/';
-    // $config['allowed_types'] = 'csv';
     $config['allowed_types'] = 'xlsx|xls';
     $config['max_size'] = '5000';
     $config['file_name'] = 'upload_' . time();
-
     $this->load->library('upload', $config);
-
     if(!$this->upload->do_upload('archivo_excel')){
       $this->session->set_flashdata('error', $this->upload->display_errors());
       redirect('backend/historico');
     }else{
       $tabla = $this->input->post('txt_upload_tabla');
       $indicador = $this->input->post('txt_upload_indicador');
-      // $usuario_sesion = get_user_session();
       // Abriendo archivo que se ha subido al servidor
       $file_info = $this->upload->data();
       $filepath = "./resources/uploads/" . $file_info['file_name'];
@@ -217,11 +214,12 @@ class Historico extends CI_Controller{
       $inputFileType = PHPExcel_IOFactory::identify($filepath);
       $objReader = PHPExcel_IOFactory::createReader($inputFileType);
       $objPHPExcel  = $objReader->load($filepath);
-      
       // Obteniendo datos del archivo
       $objPHPExcel->setActiveSheetIndex(0);
       $xls_indicador=$objPHPExcel->getActiveSheet()->getCell('B1')->getValue();
       if($xls_indicador==$indicador){
+        // Recuperando datos generales de la tabla
+        $unidad_medida=$objPHPExcel->getActiveSheet()->getCell('B4')->getValue();
         // Recuperando encabezado de la tabla, contando columnas
         $head=array();
         $count_col=0;
@@ -243,6 +241,7 @@ class Historico extends CI_Controller{
           $id = $objPHPExcel->getActiveSheet()->getCellByColumnAndRow(0, $count_fil)->getValue();
           //$sql="UPDATE $tabla SET DESCRIPCION='".$objPHPExcel->getActiveSheet()->getCellByColumnAndRow(1, $count_fil)->getValue()."'";
           $data['DESCRIPCION'] = $objPHPExcel->getActiveSheet()->getCellByColumnAndRow(1, $count_fil)->getValue();
+          $data['D'] = $unidad_medida;
           for($i=2;$i<$nro_col;$i++){
             $cell=$objPHPExcel->getActiveSheet()->getCellByColumnAndRow($i, $count_fil)->getValue();
             //$sql.=",`$head[$i]`='".$cell."'";
@@ -259,7 +258,7 @@ class Historico extends CI_Controller{
         redirect('backend/historico');
       }else{
         // Mensaje de error
-        $this->session->set_flashdata('error', '<strong>ERROR!</strong> El archivo excel que desea subir no corresponde al indicador seleccionado. Se recomienda volver a descargar el archivo excel y volverlo a editar sin modificar las celdas de color azul.');
+        $this->session->set_flashdata('error', '<strong>ERROR!</strong> El archivo excel que desea subir no corresponde al indicador seleccionado. Se recomienda volver a descargar el archivo excel. Recuerde no modificar las celdas de color azul.');
         redirect('backend/historico');
       }
     }
@@ -267,14 +266,14 @@ class Historico extends CI_Controller{
     $this->load->library('upload', $config);
   }
 
-  private function bloquear_celdas($objPHPExcel,$celdas){
+  private function bloquear_celdas($objPHPExcel, $celdas, $color, $background){
     $styleArray = array(
       'font'  => array(
-        'color' => array('rgb' => 'ffffff'),
+        'color' => array('rgb' => $color),
       ),
       'fill' => array(
         'type' => PHPExcel_Style_Fill::FILL_SOLID,
-        'color' => array('rgb' => '366092')
+        'color' => array('rgb' => $background)
       ),
     );
     foreach ($celdas as $celda) {
