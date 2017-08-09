@@ -130,6 +130,10 @@ class Indicador_model extends CI_Model{
         return $query->result_array();
     }
 
+    public function execute_update_sql($sql){
+        $query = $this->db->query($sql);
+    }
+
     public function execute_sql_no_return($sql){
         $query = $this->db->query($sql);
     }

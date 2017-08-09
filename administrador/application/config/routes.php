@@ -75,7 +75,7 @@ $route['backend/historico/all/data/table'] = 'backend/historico/table_json';
 $route['backend/historico/download/excel'] = 'backend/historico/download_excel';
 $route['backend/historico/upload/excel'] = 'backend/historico/upload_excel';
 //$route['backend/historico/nuevo'] = 'backend/historico/nuevo';
-//$route['backend/historico/guardar'] = 'backend/historico/guardar';
+$route['backend/historico/guardar'] = 'backend/historico/guardar';
 
 // coyuntura
 $route['backend/coyuntura'] = 'backend/coyuntura';
@@ -85,6 +85,7 @@ $route['backend/coyuntura/all/indicadores'] = 'backend/coyuntura/indicadores_jso
 $route['backend/coyuntura/all/data/table'] = 'backend/coyuntura/table_json';
 $route['backend/coyuntura/download/excel'] = 'backend/coyuntura/download_excel';
 $route['backend/coyuntura/upload/excel'] = 'backend/coyuntura/upload_excel';
+$route['backend/coyuntura/guardar'] = 'backend/coyuntura/guardar';
 
 // internacional
 $route['backend/internacional'] = 'backend/internacional';
@@ -95,4 +96,5 @@ $route['backend/internacional/upload/excel'] = 'backend/internacional/upload_exc
 
 // backup
 $route['backend/backup/export'] = 'backend/backup/export_form';
-$route['backend/backup/import'] = 'backend/backup/import_form';
+$route['backend/backup/exportar'] = 'backend/backup/exportar_db';
+$route['backend/backup/importar'] = 'backend/backup/importar_db';

@@ -59,15 +59,7 @@ class Historico extends CI_Controller{
     $this->indicador_model->set_table_name($tabla);
     $tabla = $this->indicador_model->execute_sql("SELECT * FROM $tabla WHERE medicion_indicador='$medicion' AND B='$indicador'");
 
-/*
-    $tabla = 'cnacionales';
-    $medicion = 'Constantes';
-    $indicador = 'BENI: PRODUCTO INTERNO BRUTO, SEGÚN ACTIVIDAD ECONÓMICA';
-
-    $this->indicador_model->set_table_name($tabla);
-    $tabla = $this->indicador_model->execute_sql("SELECT * FROM $tabla WHERE medicion_indicador='$medicion' AND B='$indicador'");
-*/
-
+    $fin=count(array_keys((array)$tabla[0]))-1;
     $tabla_final=array();
     foreach ($tabla as $t) {
       $tabla_final[]=array(
@@ -78,13 +70,14 @@ class Historico extends CI_Controller{
         'cobertura' => $t['C'],
         'descripcion' => $t['DESCRIPCION'],
         // 'archivo' => $t['A'],
-        'valores' => $this->cargar_datos($t),
+        'valores' => $this->cargar_datos($t,$t['ini'],$fin),
       );
     }
 
-//    print_r($tabla_final);
-    
-    $data['gestiones']=$this->get_head_table($tabla);
+    // print_r($tabla_final);
+    $data['ini'] = $tabla[0]['ini'];
+    $data['fin'] = $tabla[0]['fin'];
+    $data['gestiones'] = $this->get_head_table($tabla);
     $data['tabla'] = $tabla_final;
     header('Content-type: application/json; charset=utf-8');
     echo json_encode($data,JSON_NUMERIC_CHECK);
@@ -140,9 +133,9 @@ class Historico extends CI_Controller{
     $count_fil=$ini_fil;
     $objPHPExcel->getActiveSheet()->setCellValueByColumnAndRow(0, $count_fil, 'Codigo');
     $objPHPExcel->getActiveSheet()->setCellValueByColumnAndRow(1, $count_fil, 'Descripcion');
-    $ini=$tabla_datos[0]['ini'];
-    $fin=$tabla_datos[0]['fin'];    
+    $ini=$tabla_datos[0]['ini'];   
     $head=array_keys((array)$tabla_datos[0]);
+    $fin=count($head)-1; 
     $count_col=2;
     for($i=$ini;$i<=$fin;$i++) {
       $objPHPExcel->getActiveSheet()->setCellValueByColumnAndRow($count_col, $count_fil, $head[$i]);
@@ -281,10 +274,26 @@ class Historico extends CI_Controller{
     }
   }
 
+  public function guardar(){
+    $unidad_medida = $this->input->post('txt_unidad_medida');
+    $fin = $this->input->post('txt_fin');
+
+    $tabla = $this->input->post('txt_hidden_tabla');
+    $indicador = $this->input->post('txt_hidden_indicador');
+    $medicion = $this->input->post('txt_hidden_medicion');
+
+    $this->indicador_model->set_table_name($tabla);
+    $tabla_datos = $this->indicador_model->execute_update_sql("UPDATE $tabla SET D='$unidad_medida', fin=$fin WHERE medicion_indicador='$medicion' AND B='$indicador'");
+
+    $this->session->set_flashdata('mensaje', '<strong>CORRECTO!</strong> Los datos fueron guardados correctamente para "<strong>'.$indicador.'</strong>".');
+    redirect('backend/historico');
+  }
+
   private function get_head_table($tabla){
     $ini=$tabla[0]['ini'];
-    $fin=$tabla[0]['fin'];
+    //$fin=$tabla[0]['fin'];
     $head=array_keys((array)$tabla[0]);
+    $fin=count($head)-1;
     $gestiones=array();
     for($i=$ini;$i<=$fin;$i++) {
       $gestiones[]=$head[$i];
@@ -292,10 +301,10 @@ class Historico extends CI_Controller{
     return $gestiones;
   }
 
-  private function cargar_datos($tabla){
+  private function cargar_datos($tabla, $ini, $fin){
     $datos=array();
-    $ini=$tabla['ini'];
-    $fin=$tabla['fin'];
+    //$ini=$tabla['ini'];
+    //$fin=$tabla['fin'];
     $tabla=array_values($tabla);
     for($i=$ini;$i<=$fin;$i++) {
       if(isset($tabla[$i])){

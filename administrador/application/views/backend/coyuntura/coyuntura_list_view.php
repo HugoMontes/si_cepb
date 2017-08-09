@@ -93,7 +93,7 @@
   <div class="panel-heading">
     <h3 id="pnl-title" class="panel-title">Datos del indicador</h3>
   </div>
-  <form action="<?php echo base_url('index.php/backend/coyuntura/'); ?>" method="post">
+  <form action="<?php echo base_url('index.php/backend/coyuntura/guardar'); ?>" method="post">
 	  <div class="panel-body">
 		  <div class="form-group">
 		    <label for="txt_archivo">Archivo excel:</label>
@@ -101,11 +101,11 @@
 		  </div>
 		  <div class="form-group">
 		    <label for="txt_desagregacion">Desagregación:</label>
-		    <input type="text" id="txt_desagregacion" name="txt_desagregacion" class="form-control" placeholder="Ingresar desagregación">
+		    <input type="text" id="txt_desagregacion" name="txt_desagregacion" class="form-control" placeholder="Ingresar desagregación" disabled="disabled">
 		  </div>
 		  <div class="form-group">
 		    <label for="txt_medicion">Medición:</label>
-		    <input type="text"  id="txt_medicion" name="txt_medicion" class="form-control" placeholder="Ingresar medición">
+		    <input type="text"  id="txt_medicion" name="txt_medicion" class="form-control" placeholder="Ingresar medición" disabled="disabled">
 		  </div>
 		  <div class="form-group">
 		    <label for="txt_unidad_medida">Unidad de medida:</label>
@@ -113,7 +113,14 @@
 		  </div>
 		  <div class="form-group">
 		    <label for="txt_cobertura">Cobertura:</label>
-		    <input type="text"  id="txt_cobertura" name="txt_cobertura" class="form-control" placeholder="Ingresar medición">
+		    <input type="text"  id="txt_cobertura" name="txt_cobertura" class="form-control" placeholder="Ingresar medición" disabled="disabled">
+		  </div>
+		  <div class="form-group">
+		    <label for="txt_fin">Mostrar datos hasta:</label>
+		    <select id="txt_fin" name="txt_fin" class="form-control" tabindex="-1" aria-hidden="true">
+	    			<option value="0" selected="selected" style="display: none;">...</option>
+	    	</select>
+	    	<span id="helpBlock" class="help-block">Hasta donde se mostraran los datos para el usuario final.</span>
 		  </div>
 		  <div style="text-align: right;">
 		  	<a id="btn-download-excel" href="<?php echo base_url('index.php/backend/coyuntura/download/excel'); ?>" class="btn btn btn-info"><span class="glyphicon glyphicon-download-alt"></span> Descargar archivo excel</a>
@@ -134,14 +141,17 @@
 		  </table>
 	  </div>
 	  <div class="panel-footer" style="text-align: right;">
+	  	<input type="hidden"  id="txt_hidden_tabla" name="txt_hidden_tabla">
+	  	<input type="hidden"  id="txt_hidden_indicador" name="txt_hidden_indicador">
+	  	<input type="hidden"  id="txt_hidden_medicion" name="txt_hidden_medicion">
 	  	<a href="<?php base_url('backend/coyuntura'); ?>" class="btn btn-default">Cancelar</a>
-	  	<button type="button" class="btn btn-primary" data-toggle="modal" data-target="#mdl-verificar-guardar" disabled="true"><span class="glyphicon glyphicon-floppy-disk"></span> Guardar cambios</button>
+	  	<button type="submit" class="btn btn-primary"><span class="glyphicon glyphicon-floppy-disk"></span> Guardar cambios</button>
 	  </div>
   </form> 
 </div>
 
 <!-- begin : Modal guardar cambios tabla -->
-<div class="modal fade" id="mdl-verificar-guardar" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+<!--div class="modal fade" id="mdl-verificar-guardar" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
   <div class="modal-dialog" role="document">
     <div class="modal-content">
       <div class="modal-header bg-primary">
@@ -158,7 +168,7 @@
       </div>
     </div>
   </div>
-</div>
+</div-->
 <!-- end : Modal guardar cambios tabla -->
 
 <!-- begin : Modal subir archivo excel -->

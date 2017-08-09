@@ -25,45 +25,23 @@ class Backup extends CI_Controller{
   }
 
   public function exportar_db(){
-    // http://www.mediavida.com/foro/dev/hacer-copia-seguridad-codeigniter-497636
-    date_default_timezone_set("Europe/Madrid");
-        // Carga la clase de utilidades de base de datos
-        $this->load->dbutil();
-        $fecha_hora = date("Ymd_His");
+    // https://stackoverflow.com/questions/32536274/write-file-not-working-in-code-igniter
+    // Load the DB utility class
+    $this->load->dbutil();
 
-        $prefs = array(
-            'tables'      => array(),              // Arreglo de tablas para respaldar.
-            'ignore'      => array(),           // Lista de tablas para omitir en la copia de seguridad
-            'format'      => 'zip',             // gzip, zip, txt
-            'filename'    => 'backup_'.$fecha_hora.'.sql',    // Nombre de archivo - NECESARIO SOLO CON ARCHIVOS ZIP
-            'add_drop'    => TRUE,              // Agregar o no la sentencia DROP TABLE al archivo de respaldo
-            'add_insert'  => TRUE,              // Agregar o no datos de INSERT al archivo de respaldo
-            'newline'     => "\n"               // Caracter de nueva línea usado en el archivo de respaldo
-        );
+    // Backup your entire database and assign it to a variable
+    $backup = $this->dbutil->backup();
 
-        // Crea una copia de seguridad de toda la base de datos y la asigna a una variable
-        $copia_de_seguridad = $this->dbutil->backup($prefs); 
+    // Load the file helper and write the file to your server
+    $this->load->helper('file');
+    write_file(FCPATH.'/backups/cepb_backup.gz', $backup);
 
-        //print_r($copia_de_seguridad);
-        // Carga el asistente de archivos y escribe el archivo en su servidor
-        $this->load->helper('file');
-
-        if ( ! write_file('./backup/backup_'.$fecha_hora.'.zip', $copia_de_seguridad))
-        {
-             $this->smarty->assign('error','No se ha podido crear la copia.');
-        }
-        else
-        {
-            $this->smarty->assign('success','Copia creada satisfactoriamente');
-        }
-
-        // Carga el asistente de descarga y envía el archivo a su escritorio
-        //$this->load->helper('download');
-        //force_download('copia_de_seguridad.zip', $copia_de_seguridad);
-        $this->smarty->view('index');
+    // Load the download helper and send the file to your desktop
+    $this->load->helper('download');
+    force_download('cepb_backup.gz', $backup);
   }
 
-  public function import_form(){
+  public function importar_form(){
     if($this->session->flashdata('mensaje')){
       $data['mensaje'] = $this->session->flashdata('mensaje');
     }elseif ($this->session->flashdata('error')){ 
@@ -74,5 +52,7 @@ class Backup extends CI_Controller{
     // $data['actividades'] = $this->actividad_economica_model->get_all('id, descripcion','id BETWEEN 1 AND 5','','','descripcion','');
     $this->load->view('backend/backup/backup_import_view',$data);
   }
+
+  // http://www.cumacoder.com/2016/01/backup-restore-database-codeigniter-3.html
   
 }

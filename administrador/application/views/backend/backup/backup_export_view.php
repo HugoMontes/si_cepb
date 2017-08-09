@@ -24,8 +24,8 @@
   <div class="panel-body">
     
     <div class="jumbotron" style="text-align: center;">
-	  <p>Inicie la copia de seguridad presionando sobre el siguiente boton:</p>
-	  <p><a class="btn btn-primary btn-lg" href="#" role="button"><i class="fa fa-download" aria-hidden="true"></i> Generar Respaldo</a></p>
+	  <p>Inicie la copia de seguridad de la base de datos presionando sobre el siguiente botón:</p>
+	  <p><a class="btn btn-primary btn-lg" href="<?php echo base_url('index.php/backend/backup/exportar'); ?>" role="button"><i class="fa fa-download" aria-hidden="true"></i> Generar Respaldo</a></p>
 	</div>
 
   </div>

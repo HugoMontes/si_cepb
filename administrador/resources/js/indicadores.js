@@ -101,6 +101,12 @@ $('#indicador').on('change',function(){
       $('#txt_medicion').val(data.tabla[0].medicion);
       $('#txt_unidad_medida').val(data.tabla[0].unidad_medida);
       $('#txt_cobertura').val(data.tabla[0].cobertura);
+      $('#txt_fin').html(formatSelectFin(data));
+      $('#txt_fin option[value='+data.fin+']').attr("selected", "selected");
+
+      $('#txt_hidden_tabla').val(tabla);
+      $('#txt_hidden_indicador').val(indicador);
+      $('#txt_hidden_medicion').val(medicion);
       
       // VALORES DEL ENCABEZADO DE LA TABLA
       out='<th>Descripción</th>';
@@ -124,7 +130,7 @@ $('#indicador').on('change',function(){
         cont++;
       }
       //console.log(gestiones);
-*/
+      */
 
       // VALORES NUMERICOS DE LA TABLA
       out='';
@@ -146,30 +152,25 @@ $('#btn-download-excel').click(function(event){
   event.preventDefault();
   url=$(this).attr('href');
   url+='?tabla='+tabla+'&medicion='+medicion+'&indicador='+indicador;
-  /*
-  $.ajax({
-    url: url_ajax,
-    data: { tabla : tabla, medicion : medicion, indicador : indicador },
-    type : 'POST',
-    dataType : 'html',
-    success : function(data) {
-    },
-  });
-  */
   window.location.href=url;
 });
 
-/*
-$('#btn-guardar-cambios').click(function(){
-  prompt('Esta seguro de guardar los cambios realizados?.\n Este paso reemplazara sin marcha atras los datos anteriores.');
-});
-*/
 
-// BEGIN: FUNCION DESACTIVAR COMBOBOX
+// BEGIN: FUNCIONS
 function desactivarComboBox(controles){
   for(i=0;i<controles.length;i++){
     $('#'+controles[i]).html('<option value="0" selected="selected" style="display: none;">Seleccione '+controles[i]+'...</option>');
     $('#'+controles[i]).attr('disabled',true);
   }
 }
-// END: FUNCION DESACTIVAR COMBOBOX
+
+function formatSelectFin(data){
+  out='';
+  var count=data.ini;
+  for(i=0;i<data.gestiones.length;i++){
+    out+='<option value="'+count+'">'+data.gestiones[i]+'</option>';
+    count++;
+  }
+  return out;
+}
+// END: FUNCIONS

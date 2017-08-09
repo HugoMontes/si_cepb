@@ -124,8 +124,28 @@ class Usuario extends CI_Controller{
   	$this->load->view('backend/usuario/editar',$data);
   }
 
-  public function guardar(){
+  public function nuevo(){
+    if($this->session->flashdata('mensaje')){
+      $data['mensaje'] = $this->session->flashdata('mensaje');
+    }elseif ($this->session->flashdata('error')){
+      $data['error'] = $this->session->flashdata('error');
+    }
 
+    $data['titulo'] = 'Nuevo usuario';
+
+    // get all perfiles
+    // $perfiles = $this->perfil_model->get_all('id, nombre',array(),'','','id DESC','');
+    $perfiles = $this->perfil_model->get_all('id, nombre',array(),'','','id DESC','');
+    $perfiles_ = array();
+    foreach ($perfiles as $perfil){
+      $perfiles_[$perfil->id] = $perfil->nombre;      
+    }
+
+    $data['perfiles'] = $perfiles_;
+    $this->load->view('backend/usuario/usuario_nuevo_view',$data);
+  }
+
+  public function guardar(){
    	if(isset($_POST['guardar'])){    		    
    		$guardar = $this->input->post("guardar");
    		if($guardar == EDICION){
