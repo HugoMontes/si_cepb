@@ -30,19 +30,17 @@
 
 			<!-- fin cuadro mensaje  -->                
 			<div class="panel panel-default">
-  				<div class="panel-body">
- 
+  				<div class="panel-body"> 
 						<div class="form-group">
 							<div class="row">
-								<div class="col-lg-6 margin-top-normal">
+								<div class="col-lg-8 margin-top-normal">
 									<div class="input-group">
 										<input type="text" class="form-control" id="apellidos" name="apellidos" value="<?php echo $buscar; ?>" placeholder="<?php echo $this->lang->line('score_buscar');?>"/>
 										<span class="input-group-btn">
 											<a id="buscar-apellidos" href="" class="btn btn-primary" onclick="buscar_apellidos('<?php echo base_url('index.php/administrador/usuario');?>');"><i class="fa fa-search"></i>&nbsp; Buscar</a>
 										</span>
-
 										<span class="input-group-btn">
-											<a href="<?php echo base_url('index.php/administrador/usuario'); ?>" class="btn btn-default" style="margin-left: 10px;"> Limpiar</a>
+											<a href="<?php echo base_url('index.php/backend/usuario'); ?>" class="btn btn-default" style="margin-left: 10px;"> Limpiar</a>
 										</span>
 										<div class="margin-left-normal">                                                                                                                                         
 											<?php
@@ -52,19 +50,11 @@
 												'class' => 'form-control'
 												);
 											$opciones = (array)$perfiles;                               
-											$evento = "'".base_url('index.php/administrador/usuario')."'" ;
+											$evento = "'".base_url('index.php/backend/usuario')."'" ;
 											echo form_dropdown($data, $opciones, set_value('perfil',$opcion_perfil),'onChange="buscar_perfil('.$evento.')"');                              
 											?>
 										</div>
 									</div>  
-								</div>
-								<div class="col-lg-6 margin-top-normal">
-									<div class="pager">
-										<ul>
-											<li class="results">Páginas:</li>
-											<?php //echo $this->page->create_links();?>
-										</ul>                                    
-									</div>                
 								</div>
 							</div>                               
 						</div>
@@ -74,14 +64,14 @@
 					<div class="clr"></div>
 					<!-- inicio tabla -->
 					<div id="browse_table">
-						<p style="text-align: right;">Mostrando <?php //echo $this->page->page_stats();?></p>
+						<p style="text-align: right;" class="results">P&aacute;gina  <?php echo $pagina_actual; ?> de <?php echo $pagina_total; ?></p> 
 						<table id="browse_table" class="table table-hover table-bordered dt-responsive nowrap" cellspacing="0" width="100%">
 							<thead>
 								<tr class="headers">
 									<th class="first" scope="col"><div>Apellidos <?php /* ?> <ul class="sort"><li class="up"><?php echo $this->page->create_sort_link('apellidos', 'asc'); ?></li><li class="down"><?php echo $this->page->create_sort_link('apellidos', 'desc'); ?></li></ul></div><?php */ ?></th>
 									<th scope="col">Nombres</th>
 									<th scope="col">Usuario</th>
-									<th scope="col">Correo electrónico</th>
+									<!--th scope="col">Correo electrónico</th-->
 									<th scope="col">Perfil</th>
 									<th scope="col">Fecha de la última visita</th>
 									<th scope="col">Fecha de registro</th>
@@ -101,7 +91,7 @@
 										<td class="row-title"><a href="<?php echo base_url('index.php/administrador/usuario/editar/'.$usuario->id);?>" data-toggle="tooltip" data-placement="top" title="<?php echo $this->lang->line('score_editar_tooltip'); ?>"><?php echo $usuario->apellidos?></a></td>                          
 										<td class="row-title"><a href="<?php echo base_url('index.php/administrador/usuario/editar/'.$usuario->id);?>" data-toggle="tooltip" data-placement="top" title="<?php echo $this->lang->line('score_editar_tooltip'); ?>"><?php echo $usuario->nombres?></a></td>                         
 										<td><?php echo $usuario->usuario; ?></td>
-										<td><?php echo $usuario->email; ?></td>
+										<!--td><?php echo $usuario->email; ?></td-->
 										<td>
 											<?php 
 											if($this->perfil_model->exists('id',$usuario->perfil))
@@ -162,6 +152,9 @@
 								?>
 							</tbody>
 						</table>
+						<div style="text-align: center;">
+							<?php echo $this->pagination->create_links(); ?>
+						</div>
 					</div>      
 					<!-- fin tabla -->
 				</div>

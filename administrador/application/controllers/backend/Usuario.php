@@ -10,7 +10,8 @@ class Usuario extends CI_Controller{
     //$this->load->model('navegacion_model');
   }
 
-  public function index(){
+
+  public function listar_usuarios($id=null){
     
     if($this->session->flashdata('mensaje')){
       $data['mensaje'] = $this->session->flashdata('mensaje');
@@ -63,10 +64,47 @@ class Usuario extends CI_Controller{
       $where = '';
     }
     $count = $this->usuario_model->get_count($where, $order);
-/*
+
     ###################################################
     # Pagination
     ###################################################
+    $pages=20; //Número de registros mostrados por páginas
+    $this->load->library('pagination'); //Cargamos la librería de paginación
+    $config['base_url'] = base_url().'index.php/backend/usuario/'; // parametro base de la aplicación, si tenemos un .htaccess nos evitamos el index.php
+    $config['total_rows'] = $this->usuario_model->filas();//calcula el número de filas  
+    $config['per_page'] = $pages; //Número de registros mostrados por páginas
+    $config['num_links'] = 4; //Número de links mostrados en la paginación
+    $config['first_link'] = 'Primera';//primer link
+    $config['last_link'] = 'Última';//último link
+    $config["uri_segment"] = 3;//el segmento de la paginación
+    $config['next_link'] = 'Siguiente';//siguiente link
+    $config['prev_link'] = 'Anterior';//anterior link
+    
+    $config["full_tag_open"] = '<ul class="pagination">';
+    $config["full_tag_close"] = '</ul>';  
+    $config["first_link"] = "&laquo;";
+    $config["first_tag_open"] = "<li>";
+    $config["first_tag_close"] = "</li>";
+    $config["last_link"] = "&raquo;";
+    $config["last_tag_open"] = "<li>";
+    $config["last_tag_close"] = "</li>";
+    $config['next_link'] = '&gt;';
+    $config['next_tag_open'] = '<li>';
+    $config['next_tag_close'] = '<li>';
+    $config['prev_link'] = '&lt;';
+    $config['prev_tag_open'] = '<li>';
+    $config['prev_tag_close'] = '<li>';
+    $config['cur_tag_open'] = '<li class="active"><a href="#">';
+    $config['cur_tag_close'] = '</a></li>';
+    $config['num_tag_open'] = '<li>';
+    $config['num_tag_close'] = '</li>';
+    
+    $this->pagination->initialize($config); //inicializamos la paginación
+    $data["usuarios"] = $this->usuario_model->total_paginados($config['per_page'],$this->uri->segment(3));
+    $data["pagina_actual"] = floor(($this->uri->segment(3)/$config['per_page']) + 1);  
+    $data["pagina_total"] = ceil($config['total_rows']/$pages);
+ 
+/*
     $this->load->library('page');
     $cur_page = (isset($_GET['page']) ? $_GET['page'] : null);
 
@@ -98,7 +136,7 @@ class Usuario extends CI_Controller{
     $data['perfiles'] = $perfiles_;   
 
     $data['menu_usuario'] = true;
-    $data['usuarios'] = $this->usuario_model->get_all('', array(), '', '', '', '');
+    //$data['usuarios'] = $this->usuario_model->get_all('', array(), '', '', '', '');
     // $data['perfiles'] = $this->perfil_model->get_all('id, nombre',array(),'','','id ASC','');
     $data['titulo'] = 'Usuarios';
     $this->load->view('backend/usuario/list_view',$data);
@@ -121,7 +159,7 @@ class Usuario extends CI_Controller{
   	$data['perfiles'] = $perfiles_array;
     $data['titulo'] = 'Editar Usuario';
     $data['usuario']=$this->usuario_model->get($id);
-  	$this->load->view('backend/usuario/editar',$data);
+  	$this->load->view('backend/usuario/usuario_editar_view',$data);
   }
 
   public function nuevo(){

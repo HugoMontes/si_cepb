@@ -62,7 +62,8 @@ $route['backend/logout'] = 'sesion/logout';
 // escritorio
 $route['backend/escritorio'] = 'backend/escritorio';
 // usuario
-$route['backend/usuario'] = 'backend/usuario';
+$route['backend/usuario'] = 'backend/usuario/listar_usuarios';
+$route['backend/usuario/(:num)'] = 'backend/usuario/listar_usuarios/$1';
 $route['backend/usuario/editar/(:num)'] = 'backend/usuario/editar/$1';
 $route['backend/usuario/nuevo'] = 'backend/usuario/nuevo';
 $route['backend/usuario/guardar'] = 'backend/usuario/guardar';

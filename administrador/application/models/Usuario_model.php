@@ -164,8 +164,33 @@ class Usuario_model extends CI_Model{
         }
         $Q->free_result();
 
-        return $data;
-              
+        return $data;   
     }
+
+    ###################################################
+    # Begin : Pagination
+    ###################################################
+    //obtenemos el total de filas para hacer la paginación
+    function filas(){
+        $this->db->where(array('estado'=>1));
+        $consulta = $this->db->get($this->table_name);
+        return  $consulta->num_rows() ;
+    }
+        
+    function total_paginados($por_pagina,$segmento){
+        $this->db->where(array('estado'=>1));
+        $this->db->order_by("creado", "desc");
+        $consulta = $this->db->get($this->table_name,$por_pagina,$segmento);
+        if($consulta->num_rows()>0){
+            foreach($consulta->result() as $fila){
+                $data[] = $fila;
+            }
+            return $data;
+        }
+        return false;
+    }
+    ###################################################
+    # End : Pagination
+    ###################################################
 }
 
