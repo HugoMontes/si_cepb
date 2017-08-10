@@ -152,7 +152,7 @@
               <thead>
                 <tr>
                   <th class="columna-1">Gestión</th>
-                  <th class="columna-2" style="text-align: center;">Serie</th>
+                  <th class="columna-2" style="text-align: right;">Serie</th>
                 </tr>
               </thead>
               <tbody>
